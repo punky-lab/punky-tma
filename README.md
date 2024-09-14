@@ -8,7 +8,7 @@ Mini Apps platform using the following technologies and libraries:
 - [@telegram-apps SDK](https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk)
 - [Telegram UI](https://github.com/Telegram-Mini-Apps/TelegramUI)
 
-> The template was created using [yarn](https://pnpm.io/). Therefore, it is required to use
+> The template was created using yarn. Therefore, it is required to use
 > it for this project as well. Using other package managers, you will receive a corresponding error.
 
 ## Install Dependencies
@@ -31,7 +31,7 @@ This project contains the following scripts:
 - `lint`. Runs [eslint](https://eslint.org/) to ensure the code quality meets the required
   standards.
 
-To run a script, use the `pnpm run` command:
+To run a script, use the `yarn run` command:
 
 ```Bash
 yarn run {script}
