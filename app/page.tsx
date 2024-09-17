@@ -1,33 +1,19 @@
-'use client';
+"use client";
 
-import { Section, Cell, Image, List } from '@telegram-apps/telegram-ui';
-
-import { Link } from '@/components/Link/Link';
-
-import tonSvg from './_assets/ton.svg';
+import Main from "@/components/MainUI/Main";
+import Store from "@/components/MainUI/Store";
+import { UIState } from "@/lib/UI";
+import { ReactNode, useState } from "react";
 
 export default function Home() {
+  const [currentUI, setCurrentUI] = useState<UIState>("main");
+  const UIShowing = new Map<UIState, ReactNode>([
+    ["main", <Main switchTo={(target) => setCurrentUI(target)} />],
+    ["store", <Store onClose={() => setCurrentUI("main")} />],
+  ]);
   return (
-    <List>
-      <Section
-        header='Features'
-        footer='You can use these pages to learn more about features, provided by Telegram Mini Apps and other useful projects'
-      >
-      </Section>
-      <Section
-        header='Application Launch Data'
-        footer='These pages help developer to learn more about current launch information'
-      >
-        <Link href='/init-data'>
-          <Cell subtitle='User data, chat information, technical data'>Init Data</Cell>
-        </Link>
-        <Link href='/launch-params'>
-          <Cell subtitle='Platform identifier, Mini Apps version, etc.'>Launch Parameters</Cell>
-        </Link>
-        <Link href='/theme-params'>
-          <Cell subtitle='Telegram application palette information'>Theme Parameters</Cell>
-        </Link>
-      </Section>
-    </List>
+    <div className="h-screen w-screen bg-[url('../assets/scenes/main.png')] bg-cover bg-top">
+      {UIShowing.get(currentUI)}
+    </div>
   );
 }
