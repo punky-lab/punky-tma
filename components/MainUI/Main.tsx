@@ -16,12 +16,15 @@ export default function Main({
           src={CartIcon}
           alt=""
           className="w-8 h-8"
-          onClick={() => {
-            switchTo("store");
-          }}
+          onClick={() => switchTo("store")}
         />
         <Image src={InfoIcon} alt="" className="w-8 h-8" />
-        <Image src={UserIcon} alt="" className="w-8 h-8" />
+        <Image
+          src={UserIcon}
+          alt=""
+          className="w-8 h-8"
+          onClick={() => switchTo("user")}
+        />
       </div>
       <div>line</div>
       <div className="grow"></div>
