@@ -3,6 +3,8 @@ import CartIcon from "@/assets/icons/cart.svg";
 import InfoIcon from "@/assets/icons/info.svg";
 import UserIcon from "@/assets/icons/user.svg";
 import { UIState } from "@/lib/UI";
+import Chat from './chat';
+import PetPlayer from './pet';
 
 export default function Main({
   switchTo,
@@ -10,7 +12,7 @@ export default function Main({
   switchTo: (target: UIState) => void;
 }) {
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-full px-2 py-4">
       <div className="flex flex-row w-full justify-between">
         <Image
           src={CartIcon}
@@ -26,9 +28,12 @@ export default function Main({
           onClick={() => switchTo("user")}
         />
       </div>
-      <div>line</div>
-      <div className="grow"></div>
-      <div>line</div>
+      <div className="grow flex items-center justify-center relative">
+        <div className="absolute top-1/3 transform">
+          <PetPlayer />
+        </div>
+      </div>
+      <Chat />
     </div>
   );
 }
