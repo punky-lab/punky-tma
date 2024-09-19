@@ -1,19 +1,19 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-interface AnimationProps {
+interface FrameAnimationProps {
   frames: string[];
   interval: number;
   width: number;
   height: number;
 }
 
-export default function Animation({
+export default function FrameAnimation({
   frames,
   interval,
   width,
   height,
-}: AnimationProps) {
+}: FrameAnimationProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
 
   useEffect(() => {

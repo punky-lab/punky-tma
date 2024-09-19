@@ -3,8 +3,9 @@ import CartIcon from "@/assets/icons/cart.svg";
 import InfoIcon from "@/assets/icons/info.svg";
 import UserIcon from "@/assets/icons/user.svg";
 import { UIState } from "@/lib/UI";
-import Chat from './chat';
-import PetPlayer from './pet';
+import Chat from "./chat";
+import punkyFrames from "@/assets/animations/punky/idle";
+import FrameAnimation from "../Animation";
 
 export default function Main({
   switchTo,
@@ -30,7 +31,12 @@ export default function Main({
       </div>
       <div className="grow flex items-center justify-center relative">
         <div className="absolute top-1/3 transform">
-          <PetPlayer />
+          <FrameAnimation
+            frames={punkyFrames}
+            interval={1000}
+            width={128}
+            height={128}
+          />
         </div>
       </div>
       <Chat />
