@@ -30,12 +30,12 @@ export default function Main({
         />
       </div>
       <div className="grow flex items-center justify-center relative">
-        <div className="absolute top-1/3 transform">
+        <div className="absolute top-1/4 transform">
           <FrameAnimation
             frames={punkyFrames}
             interval={1000}
-            width={128}
-            height={128}
+            width={180}
+            height={180}
           />
         </div>
       </div>
