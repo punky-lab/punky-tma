@@ -3,17 +3,19 @@
 import Image from "next/image";
 import ChatBoxUI from "@/assets/ui/chatbox.svg";
 import PlayIcon from "@/assets/icons/play.svg";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import {ChatMessage} from "@/lib/chat";
+import Message from "@/components/MainUI/message";
 
 export default function Chat() {
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const messageListRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = () => {
     console.log("click");
     if (currentMessage.trim() !== "") {
-      setMessages([...messages, currentMessage]);
+      setMessages([...messages, {role: "user", content: currentMessage.trim()}]);
       setCurrentMessage("");
     }
   };
@@ -35,23 +37,18 @@ export default function Chat() {
       {/** the message list is displayed here */}
       <div
         ref={messageListRef}
-        className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto p-3"
+        className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto p-3 bg-black bg-opacity-35"
       >
         {messages.map((message, index) => (
-          <div
-            key={index}
-            className="bg-transparent border-2 border-blue-300 break-words p-2 mb-2 rounded shadow"
-          >
-            {message}
-          </div>
+          <Message message={message} key={index} />
         ))}
       </div>
-      <div className="w-full flex flex-row">
+      <div className="w-full flex flex-row pt-2">
         <div className="relative grow">
           <Image className="w-full" src={ChatBoxUI} alt="" />
           <input
             type="text"
-            className="absolute top-0 left-3 w-11/12 h-full bg-transparent text-black border-none outline-none"
+            className="absolute -top-0.5 left-3 w-11/12 h-full bg-transparent text-black border-none outline-none"
             placeholder="Type your message here..."
             value={currentMessage}
             onChange={(e) => setCurrentMessage(e.target.value)}
