@@ -4,8 +4,9 @@ import Image from "next/image";
 import ChatBoxUI from "@/assets/ui/chatbox.svg";
 import PlayIcon from "@/assets/icons/play.svg";
 import React, { useEffect, useRef, useState } from "react";
-import {ChatMessage} from "@/lib/chat";
+import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
+import { getChatResponse } from "@/app/api/chat";
 
 export default function Chat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -13,10 +14,18 @@ export default function Chat() {
   const messageListRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = () => {
-    console.log("click");
+    // console.log("click");
     if (currentMessage.trim() !== "") {
-      setMessages([...messages, {role: "user", content: currentMessage.trim()}]);
+      const content = currentMessage.trim();
+      setMessages([...messages, { role: "user", content: content }]);
       setCurrentMessage("");
+      getChatResponse(content).then((reply) => {
+        setMessages([
+          ...messages,
+          { role: "user", content: content },
+          { role: "ai", content: reply },
+        ]);
+      });
     }
   };
 

@@ -4,17 +4,21 @@ import React from "react";
 export default function Message({ message }: { message: ChatMessage }) {
   if (message.role == "user")
     return (
-      <div className="flex flex-row items-center justify-end w-full">
+      <div className="flex flex-row items-start justify-end w-full pl-4 mb-2">
         <div className="bg-transparent border-2 border-blue-300 break-words p-2 mb-2 rounded shadow text-right">
           {message.content}
         </div>
-        <div className="ml-4">You</div>
+        <div className="ml-4 rounded-full border-2 border-blue-300 py-1 px-1 text-blue-300">
+          You
+        </div>
       </div>
     );
   if (message.role == "ai")
     return (
-      <div className="flex flex-row items-center justify-start w-full">
-        <div className="mr-4">AI</div>
+      <div className="flex flex-row items-start justify-start w-full pr-14 mb-2">
+        <div className="text-orange-300 p-1 px-2 rounded-full border-2 border-orange-300 mr-4">
+          AI
+        </div>
         <div className="bg-transparent border-2 border-orange-300 break-words p-2 mb-2 rounded shadow text-left">
           {message.content}
         </div>
