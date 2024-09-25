@@ -6,7 +6,7 @@ import PlayIcon from "@/assets/icons/play.svg";
 import React, { useEffect, useRef, useState } from "react";
 import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
-import { getChatResponse } from "@/app/api/chat";
+import {getChatResponse, getGaiaNetResponse} from "@/app/api/chat";
 import LoadingAnimation from "@/components/loadingAnimation"; // 假设您有一个加载动画组件
 
 export default function Chat() {
@@ -21,7 +21,7 @@ export default function Chat() {
       setMessages([...messages, { role: "user", content: content }]);
       setCurrentMessage("");
       setIsLoading(true);
-      getChatResponse(content).then((reply) => {
+      getGaiaNetResponse(content).then((reply) => {
         setMessages((prevMessages) => [
           ...prevMessages,
           { role: "ai", content: reply },
