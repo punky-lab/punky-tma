@@ -7,24 +7,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
 import { getChatResponse } from "@/app/api/chat";
+import LoadingAnimation from "@/components/loadingAnimation"; // 假设您有一个加载动画组件
 
 export default function Chat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const messageListRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = () => {
-    // console.log("click");
     if (currentMessage.trim() !== "") {
       const content = currentMessage.trim();
       setMessages([...messages, { role: "user", content: content }]);
       setCurrentMessage("");
+      setIsLoading(true);
       getChatResponse(content).then((reply) => {
-        setMessages([
-          ...messages,
-          { role: "user", content: content },
+        setMessages((prevMessages) => [
+          ...prevMessages,
           { role: "ai", content: reply },
         ]);
+        setIsLoading(false);
       });
     }
   };
@@ -51,6 +53,11 @@ export default function Chat() {
         {messages.map((message, index) => (
           <Message message={message} key={index} />
         ))}
+        {isLoading && (
+          <div className="flex items-center space-x-2 bg-gray-800 rounded-lg p-3 max-w-[80%] mr-auto mb-2">
+            <LoadingAnimation />
+          </div>
+        )}
       </div>
       <div className="w-full flex flex-row pt-2">
         <div className="relative grow">
