@@ -7,13 +7,13 @@ import LoadingAnimation from "@/components/loadingAnimation"; // 确保导入 Lo
 
 export default function Store({ onClose }: { onClose: () => void }) {
   const [metadata, setMetadata] = useState<TraitMetadata[]>([]);
-  const [dataLoading, setDataLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(false);
 
   useEffect(() => {
     setDataLoading(true);
     getTraitMetadata().then((res) => {
       setMetadata(res);
-      setDataLoading(true);
+      setDataLoading(false);
     });
   }, []);
 
