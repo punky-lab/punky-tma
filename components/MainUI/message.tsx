@@ -4,12 +4,12 @@ import React from "react";
 export default function Message({ message }: { message: ChatMessage }) {
   if (message.role == "user")
     return (
-      <div className="flex flex-row items-start justify-end w-full pl-4 mb-2">
+      <div className="flex flex-row items-start justify-end w-full pl-14 mb-2">
         <div className="bg-transparent border-2 border-blue-300 break-words p-2 mb-2 rounded shadow text-right">
           {message.content}
         </div>
-        <div className="ml-4 rounded-full border-2 border-blue-300 py-1 px-1 text-blue-300">
-          You
+        <div className="ml-4 rounded-full border-2 border-blue-300 p-1 px-2 text-blue-300">
+          ME
         </div>
       </div>
     );
