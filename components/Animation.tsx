@@ -77,7 +77,7 @@ export default function FrameAnimation({
             top: 0,
             left: 0,
             opacity: index === currentFrame ? 1 : 0,
-            transition: "opacity 0.1s ease-in-out",
+            // transition: "opacity 0.1s ease-in-out",
           }}
         />
       ))}

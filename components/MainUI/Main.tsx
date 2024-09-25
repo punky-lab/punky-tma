@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import CartIcon from "@/assets/icons/cart.svg";
 import InfoIcon from "@/assets/icons/info.svg";
@@ -6,12 +8,14 @@ import { UIState } from "@/lib/UI";
 import Chat from "./chat";
 import punkyFrames from "@/assets/animations/punky/idle";
 import FrameAnimation from "../Animation";
+import { useState } from "react";
 
 export default function Main({
   switchTo,
 }: {
   switchTo: (target: UIState) => void;
 }) {
+  const [isTalking, setIsTalking] = useState(false);
   return (
     <div className="flex flex-col w-full h-full px-2 py-4">
       <div className="flex flex-row w-full justify-between">
@@ -36,11 +40,14 @@ export default function Main({
             interval={1000}
             width={180}
             height={180}
-            isThinking={true}
+            isThinking={isTalking}
           />
         </div>
       </div>
-      <Chat />
+      <Chat
+        onChatStart={() => setIsTalking(true)}
+        onChatEnd={() => setIsTalking(false)}
+      />
     </div>
   );
 }
