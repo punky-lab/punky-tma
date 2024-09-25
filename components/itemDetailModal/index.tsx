@@ -17,7 +17,7 @@ export default function ItemDetailModal({
 }: ItemDetailModalProps) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-      <div className="bg-gradient-to-br from-purple-700 to-purple-90 bg-opacity-1000 rounded-lg p-6 max-w-sm w-2/3 shadow-lg">
+      <div className="bg-gradient-to-br from-purple-700 to-purple-90 bg-opacity-10 rounded-lg p-6 max-w-sm w-2/3 shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-white">{name}</h2>
           <button
