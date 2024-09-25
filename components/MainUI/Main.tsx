@@ -36,6 +36,7 @@ export default function Main({
             interval={1000}
             width={180}
             height={180}
+            isThinking={true}
           />
         </div>
       </div>

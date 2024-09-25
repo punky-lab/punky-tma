@@ -1,11 +1,14 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import ThinkingBubble from "./thinkingBubble";
+import { tr } from "framer-motion/client";
 
 interface FrameAnimationProps {
   frames: { src: string }[]; // frames 是包含 src 字段的对象数组
   interval: number; // 动画帧切换间隔
   width: number; // 图片宽度
   height: number; // 图片高度
+  isThinking: boolean;
 }
 
 export default function FrameAnimation({
@@ -13,6 +16,7 @@ export default function FrameAnimation({
   interval,
   width,
   height,
+  isThinking = true,
 }: FrameAnimationProps) {
   const [currentFrame, setCurrentFrame] = useState(0); // 当前帧索引
   const preloadedImages = useRef<HTMLImageElement[]>([]); // 用于存储预加载的图像
@@ -53,6 +57,13 @@ export default function FrameAnimation({
 
   return (
     <div style={{ width, height, position: "relative" }}>
+      {isThinking && (
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="relative w-full h-full">
+            {isThinking && <ThinkingBubble />}
+          </div>
+        </div>
+      )}
       {preloadedImages.current.map((img, index) => (
         <Image
           key={index}
