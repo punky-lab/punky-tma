@@ -3,6 +3,7 @@
 // import FrameAnimation from "@/components/Animation";
 import Main from "@/components/MainUI/Main";
 import Store from "@/components/MainUI/Store";
+import Task from "@/components/MainUI/task";
 import User from "@/components/MainUI/User";
 import { UIState } from "@/lib/UI";
 import { ReactNode, useCallback, useState } from "react";
@@ -16,6 +17,7 @@ export default function Home() {
     ["main", <Main key="main" switchTo={(target) => setCurrentUI(target)} />],
     ["store", <Store key="store" onClose={popUpClose} />],
     ["user", <User key="user" onClose={popUpClose} />],
+    ["task", <Task key="task" onClose={popUpClose} />],
   ]);
 
   return (

@@ -25,7 +25,12 @@ export default function Main({
           className="w-8 h-8"
           onClick={() => switchTo("store")}
         />
-        <Image src={InfoIcon} alt="" className="w-8 h-8" />
+        <Image
+          src={InfoIcon}
+          alt=""
+          className="w-8 h-8"
+          onClick={() => switchTo("task")}
+        />
         <Image
           src={UserIcon}
           alt=""
