@@ -1,6 +1,6 @@
 "use client";
 
-import { type PropsWithChildren, useEffect, useMemo, useState } from "react";
+import { type PropsWithChildren, useEffect, useMemo } from "react";
 import {
   SDKProvider,
   useLaunchParams,
@@ -17,8 +17,6 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorPage } from "@/components/ErrorPage";
 import { useTelegramMock } from "@/hooks/useTelegramMock";
 import { useDidMount } from "@/hooks/useDidMount";
-
-import "./styles.css";
 
 function App(props: PropsWithChildren) {
   const lp = useLaunchParams();
@@ -84,10 +82,10 @@ export function Root(props: PropsWithChildren) {
       <RootInner {...props} />
     </ErrorBoundary>
   ) : (
-    <div className="root__loading flex items-center justify-center h-screen w-screen bg-gradient-to-br from-purple-300 to-purple-500 text-white">
-      <div className="loader-container">
-        <div className="loader"></div>
-        <p className="loading-text">Loading...</p>
+    <div className="flex items-center justify-center h-screen w-screen bg-gradient-to-br from-purple-300 to-purple-500 text-white">
+      <div className="flex flex-col items-center">
+        <div className="loader border-8 border-white border-opacity-30 border-l-transparent rounded-full w-16 h-16 animate-spin"></div>
+        <p className="mt-4 text-lg font-bold">Loading...</p>
       </div>
     </div>
   );
