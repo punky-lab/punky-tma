@@ -2,10 +2,10 @@ import PopUp from "./PopUp";
 import { useEffect, useState } from "react";
 import { TraitMetadata } from "@/lib/traits";
 import { getTraitMetadata } from "@/app/api/traits";
-import TaskItem from "./taskItem";
+import TaskItem from "./achieveItem";
 import LoadingAnimation from "@/components/loadingAnimation";
 
-export default function Task({ onClose }: { onClose: () => void }) {
+export default function Achieve({ onClose }: { onClose: () => void }) {
   const [metadata, setMetadata] = useState<TraitMetadata[]>([]);
   const [dataLoading, setDataLoading] = useState(false);
 

@@ -23,10 +23,7 @@ export default function Chat({ onChatStart, onChatEnd }: ChatProps) {
   const handleSendMessage = () => {
     if (currentMessage.trim() !== "") {
       const content = currentMessage.trim();
-      setMessages([
-        ...messages,
-        { role: "user", content: content },
-      ]);
+      setMessages([...messages, { role: "user", content: content }]);
       setCurrentMessage("");
       setIsLoading(true);
       onChatStart();
@@ -64,10 +61,9 @@ export default function Chat({ onChatStart, onChatEnd }: ChatProps) {
 
   return (
     <div className="relative w-full">
-      {/** the message list is displayed here */}
       <div
         ref={messageListRef}
-        className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto p-3 bg-black bg-opacity-35"
+        className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto bg-black bg-opacity-35"
       >
         {messages.map((message, index) => (
           <Message message={message} key={index} />

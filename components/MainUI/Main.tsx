@@ -29,7 +29,7 @@ export default function Main({
           src={InfoIcon}
           alt=""
           className="w-8 h-8"
-          onClick={() => switchTo("task")}
+          onClick={() => switchTo("achieve")}
         />
         <Image
           src={UserIcon}

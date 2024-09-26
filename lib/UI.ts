@@ -1,1 +1,1 @@
-export type UIState = "main" | "store" | "user" | "task";
+export type UIState = "main" | "store" | "user" | "achieve";
