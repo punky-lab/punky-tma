@@ -75,6 +75,7 @@ export default function FrameAnimation({
           alt={`frames-${index}`}
           width={width}
           height={height}
+          unoptimized
           priority={index === 0} // 优先加载第一帧
           style={{
             position: "absolute",

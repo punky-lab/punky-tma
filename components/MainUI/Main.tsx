@@ -44,7 +44,7 @@ export default function Main({
     const diffX = touchEndX - (touchStartX || 0); // 计算 X 坐标的差值
 
     console.log(".....", diffX); // 打印 diffX 的值
-    if (Math.abs(diffX) > 30) {
+    if (Math.abs(diffX) > 20) {
       // 保持阈值为 30
       handleSwipe(); // 触发随机动画
     }
