@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ThinkingBubble from "./thinkingBubble";
-import { tr } from "framer-motion/client";
 
 interface FrameAnimationProps {
   frames: { src: string }[]; // frames 是包含 src 字段的对象数组
@@ -24,11 +23,14 @@ export default function FrameAnimation({
 
   // 预加载图像
   useEffect(() => {
-    if (frames.length === 0 || preloadedImages.current.length > 0) return;
+    if (frames.length === 0) return;
 
     let loadedCount = 0;
+    console.log("..frames..", frames);
     preloadedImages.current = frames.map((frame) => {
       const img = new window.Image();
+
+      console.log("..🍷..", frame.src);
       img.src = frame.src;
       img.onload = () => {
         loadedCount++;
@@ -55,6 +57,8 @@ export default function FrameAnimation({
     return <div>加载中...</div>;
   }
 
+  console.log(">preloadedImages>>", preloadedImages.current);
+
   return (
     <div style={{ width, height, position: "relative" }}>
       {isThinking && (
@@ -68,7 +72,7 @@ export default function FrameAnimation({
         <Image
           key={index}
           src={img.src} // 使用缓存的图像对象
-          alt={`frame-${index}`}
+          alt={`frames-${index}`}
           width={width}
           height={height}
           priority={index === 0} // 优先加载第一帧
@@ -77,7 +81,6 @@ export default function FrameAnimation({
             top: 0,
             left: 0,
             opacity: index === currentFrame ? 1 : 0,
-            // transition: "opacity 0.1s ease-in-out",
           }}
         />
       ))}
