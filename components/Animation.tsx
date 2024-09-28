@@ -57,8 +57,6 @@ export default function FrameAnimation({
     return <div>加载中...</div>;
   }
 
-  console.log(">preloadedImages>>", preloadedImages.current);
-
   return (
     <div style={{ width, height, position: "relative" }}>
       {isThinking && (
