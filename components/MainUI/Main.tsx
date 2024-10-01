@@ -13,7 +13,7 @@ import punkyFrames from "@/assets/animations/punky/idle"; // Default frames
 import punkySitFrames from "@/assets/animations/punky/sit.gif"; // Sit frames
 import punkyRollFrames from "@/assets/animations/punky/roll.gif"; // Roll frames
 import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
-import FrameAnimation from "../Animation";
+import FrameAnimation from "../FrameAnimation";
 import { useState, useRef } from "react";
 import { Federant } from "@next/font/google";
 
@@ -124,6 +124,7 @@ export default function Main({
 
       <Chat
         ref={chatRef} // 传递 ref
+        setIsTalking={setIsTalking}
       />
     </div>
   );

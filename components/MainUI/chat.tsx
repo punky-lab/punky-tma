@@ -12,10 +12,17 @@ import React, {
 import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
 import { getGaiaNetResponse } from "@/app/api/chat";
+import ThinkingBubble from "@/components/thinkingBubble"; // 引入 ThinkingBubble
 
-const Chat = forwardRef((props, ref) => {
+interface Props {
+  setIsTalking: any;
+}
+
+const Chat = forwardRef((props: Props, ref) => {
+  const { setIsTalking } = props;
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
+  const [loading, setLoading] = useState(false); // 新增 loading 状态
   const messageListRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -26,6 +33,9 @@ const Chat = forwardRef((props, ref) => {
     const content = message?.trim() ?? currentMessage.trim();
     setMessages([...messages, { role: "user", content: content }]);
     setCurrentMessage("");
+    setLoading(true); // 开始加载
+    setIsTalking(true);
+
     getGaiaNetResponse(content)
       .then((reply) => {
         setMessages((prevMessages) => [
@@ -38,6 +48,10 @@ const Chat = forwardRef((props, ref) => {
           ...prevMessages,
           { role: "system", content: `ERROR: ${error}` },
         ]);
+      })
+      .finally(() => {
+        setLoading(false); // 加载完成
+        setIsTalking(false); // 结束聊天
       });
   };
 
@@ -76,11 +90,12 @@ const Chat = forwardRef((props, ref) => {
         {messages.map((message, index) => (
           <Message message={message} key={index} />
         ))}
+        {loading && <ThinkingBubble />} {/* 显示 ThinkingBubble */}
       </div>
       <div className="w-full flex flex-row justify-between items-center">
         <textarea
           ref={textareaRef}
-          className="w-full text-black p-2 box-border border-2 border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full text-sm text-black p-2 box-border border-2 border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Chat now"
           value={currentMessage}
           onChange={handleInput}

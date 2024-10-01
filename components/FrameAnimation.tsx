@@ -29,8 +29,6 @@ export default function FrameAnimation({
     console.log("..frames..", frames);
     preloadedImages.current = frames.map((frame) => {
       const img = new window.Image();
-
-      console.log("..🍷..", frame.src);
       img.src = frame.src;
       img.onload = () => {
         loadedCount++;
@@ -55,11 +53,7 @@ export default function FrameAnimation({
 
   return (
     <div style={{ width, height, position: "relative" }}>
-      {isThinking && (
-        <div className="absolute top-0 left-0 w-full h-full">
-          {isThinking && <ThinkingBubble />}
-        </div>
-      )}
+      {isThinking && <ThinkingBubble />}
       {preloadedImages.current.map((img, index) => (
         <Image
           key={index}
