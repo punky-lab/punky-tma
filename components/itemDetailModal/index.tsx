@@ -18,14 +18,15 @@ export default function ItemDetailModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
       <div
-        className="bg-gradient-to-br bg-opacity-10 rounded-lg p-6 max-w-sm w-2/3 shadow-lg"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(58, 46, 81, 1), rgba(85, 70, 100, 1))",
-        }}
+        className="bg-gradient-to-br bg-opacity-70 rounded-lg p-6 max-w-sm w-3/5 shadow-lg"
+        // style={{
+        //   background:
+        //     "linear-gradient(90deg, rgba(58, 46, 81, 1), rgba(85, 70, 100, 1))",
+        // }}
+        style={{ backgroundColor: "rgba(58, 46, 81, 0.7)" }}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-white">{name}</h2>
+          <h2 className="text-sm font-bold text-white">{name}</h2>
           <button
             onClick={onClose}
             className="text-gray-200 hover:text-gray-300"
