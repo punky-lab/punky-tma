@@ -4,6 +4,9 @@ import Image from "next/image";
 import CartIcon from "@/assets/icons/cart.svg";
 import InfoIcon from "@/assets/icons/info.svg";
 import UserIcon from "@/assets/icons/user.svg";
+import FeedIcon from "@/assets/icons/feed.svg";
+import TreatIcon from "@/assets/icons/treat.svg";
+// import ToyIcon from "@/assets/icons/toy.svg";
 import { UIState } from "@/lib/UI";
 import Chat from "./chat";
 import punkyFrames from "@/assets/animations/punky/idle"; // Default frames
@@ -11,7 +14,8 @@ import punkySitFrames from "@/assets/animations/punky/sit.gif"; // Sit frames
 import punkyRollFrames from "@/assets/animations/punky/roll.gif"; // Roll frames
 import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
 import FrameAnimation from "../Animation";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Federant } from "@next/font/google";
 
 export default function Main({
   switchTo,
@@ -20,6 +24,7 @@ export default function Main({
 }) {
   const [isTalking, setIsTalking] = useState(false);
   const [currentFrames, setCurrentFrames] = useState<any[]>(punkyFrames); // Default frames
+  const chatRef = useRef<any>(null); // 创建 ref
 
   const handleSwipe = () => {
     const animations = [punkySitFrames, punkyRollFrames, punkyRunFrames];
@@ -41,14 +46,18 @@ export default function Main({
     const diffX = touchEndX - (touchStartX || 0); // 计算 X 坐标的差值
 
     if (Math.abs(diffX) > 20) {
-      // 保持阈值为 30
+      // 保持阈值为 20
       handleSwipe(); // 触发随机动画
     }
   };
 
-  // 添加 touchmove 事件监听器以更新 touchStartX
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    // touchStartX = e.touches[0].clientX; // 移除这一行
+  const handleAction = (action: string) => {
+    // 发送消息到 Agent
+    console.log(`I just ${action}`);
+    // 调用 Chat 组件的发送消息功能
+    if (chatRef.current) {
+      chatRef.current.handleSendMessage(`I just ${action}`); // 调用子组件的函数
+    }
   };
 
   return (
@@ -82,9 +91,6 @@ export default function Main({
           onTouchEnd={(e: React.TouchEvent<HTMLDivElement>) =>
             handleTouchEnd(e)
           }
-          onTouchMove={(e: React.TouchEvent<HTMLDivElement>) =>
-            handleTouchMove(e)
-          }
         >
           <FrameAnimation
             frames={currentFrames} // 将字符串数组转换为对象数组
@@ -94,10 +100,30 @@ export default function Main({
             isThinking={isTalking}
           />
         </div>
+        <div className="flex justify-around mt-12">
+          <Image
+            src={FeedIcon}
+            alt="Feed"
+            className="w-8 h-8 cursor-pointer mr-4"
+            onClick={() => handleAction("feed")}
+          />
+          <Image
+            src={FeedIcon}
+            alt="Treat"
+            className="w-8 h-8 cursor-pointer mr-4"
+            onClick={() => handleAction("treat")}
+          />
+          <Image
+            src={FeedIcon}
+            alt="Toy"
+            className="w-8 h-8 cursor-pointer"
+            onClick={() => handleAction("play with toy")}
+          />
+        </div>
       </div>
+
       <Chat
-        onChatStart={() => setIsTalking(true)}
-        onChatEnd={() => setIsTalking(false)}
+        ref={chatRef} // 传递 ref
       />
     </div>
   );

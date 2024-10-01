@@ -3,55 +3,59 @@
 import Image from "next/image";
 import ChatBoxUI from "@/assets/ui/chatbox.svg";
 import PlayIcon from "@/assets/icons/play.svg";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
 import { getGaiaNetResponse } from "@/app/api/chat";
-import LoadingAnimation from "@/components/loadingAnimation"; // 假设您有一个加载动画组件
 
 interface ChatProps {
   onChatStart: () => void;
   onChatEnd: () => void;
 }
 
-export default function Chat({ onChatStart, onChatEnd }: ChatProps) {
+const Chat = forwardRef((props, ref) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const messageListRef = useRef<HTMLDivElement>(null);
 
-  const handleSendMessage = () => {
-    if (currentMessage.trim() !== "") {
-      const content = currentMessage.trim();
-      setMessages([...messages, { role: "user", content: content }]);
-      setCurrentMessage("");
-      setIsLoading(true);
-      onChatStart();
-      getGaiaNetResponse(content)
-        .then((reply) => {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { role: "ai", content: reply },
-          ]);
-        })
-        .catch((error) => {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { role: "system", content: `ERROR: ${error}` },
-          ]);
-        })
-        .finally(() => {
-          setIsLoading(false);
-          onChatEnd();
-        });
+  const handleSendMessage = (message?: string) => {
+    if (currentMessage.trim() === "" && !message) {
+      return;
     }
+    const content = message?.trim() ?? currentMessage.trim();
+    setMessages([...messages, { role: "user", content: content }]);
+    setCurrentMessage("");
+    setIsLoading(true);
+    getGaiaNetResponse(content)
+      .then((reply) => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { role: "ai", content: reply },
+        ]);
+      })
+      .catch((error) => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { role: "system", content: `ERROR: ${error}` },
+        ]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    console.log("touch");
-    e.preventDefault();
-    handleSendMessage();
-  };
+  useImperativeHandle(ref, () => ({
+    handleSendMessage: (message: string) => {
+      handleSendMessage(message);
+    },
+  }));
 
   useEffect(() => {
     if (messageListRef.current) {
@@ -83,11 +87,14 @@ export default function Chat({ onChatStart, onChatEnd }: ChatProps) {
         <button
           className="ml-2 cursor-pointer z-50"
           onClick={handleSendMessage}
-          onTouchStart={handleTouchStart}
         >
           <Image src={PlayIcon} alt="" />
         </button>
       </div>
     </div>
   );
-}
+});
+
+Chat.displayName = "Chat";
+
+export default Chat;

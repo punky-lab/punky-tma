@@ -1,0 +1,17 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  className="feather feather-bone"
+>
+  <path d="M2 12c0-1.1.9-2 2-2h1c1.1 0 2 .9 2 2s-.9 2-2 2H4c-1.1 0-2-.9-2-2z" />
+  <path d="M22 12c0-1.1-.9-2-2-2h-1c-1.1 0-2 .9-2 2s.9 2 2 2h1c1.1 0 2-.9 2-2z" />
+  <path d="M12 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+  <path d="M12 22c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+  <path d="M4 12c0 1.1.9 2 2 2h1c1.1 0 2-.9 2-2s-.9-2-2-2H6c-1.1 0-2 .9-2 2z" />
+  <path d="M18 12c0 1.1-.9 2-2 2h-1c-1.1 0-2-.9-2-2s.9-2 2-2h1c1.1 0 2 .9 2 2z" />
+</svg>
