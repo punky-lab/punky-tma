@@ -26,7 +26,11 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
   return (
     <>
       <div
-        className="bg-gradient-to-br from-purple-700 to-purple-900 rounded-lg p-3 shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+        className="bg-gradient-to-br  rounded-lg p-3 shadow-lg transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(58, 46, 81, 1), rgba(85, 70, 100, 1))",
+        }}
         onClick={handleItemClick}
       >
         <div className="bg-white bg-opacity-20 rounded-lg p-2 mb-2">
@@ -38,9 +42,9 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
             className="mx-auto rounded-md"
           />
         </div>
-        <h3 className="text-white font-medium text-sm text-center mb-2 h-10 flex items-center justify-center">
+        <div className="text-white text-xs text-center mb-2 h-10 flex items-center justify-center">
           {name}
-        </h3>
+        </div>
         {owned ? (
           <div className="bg-green-500 text-white text-center py-1 rounded-full text-xs font-medium">
             Owned

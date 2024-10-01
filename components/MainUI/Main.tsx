@@ -26,7 +26,6 @@ export default function Main({
     const randomAnimationIndex = Math.floor(Math.random() * animations.length);
     const randomAnimation = animations[randomAnimationIndex];
 
-    console.log(">>>>", randomAnimation);
     setCurrentFrames([randomAnimation]); // 直接使用 randomAnimation
   };
 
@@ -34,16 +33,13 @@ export default function Main({
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartX = e.touches[0].clientX; // 记录触摸开始时的 X 坐标
-    console.log(">>touchStartX>>>>", touchStartX);
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     if (touchStartX === null) return; // 确保 touchStartX 已被设置
     const touchEndX = e.changedTouches[0].clientX; // 记录触摸结束时的 X 坐标
-    console.log(">>touchEndX>>>>", touchEndX); // 打印 touchEndX 的值
     const diffX = touchEndX - (touchStartX || 0); // 计算 X 坐标的差值
 
-    console.log(".....", diffX); // 打印 diffX 的值
     if (Math.abs(diffX) > 20) {
       // 保持阈值为 30
       handleSwipe(); // 触发随机动画
@@ -53,7 +49,6 @@ export default function Main({
   // 添加 touchmove 事件监听器以更新 touchStartX
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     // touchStartX = e.touches[0].clientX; // 移除这一行
-    console.log(">>touchMoveX>>>>", e.touches[0].clientX); // 打印当前触摸的 X 坐标
   };
 
   return (

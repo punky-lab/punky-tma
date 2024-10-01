@@ -27,8 +27,8 @@ export default function User({
 }: UserProps) {
   return (
     <PopUp title="Account" onClose={onClose}>
-      <div className="p-6 rounded-lg">
-        <div className="flex items-center mb-6">
+      <div className="w-full rounded-lg">
+        <div className="flex items-center mb-6 px-4">
           <Image
             src={userAvatar}
             alt={`${userName}'s avatar`}
@@ -36,15 +36,15 @@ export default function User({
             width={64}
             height={64}
           />
-          <div>
-            <p className="text-lg text-white">{userName}</p>
+          <div className="px-4">
+            <p className="text-xs text-white">{userName}</p>
             <p className="text-green-300 font-medium text-sm">{isOnline}</p>
           </div>
         </div>
-        <div className="text-sm leading-relaxed text-white">
-          <p className="font-semibold text-lg">Contact:</p>
+        <div className="text-xs leading-relaxed text-white px-4">
+          <p className="font-semibold text-sm">Contact:</p>
           <p className="text-gray-200">{contact}</p>
-          <p className="font-semibold text-lg mt-4">Bio:</p>
+          <p className="font-semibold text-sm mt-4">Bio:</p>
           <p className="text-gray-200">{bio}</p>
         </div>
       </div>

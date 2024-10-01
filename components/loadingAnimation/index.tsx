@@ -18,8 +18,7 @@ const LoadingAnimation: React.FC<{ text?: string }> = ({ text = "思考中" }) =
 
   return (
     <div className="flex items-center space-x-2">
-      {/* <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div> */}
-      <span className="text-white font-mono text-lg">{`${text}${dots}`}</span>
+      <span className="text-white font-pixel text-lg">{`${text}${dots}`}</span>
     </div>
   );
 };
