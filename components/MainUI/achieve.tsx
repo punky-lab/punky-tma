@@ -25,7 +25,7 @@ export default function Achieve({ onClose }: { onClose: () => void }) {
             <LoadingAnimation text="loading" />
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-x-2 gap-y-4 px-4 py-4 overflow-auto">
+          <div className="grid grid-cols-2 gap-x-2 gap-y-4 px-6 pb-10 overflow-auto">
             {metadata.map((data, index) => (
               <TaskItem
                 key={index}
