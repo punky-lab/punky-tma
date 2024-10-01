@@ -49,6 +49,10 @@ const Chat = forwardRef((props, ref) => {
       .finally(() => {
         setIsLoading(false);
       });
+    const textarea = document.querySelector("textarea");
+    if (textarea) {
+      textarea.style.height = "44px"; // 恢复高度
+    }
   };
 
   useImperativeHandle(ref, () => ({
@@ -63,33 +67,54 @@ const Chat = forwardRef((props, ref) => {
     }
   }, [messages]);
 
+  useEffect(() => {
+    const textarea = document.querySelector("textarea");
+    if (textarea) {
+      textarea.style.height = "44px"; // 恢复高度
+    }
+  }, []);
+
   return (
     <div className="relative w-full">
       <div
         ref={messageListRef}
-        className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto bg-black bg-opacity-35"
+        className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto" // 去掉阴影
       >
         {messages.map((message, index) => (
           <Message message={message} key={index} />
         ))}
       </div>
-      <div className="w-full flex flex-row pt-2">
-        <div className="relative grow">
-          <Image className="w-full" src={ChatBoxUI} alt="" />
-          <input
-            type="text"
-            className="absolute -top-0.5 left-3 w-11/12 h-full bg-transparent text-black border-none outline-none"
-            placeholder="Chat now"
-            value={currentMessage}
-            onChange={(e) => setCurrentMessage(e.target.value)}
-          />
-        </div>
-        <button
+      <div className="w-full flex flex-row justify-between items-center">
+        <textarea
+          className="w-full text-black p-2 box-border border-2 border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Chat now"
+          value={currentMessage}
+          onChange={(e) => {
+            setCurrentMessage(e.target.value);
+          }}
+          onInput={(e) => {
+            e.currentTarget.style.height = "auto";
+            e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage(); // 发送消息
+              e.currentTarget.style.height = "44px"; // 恢复高度
+            }
+          }}
+          style={{
+            resize: "none",
+            overflow: "hidden",
+            minHeight: "40px",
+            lineHeight: "1.5",
+          }} // 设置行高
+        />
+        <Image
+          src={PlayIcon}
+          alt=""
+          onClick={() => handleSendMessage()}
           className="ml-2 cursor-pointer z-50"
-          onClick={handleSendMessage}
-        >
-          <Image src={PlayIcon} alt="" />
-        </button>
+        />
       </div>
     </div>
   );
