@@ -26,7 +26,7 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
   return (
     <>
       <div
-        className="bg-gradient-to-br  rounded-lg p-3 shadow-lg transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+        className="bg-gradient-to-br rounded-lg p-3 shadow-lg transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
         style={{
           background:
             "linear-gradient(90deg, rgba(58, 46, 81, 1), rgba(85, 70, 100, 1))",
