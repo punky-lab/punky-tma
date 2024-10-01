@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import ChatBoxUI from "@/assets/ui/chatbox.svg";
 import PlayIcon from "@/assets/icons/play.svg";
 import React, {
   useEffect,
@@ -14,16 +13,11 @@ import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
 import { getGaiaNetResponse } from "@/app/api/chat";
 
-interface ChatProps {
-  onChatStart: () => void;
-  onChatEnd: () => void;
-}
-
 const Chat = forwardRef((props, ref) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
   const messageListRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSendMessage = (message?: string) => {
     if (currentMessage.trim() === "" && !message) {
@@ -32,7 +26,6 @@ const Chat = forwardRef((props, ref) => {
     const content = message?.trim() ?? currentMessage.trim();
     setMessages([...messages, { role: "user", content: content }]);
     setCurrentMessage("");
-    setIsLoading(true);
     getGaiaNetResponse(content)
       .then((reply) => {
         setMessages((prevMessages) => [
@@ -45,14 +38,7 @@ const Chat = forwardRef((props, ref) => {
           ...prevMessages,
           { role: "system", content: `ERROR: ${error}` },
         ]);
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
-    const textarea = document.querySelector("textarea");
-    if (textarea) {
-      textarea.style.height = "44px"; // 恢复高度
-    }
   };
 
   useImperativeHandle(ref, () => ({
@@ -67,18 +53,25 @@ const Chat = forwardRef((props, ref) => {
     }
   }, [messages]);
 
-  useEffect(() => {
-    const textarea = document.querySelector("textarea");
-    if (textarea) {
-      textarea.style.height = "44px"; // 恢复高度
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCurrentMessage(e.target.value);
+    if (textareaRef.current) {
+      const lineHeight = 20; // 设置行高
+      const lines = Math.floor(e.target.scrollHeight / lineHeight);
+      // 只在内容超过一行时调整高度
+      if (lines > 1) {
+        textareaRef.current.style.height = `${Math.min(lines, 4) * lineHeight}px`; // 限制最大高度
+      } else {
+        textareaRef.current.style.height = "40px"; // 恢复到初始高度
+      }
     }
-  }, []);
+  };
 
   return (
     <div className="relative w-full">
       <div
         ref={messageListRef}
-        className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto" // 去掉阴影
+        className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto"
       >
         {messages.map((message, index) => (
           <Message message={message} key={index} />
@@ -86,28 +79,22 @@ const Chat = forwardRef((props, ref) => {
       </div>
       <div className="w-full flex flex-row justify-between items-center">
         <textarea
+          ref={textareaRef}
           className="w-full text-black p-2 box-border border-2 border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Chat now"
           value={currentMessage}
-          onChange={(e) => {
-            setCurrentMessage(e.target.value);
-          }}
-          onInput={(e) => {
-            e.currentTarget.style.height = "auto";
-            e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
-          }}
+          onChange={handleInput}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              handleSendMessage(); // 发送消息
-              e.currentTarget.style.height = "44px"; // 恢复高度
+              e.preventDefault(); // 阻止换行
+              handleSendMessage();
+              if (textareaRef.current) {
+                textareaRef.current.style.height = "40px"; // 恢复高度
+              }
+              setCurrentMessage(""); // 清空输入框
             }
           }}
-          style={{
-            resize: "none",
-            overflow: "hidden",
-            minHeight: "40px",
-            lineHeight: "1.5",
-          }} // 设置行高
+          rows={1}
         />
         <Image
           src={PlayIcon}
