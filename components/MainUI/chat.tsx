@@ -28,34 +28,13 @@ const Chat = forwardRef((props: Props, ref) => {
   const [isVoiceMode, setIsVoiceMode] = useState(false); // 用于切换语音和键盘模式
   const messageListRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [recognition, setRecognition] = useState<any>(null); // 语音识别实例
   const [isListening, setIsListening] = useState(false); // 语音识别状态
-
-  useEffect(() => {
-    // 初始化语音识别
-    const SpeechRecognition =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const recognitionInstance = new SpeechRecognition();
-      recognitionInstance.continuous = false; // 不连续识别
-      recognitionInstance.interimResults = false; // 不返回中间结果
-
-      recognitionInstance.onresult = (event: {
-        results: { transcript: any }[][];
-      }) => {
-        const transcript = event.results[0][0].transcript; // 获取识别结果
-        setCurrentMessage(transcript); // 设置输入框内容
-        handleSendMessage(transcript); // 发送识别到的消息
-      };
-
-      recognitionInstance.onend = () => {
-        setIsListening(false); // 识别结束
-      };
-
-      setRecognition(recognitionInstance);
-    }
-  }, []);
+  const [isRecording, setIsRecording] = useState(false); // 是否正在录音
+  const [recordStartPos, setRecordStartPos] = useState({ x: 0, y: 0 }); // 记录录音开始的触摸位置
+  const [recordStatus, setRecordStatus] = useState(""); // 用于显示录音状态提示（上滑取消，右滑转文字等）
+  const [recordTime, setRecordTime] = useState(0); // 录音时间
+  const recordTimerRef = useRef<NodeJS.Timeout | null>(null); // 用于记录录音时长的计时器
+  const recognition = useRef<any>(null); // 语音识别实例
 
   const handleSendMessage = (message?: string) => {
     if (currentMessage.trim() === "" && !message) {
@@ -86,6 +65,94 @@ const Chat = forwardRef((props: Props, ref) => {
       });
   };
 
+  useEffect(() => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognition.current = new SpeechRecognition();
+      recognition.current.continuous = false;
+      recognition.current.interimResults = false;
+
+      recognition.current.onresult = (event: {
+        results: { transcript: any }[][];
+      }) => {
+        const transcript = event.results[0][0].transcript;
+        handleSendMessage(transcript); // 识别到的文本发送出去
+      };
+
+      recognition.current.onend = () => {
+        setIsRecording(false);
+      };
+    }
+  }, []);
+
+  const startRecording = (e: any) => {
+    setIsRecording(true);
+    setRecordStartPos({ x: e.nativeEvent.clientX, y: e.nativeEvent.clientY }); // 记录触摸位置
+    setRecordStatus("上滑取消，右滑转文字"); // 提示用户操作
+
+    // 开始计时
+    recordTimerRef.current = setInterval(() => {
+      setRecordTime((prevTime) => prevTime + 1);
+    }, 1000);
+  };
+
+  const stopRecording = () => {
+    setIsRecording(false);
+    setRecordStatus("");
+    clearInterval(recordTimerRef.current as NodeJS.Timeout);
+    setRecordTime(0);
+  };
+
+  const handleTouchMove = (e: any) => {
+    const currentX = e.nativeEvent.clientX;
+    const currentY = e.nativeEvent.clientY;
+    const deltaX = currentX - recordStartPos.x;
+    const deltaY = currentY - recordStartPos.y;
+
+    // 判断用户是否向左上滑动，取消录音
+    if (deltaY < -50 && deltaX < -50) {
+      setRecordStatus("松开手指，取消录音");
+    }
+    // 判断用户是否向右上滑动，转语音为文字
+    else if (deltaY < -50 && deltaX > 50) {
+      setRecordStatus("松开手指，转为文字");
+    } else {
+      setRecordStatus("上滑取消，右滑转文字");
+    }
+  };
+
+  const handleSendVoiceMessage = () => {
+    // 这里处理发送语音消息的逻辑
+    console.log("发送语音消息...");
+  };
+
+  const handleTouchEnd = (e: any) => {
+    const currentX = e.nativeEvent.clientX;
+    const currentY = e.nativeEvent.clientY;
+    const deltaX = currentX - recordStartPos.x;
+    const deltaY = currentY - recordStartPos.y;
+
+    // 判断松开时的最终操作
+    if (deltaY < -50 && deltaX < -50) {
+      // 取消录音
+      setIsRecording(false);
+      setRecordStatus("录音已取消");
+      clearInterval(recordTimerRef.current as NodeJS.Timeout);
+      setRecordTime(0);
+    } else if (deltaY < -50 && deltaX > 50) {
+      // 转语音为文字
+      setRecordStatus("正在转文字...");
+      stopRecording();
+      const msg = recognition.current?.start(); // 开始语音转文字
+      console.log(">>>>", msg);
+    } else {
+      stopRecording();
+      handleSendVoiceMessage();
+    }
+  };
+
   useImperativeHandle(ref, () => ({
     handleSendMessage: (message: string) => {
       handleSendMessage(message);
@@ -112,15 +179,6 @@ const Chat = forwardRef((props: Props, ref) => {
     }
   };
 
-  const toggleListening = () => {
-    if (isListening) {
-      recognition?.stop(); // 停止识别
-    } else {
-      recognition?.start(); // 开始识别
-      setIsListening(true); // 设置为正在识别
-    }
-  };
-
   const toggleInputMode = () => {
     setIsVoiceMode(!isVoiceMode); // 切换语音/键盘模式
   };
@@ -134,8 +192,25 @@ const Chat = forwardRef((props: Props, ref) => {
         {messages.map((message, index) => (
           <Message message={message} key={index} />
         ))}
-        {loading && <ThinkingBubble />} {/* 显示 ThinkingBubble */}
+        {loading && <ThinkingBubble />}
       </div>
+      {isRecording && (
+        <div className="flex justify-center mt-4 z-99">
+          <div className="bg-gray-800 text-white p-2 rounded-md">
+            {recordStatus}
+          </div>
+        </div>
+      )}
+
+      {/* 录音时间显示 */}
+      {isRecording && (
+        <div className="flex justify-center mb-4">
+          <div className="bg-gray-800 text-white p-2 rounded-md">
+            录音时长: {recordTime} 秒
+          </div>
+        </div>
+      )}
+
       <div className="w-full flex flex-row justify-between items-center">
         <Image
           src={isVoiceMode ? MicrophoneIcon : KeyboardIcon}
@@ -143,15 +218,26 @@ const Chat = forwardRef((props: Props, ref) => {
           onClick={toggleInputMode}
           className="mr-4 cursor-pointer z-50"
         />
-
         {isVoiceMode ? (
-          <button
-            onMouseDown={toggleListening}
-            onMouseUp={toggleListening}
-            className="p-2 w-full bg-gray-200 border-2 border-gray-400 rounded-md"
-          >
-            按住 说话
-          </button>
+          <div className="relative w-full">
+            <div className="flex justify-center items-center">
+              <button
+                onTouchStart={startRecording}
+                onTouchEnd={(e) => {
+                  console.log("eee", e);
+                  stopRecording();
+                }}
+                onTouchMove={handleTouchMove}
+                onMouseDown={startRecording}
+                onMouseUp={handleTouchEnd}
+                className={`p-4 rounded-full w-full ${
+                  isRecording ? "bg-red-500" : "bg-gray-300"
+                }`}
+              >
+                {isRecording ? "松开 结束" : "按住 说话"}
+              </button>
+            </div>
+          </div>
         ) : (
           <textarea
             ref={textareaRef}
