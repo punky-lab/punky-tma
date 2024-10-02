@@ -16,6 +16,7 @@ import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
 import FrameAnimation from "../FrameAnimation";
 import { useState, useRef } from "react";
 import { Federant } from "@next/font/google";
+import Link from "next/link";
 
 export default function Main({
   switchTo,
@@ -82,9 +83,14 @@ export default function Main({
           onClick={() => switchTo("user")}
         />
       </div>
+      <div className="flex justify-end mt-8">
+        <Link href="https://runner-game.punky.app/">
+          <Image src={FeedIcon} alt="Feed" className="w-8 h-8 cursor-pointer" />
+        </Link>
+      </div>
       <div className="grow flex items-center justify-center relative">
         <div
-          className="absolute top-1/4 transform"
+          className="absolute top-[120px] transform"
           onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
             handleTouchStart(e)
           }
@@ -100,7 +106,7 @@ export default function Main({
             isThinking={isTalking}
           />
         </div>
-        <div className="flex justify-around mt-12">
+        <div className="flex justify-around mt-8">
           <Image
             src={FeedIcon}
             alt="Feed"
