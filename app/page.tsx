@@ -1,13 +1,11 @@
 "use client";
 
-// import FrameAnimation from "@/components/Animation";
 import Main from "@/components/MainUI/Main";
 import Store from "@/components/MainUI/Store";
 import Achieve from "@/components/MainUI/achieve";
 import User from "@/components/MainUI/User";
 import { UIState } from "@/lib/UI";
 import { ReactNode, useCallback, useState } from "react";
-// import punkyFrames from "@/assets/animations/punky/idle";
 
 export default function Home() {
   const [currentUI, setCurrentUI] = useState<UIState>("main");
@@ -21,18 +19,8 @@ export default function Home() {
   ]);
 
   return (
-    <div className="h-screen w-screen bg-[url('../assets/scenes/main.webp')] bg-cover bg-top text-white">
-      {UIShowing.get(currentUI)}
-      {/* <div className="absolute w-screen h-screen flex flex-col items-center top-1/3 z-0">
-        <div className="-translate-y-1/3">
-          <FrameAnimation
-            frames={punkyFrames}
-            interval={1000}
-            width={180}
-            height={180}
-          />
-        </div>
-      </div> */}
+    <div className="h-screen w-screen bg-[url('../assets/scenes/main.webp')] bg-cover bg-top text-white overflow-hidden">
+      <div className="overflow-y-auto h-full">{UIShowing.get(currentUI)}</div>
     </div>
   );
 }

@@ -29,8 +29,6 @@ export default function FrameAnimation({
     console.log("..frames..", frames);
     preloadedImages.current = frames.map((frame) => {
       const img = new window.Image();
-
-      console.log("..🍷..", frame.src);
       img.src = frame.src;
       img.onload = () => {
         loadedCount++;
@@ -53,19 +51,9 @@ export default function FrameAnimation({
     return () => clearInterval(timer); // 在组件卸载时清理定时器
   }, [frames.length, interval, imagesLoaded]);
 
-  if (frames.length === 0 || !imagesLoaded) {
-    return <div>加载中...</div>;
-  }
-
   return (
     <div style={{ width, height, position: "relative" }}>
-      {isThinking && (
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="relative w-full h-full">
-            {isThinking && <ThinkingBubble />}
-          </div>
-        </div>
-      )}
+      {isThinking && <ThinkingBubble />}
       {preloadedImages.current.map((img, index) => (
         <Image
           key={index}

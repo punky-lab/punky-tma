@@ -17,6 +17,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorPage } from "@/components/ErrorPage";
 import { useTelegramMock } from "@/hooks/useTelegramMock";
 import { useDidMount } from "@/hooks/useDidMount";
+import LoadingAnimation from "../loadingAnimation";
 
 function App(props: PropsWithChildren) {
   const lp = useLaunchParams();
@@ -76,17 +77,21 @@ export function Root(props: PropsWithChildren) {
   // Unfortunately, Telegram Mini Apps does not allow us to use all features of the Server Side
   // Rendering. That's why we are showing loader on the server side.
   const didMount = useDidMount();
+  // const didMount = false;
 
   return didMount ? (
     <ErrorBoundary fallback={ErrorPage}>
       <RootInner {...props} />
     </ErrorBoundary>
   ) : (
-    <div className="flex items-center justify-center h-screen w-screen bg-gradient-to-br from-purple-300 to-purple-500 text-white">
-      <div className="flex flex-col items-center">
-        <div className="loader border-8 border-white border-opacity-30 border-l-transparent rounded-full w-16 h-16 animate-spin"></div>
-        <p className="mt-4 text-lg font-bold">Loading...</p>
-      </div>
+    <div
+      className="flex items-center justify-center h-screen w-screen bg-gradient-to-br  text-white"
+      style={{
+        background:
+          "linear-gradient(90deg, rgba(58, 46, 81, 1), rgba(85, 70, 100, 1))",
+      }}
+    >
+      <LoadingAnimation text="loading" />
     </div>
   );
 }
