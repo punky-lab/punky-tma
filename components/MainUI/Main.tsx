@@ -32,17 +32,21 @@ export default function Main({
     const randomAnimationIndex = Math.floor(Math.random() * animations.length);
     const randomAnimation = animations[randomAnimationIndex];
 
-    setCurrentFrames([randomAnimation]); // 直接使用 randomAnimation
+    setCurrentFrames([randomAnimation]);
+
+    setTimeout(() => {
+      setCurrentFrames(punkyFrames); // 恢复到默认帧动画
+    }, 3000); // 2 秒后恢复
   };
 
-  let touchStartX: number | null = null; // 初始化为 null
+  let touchStartX: number | null = null;
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartX = e.touches[0].clientX; // 记录触摸开始时的 X 坐标
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (touchStartX === null) return; // 确保 touchStartX 已被设置
+    if (touchStartX === null) return;
     const touchEndX = e.changedTouches[0].clientX; // 记录触摸结束时的 X 坐标
     const diffX = touchEndX - (touchStartX || 0); // 计算 X 坐标的差值
 
@@ -53,9 +57,7 @@ export default function Main({
   };
 
   const handleAction = (action: string) => {
-    // 发送消息到 Agent
     console.log(`I just ${action}`);
-    // 调用 Chat 组件的发送消息功能
     if (chatRef.current) {
       chatRef.current.handleSendMessage(`I just ${action}`); // 调用子组件的函数
     }
@@ -65,7 +67,7 @@ export default function Main({
     const viewportHeight = window.innerHeight;
     console.log(viewportHeight); // 输出当前视口高度
     setViewHeight(viewHeight);
-  }, []);
+  }, [window.innerHeight]);
 
   return (
     <div className="flex flex-col w-full h-full px-2 py-4">
@@ -96,7 +98,7 @@ export default function Main({
       </div>
       <div className="grow flex items-center justify-center relative">
         <div
-          className={`absolute ${viewHeight >= 844 ? "top-[20%]" : "top-[12%]"} transform`}
+          className={`absolute ${window.innerHeight >= 844 ? "top-[20%]" : "top-[12%]"} transform`}
           onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
             handleTouchStart(e)
           }
@@ -106,7 +108,7 @@ export default function Main({
         >
           <FrameAnimation
             frames={currentFrames} // 将字符串数组转换为对象数组
-            interval={100} // Adjust as needed
+            interval={300} // Adjust as needed
             width={180}
             height={180}
             isThinking={isTalking}
