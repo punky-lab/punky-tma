@@ -14,8 +14,7 @@ import punkySitFrames from "@/assets/animations/punky/sit.gif"; // Sit frames
 import punkyRollFrames from "@/assets/animations/punky/roll.gif"; // Roll frames
 import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
 import FrameAnimation from "../FrameAnimation";
-import { useState, useRef } from "react";
-import { Federant } from "@next/font/google";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
 export default function Main({
@@ -26,6 +25,7 @@ export default function Main({
   const [isTalking, setIsTalking] = useState(false);
   const [currentFrames, setCurrentFrames] = useState<any[]>(punkyFrames); // Default frames
   const chatRef = useRef<any>(null); // 创建 ref
+  const [viewHeight, setViewHeight] = useState(0);
 
   const handleSwipe = () => {
     const animations = [punkySitFrames, punkyRollFrames, punkyRunFrames];
@@ -61,6 +61,12 @@ export default function Main({
     }
   };
 
+  useEffect(() => {
+    const viewportHeight = window.innerHeight;
+    console.log(viewportHeight); // 输出当前视口高度
+    setViewHeight(viewHeight);
+  }, []);
+
   return (
     <div className="flex flex-col w-full h-full px-2 py-4">
       <div className="flex flex-row w-full justify-between">
@@ -90,7 +96,7 @@ export default function Main({
       </div>
       <div className="grow flex items-center justify-center relative">
         <div
-          className="absolute top-[15%]  sm-height:top-[15%] lg-height:top-[20%] transform"
+          className={`absolute ${viewHeight >= 844 ? "top-[20%]" : "top-[12%]"} transform`}
           onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
             handleTouchStart(e)
           }
