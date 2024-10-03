@@ -90,7 +90,7 @@ export default function Main({
       </div>
       <div className="grow flex items-center justify-center relative">
         <div
-          className="absolute top-[120px] transform"
+          className="absolute top-[15%]  sm-height:top-[15%] lg-height:top-[20%] transform"
           onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
             handleTouchStart(e)
           }

@@ -6,7 +6,10 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {},
+  theme: {
+    'sm-height': { 'raw': '(max-height: 667px)' },
+    'lg-height': { 'raw': '(min-height: 844px)' }
+  },
   plugins: [],
 };
 export default config;
