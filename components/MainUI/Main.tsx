@@ -16,6 +16,7 @@ import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
 import FrameAnimation from "../FrameAnimation";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import TOPlayIcon from "@/assets/icons/toPlay.svg";
 
 export default function Main({
   switchTo,
@@ -93,7 +94,11 @@ export default function Main({
       </div>
       <div className="flex justify-end mt-8">
         <Link href="https://runner-game.punky.app/">
-          <Image src={FeedIcon} alt="Feed" className="w-8 h-8 cursor-pointer" />
+          <Image
+            src={TOPlayIcon}
+            alt="Feed"
+            className="w-8 h-8 cursor-pointer"
+          />
         </Link>
       </div>
       <div className="grow flex items-center justify-center relative">
