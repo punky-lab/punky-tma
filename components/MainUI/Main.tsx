@@ -14,9 +14,9 @@ import punkySitFrames from "@/assets/animations/punky/sit.gif"; // Sit frames
 import punkyRollFrames from "@/assets/animations/punky/roll.gif"; // Roll frames
 import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
 import FrameAnimation from "../FrameAnimation";
-import { useState, useRef } from "react";
-import { Federant } from "@next/font/google";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import TOPlayIcon from "@/assets/icons/toPlay.svg";
 
 export default function Main({
   switchTo,
@@ -26,23 +26,28 @@ export default function Main({
   const [isTalking, setIsTalking] = useState(false);
   const [currentFrames, setCurrentFrames] = useState<any[]>(punkyFrames); // Default frames
   const chatRef = useRef<any>(null); // 创建 ref
+  const [viewHeight, setViewHeight] = useState(0);
 
   const handleSwipe = () => {
     const animations = [punkySitFrames, punkyRollFrames, punkyRunFrames];
     const randomAnimationIndex = Math.floor(Math.random() * animations.length);
     const randomAnimation = animations[randomAnimationIndex];
 
-    setCurrentFrames([randomAnimation]); // 直接使用 randomAnimation
+    setCurrentFrames([randomAnimation]);
+
+    setTimeout(() => {
+      setCurrentFrames(punkyFrames); // 恢复到默认帧动画
+    }, 3000); // 2 秒后恢复
   };
 
-  let touchStartX: number | null = null; // 初始化为 null
+  let touchStartX: number | null = null;
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartX = e.touches[0].clientX; // 记录触摸开始时的 X 坐标
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (touchStartX === null) return; // 确保 touchStartX 已被设置
+    if (touchStartX === null) return;
     const touchEndX = e.changedTouches[0].clientX; // 记录触摸结束时的 X 坐标
     const diffX = touchEndX - (touchStartX || 0); // 计算 X 坐标的差值
 
@@ -53,13 +58,17 @@ export default function Main({
   };
 
   const handleAction = (action: string) => {
-    // 发送消息到 Agent
     console.log(`I just ${action}`);
-    // 调用 Chat 组件的发送消息功能
     if (chatRef.current) {
       chatRef.current.handleSendMessage(`I just ${action}`); // 调用子组件的函数
     }
   };
+
+  useEffect(() => {
+    const viewportHeight = window.innerHeight;
+    console.log(viewportHeight); // 输出当前视口高度
+    setViewHeight(viewHeight);
+  }, [window.innerHeight]);
 
   return (
     <div className="flex flex-col w-full h-full px-2 py-4">
@@ -85,12 +94,16 @@ export default function Main({
       </div>
       <div className="flex justify-end mt-8">
         <Link href="https://runner-game.punky.app/">
-          <Image src={FeedIcon} alt="Feed" className="w-8 h-8 cursor-pointer" />
+          <Image
+            src={TOPlayIcon}
+            alt="Feed"
+            className="w-8 h-8 cursor-pointer"
+          />
         </Link>
       </div>
       <div className="grow flex items-center justify-center relative">
         <div
-          className="absolute top-[120px] transform"
+          className={`absolute ${window.innerHeight >= 844 ? "top-[20%]" : "top-[12%]"} transform`}
           onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
             handleTouchStart(e)
           }
@@ -100,7 +113,7 @@ export default function Main({
         >
           <FrameAnimation
             frames={currentFrames} // 将字符串数组转换为对象数组
-            interval={100} // Adjust as needed
+            interval={300} // Adjust as needed
             width={180}
             height={180}
             isThinking={isTalking}
