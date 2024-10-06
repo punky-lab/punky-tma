@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import PlayIcon from "@/assets/icons/play.svg";
+import PlayIcon from "@/assets/icons/toMessage.svg";
 import MicrophoneIcon from "@/assets/icons/microphone.svg"; // 添加语音输入图标
 import KeyboardIcon from "@/assets/icons/keyboard.svg"; // 添加键盘输入图标
 import React, {
@@ -215,7 +215,7 @@ const Chat = forwardRef((props: Props, ref) => {
         <Image
           src={isVoiceMode ? MicrophoneIcon : KeyboardIcon}
           alt="Toggle Input Mode"
-          onClick={toggleInputMode}
+          // onClick={toggleInputMode}
           className="mr-4 cursor-pointer z-50"
         />
         {isVoiceMode ? (
