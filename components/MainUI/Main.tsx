@@ -19,6 +19,7 @@ import Right1 from "@/assets/icons/right1.svg";
 import Right2 from "@/assets/icons/right2.svg";
 import PlayIcon from "@/assets/icons/play.svg";
 import { useRouter } from "next/navigation";
+import WalletIcon from "@/assets/icons/wallet.svg";
 
 export default function Main({
   switchTo,
@@ -95,8 +96,19 @@ export default function Main({
           onClick={() => switchTo("user")}
         />
       </div>
-      <div className="flex justify-end mt-8">
-        <Image src={TOPlayIcon} alt="Feed" className="w-8 h-8 cursor-pointer" />
+      <div className="flex justify-between mt-8">
+        <Image
+          src={WalletIcon}
+          width={40}
+          height={40}
+          alt="Feed"
+          className="cursor-pointer"
+        />
+        <Image
+          src={TOPlayIcon}
+          alt="Feed"
+          className="w-35 h-35 cursor-pointer"
+        />
       </div>
       <div className="grow flex justify-center relative">
         <div
