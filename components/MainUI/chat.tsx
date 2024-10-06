@@ -189,9 +189,17 @@ const Chat = forwardRef((props: Props, ref) => {
         ref={messageListRef}
         className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto"
       >
-        {messages.map((message, index) => (
-          <Message message={message} key={index} />
-        ))}
+        {messages.map((message, index) => {
+          console.log("????", message);
+          if (
+            message.content !== "I just feed" &&
+            message.content !== "I just treat" &&
+            message.content !== "I just play with toy"
+          ) {
+            return <Message message={message} key={index} />;
+          }
+          return;
+        })}
         {loading && <ThinkingBubble />}
       </div>
       {isRecording && (

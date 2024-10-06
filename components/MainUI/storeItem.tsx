@@ -32,16 +32,16 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
         //   background:
         //     "linear-gradient(90deg, rgba(58, 46, 81, 1), rgba(85, 70, 100, 1))",
         // }}
-        className="bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center w-[76%] px-4 min-h-[140px]"
+        className="bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center px-4"
         onClick={handleItemClick}
       >
         <div className="rounded-lg pt-4">
           <Image
             src={image}
             alt={name}
-            width={64}
-            height={64}
-            className="mx-auto rounded-md"
+            width={48}
+            height={48}
+            className="w-full h-auto mx-auto rounded-md"
           />
         </div>
         <div className="text-white text-[10px] text-center mb-2 h-10 flex items-center justify-center">
