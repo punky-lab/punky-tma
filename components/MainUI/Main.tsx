@@ -118,17 +118,17 @@ export default function Main({
             <Image
               src={FeedIcon}
               alt="Feed"
-              className="w-35 h-35 cursor-pointer mb-4" // 使用 mb-4 以增加间距
+              className="w-35 h-35 cursor-pointer mb-4"
               onClick={() => handleAction("feed")}
             />
             <Image
-              src={FeedIcon} // 使用 TreatIcon
+              src={FeedIcon}
               alt="Treat"
-              className="w-35 h-35 cursor-pointer mb-4" // 使用 mb-4 以增加间距
+              className="w-35 h-35 cursor-pointer mb-4"
               onClick={() => handleAction("treat")}
             />
             <Image
-              src={FeedIcon} // 使用 FeedIcon
+              src={FeedIcon}
               alt="Toy"
               className="w-35 h-35 cursor-pointer"
               onClick={() => handleAction("play with toy")}
@@ -143,8 +143,8 @@ export default function Main({
             }
           >
             <FrameAnimation
-              frames={currentFrames} // 将字符串数组转换为对象数组
-              interval={300} // Adjust as needed
+              frames={currentFrames}
+              interval={300}
               width={180}
               height={180}
               isThinking={isTalking}
@@ -152,12 +152,12 @@ export default function Main({
           </div>
           <div className="flex flex-col items-center ml-4">
             <Image
-              src={Right1} // 替换为实际图标
+              src={Right1}
               alt="Action 1"
               className="w-35 h-35 cursor-pointer mb-4"
             />
             <Image
-              src={Right2} // 替换为实际图标
+              src={Right2}
               alt="Action 2"
               className="w-35 h-35 cursor-pointer"
             />

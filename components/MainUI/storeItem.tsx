@@ -32,42 +32,40 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
         //   background:
         //     "linear-gradient(90deg, rgba(58, 46, 81, 1), rgba(85, 70, 100, 1))",
         // }}
-        className="bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center"
+        className="bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center w-[76%] px-4 min-h-[140px]"
         onClick={handleItemClick}
       >
-        <div className="flex flex-col p-4">
-          <div className="p-2 mb-2">
-            <Image
-              src={image}
-              alt={name}
-              width={64}
-              height={64}
-              className="mx-auto w-[64] h-[64]rounded-md"
-            />
-          </div>
-          <div className="text-white text-[10px] flex-wrap text-center mb-2 h-10 flex items-center justify-center">
-            {name}
-          </div>
-          {owned ? (
-            <div className="bg-green-500 text-white text-center py-1 rounded-full text-xs font-medium">
-              Owned
-            </div>
-          ) : (
-            <div className="bg-yellow-400 bg-opacity-80 rounded-full py-1 px-3 relative h-6">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span
-                  className="inline-block mr-1 text-base leading-none"
-                  style={{ marginTop: "-0.4em" }}
-                >
-                  💰
-                </span>
-                <p className="text-purple-900 font-bold text-sm inline-block">
-                  {price}
-                </p>
-              </div>
-            </div>
-          )}
+        <div className="rounded-lg pt-4">
+          <Image
+            src={image}
+            alt={name}
+            width={64}
+            height={64}
+            className="mx-auto rounded-md"
+          />
         </div>
+        <div className="text-white text-[10px] text-center mb-2 h-10 flex items-center justify-center">
+          {name}
+        </div>
+        {owned ? (
+          <div className="bg-green-500 text-white text-center py-1 rounded-full text-xs font-medium">
+            Owned
+          </div>
+        ) : (
+          <div className="bg-yellow-400 bg-opacity-80 rounded-full py-1 px-3 relative h-6">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span
+                className="inline-block mr-1 text-base leading-none"
+                style={{ marginTop: "-0.4em" }}
+              >
+                💰
+              </span>
+              <p className="text-purple-900 font-bold text-[10px] inline-block">
+                {price}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {isModalOpen && (

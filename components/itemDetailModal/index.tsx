@@ -1,5 +1,5 @@
 import Image from "next/image";
-import PopUp from "../MainUI/PopUp";
+import CloseIcon from "@/assets/icons/close.svg";
 
 interface ItemDetailModalProps {
   image: string;
@@ -21,15 +21,20 @@ export default function ItemDetailModal({
       <div
         // className="bg-gradient-to-br bg-opacity-70 rounded-lg p-6 max-w-sm w-3/5 shadow-lg"
         // style={{ backgroundColor: "rgba(58, 46, 81, 0.7)" }}
-        className={`bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center w-7/12  min-h-[400px]`}
+        className={`bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center w-7/12  min-h-[400px] mt-10`}
       >
         <div className="flex justify-end">
-          <button
+          <Image
+            src={CloseIcon}
+            alt="close"
+            className="w-10 h-10 cursor-pointer"
             onClick={onClose}
-            className="w-8 h-8 text-gray-200 hover:text-gray-300"
-          >
-            &times;
-          </button>
+          />
+        </div>
+        <div className="flex flex-row justify-center items-center">
+          <div className="bg-[url('../assets/ui/pop-title.svg')] bg-cover bg-center w-2/3  min-h-[68px] p-4 flex justify-center items-center">
+            <p className="text-xl font-semibold">Detail</p>
+          </div>
         </div>
         <div className="flex flex-col p-8">
           <h2 className="text-sm font-bold text-white">{name}</h2>

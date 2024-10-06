@@ -22,14 +22,11 @@ export default function Store({ onClose }: { onClose: () => void }) {
       {dataLoading ? (
         <LoadingAnimation text="loading" />
       ) : (
-        <div className="grid grid-cols-2 gap-x-2 gap-y-4 px-6 pb-10 overflow-auto">
+        <div className="grid grid-cols-2 px-6 overflow-auto">
           {metadata.map((data, index) => (
-            <StoreItem
-              key={index}
-              image={data.image}
-              name={data.name}
-              owned={false}
-            />
+            <div className="flex justify-center" key={index}>
+              <StoreItem image={data.image} name={data.name} owned={false} />
+            </div>
           ))}
         </div>
       )}
