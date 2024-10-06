@@ -13,9 +13,9 @@ export default function PopUp({
 }) {
   return (
     <div className="fixed inset-0 flex justify-center items-center z-30">
-      <div className="bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center w-4/5 h-4/6 flex flex-col px-4">
+      <div className="bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center w-4/5 h-3/4 flex flex-col">
         {onClose && (
-          <div className="flex justify-end ">
+          <div className="flex justify-end">
             <Image
               src={CloseIcon}
               alt="close"
@@ -26,10 +26,12 @@ export default function PopUp({
         )}
         {title && (
           <div className="flex flex-row justify-center items-center">
-            <p className="text-2xl font-semibold">{title}</p>
+            <div className="bg-[url('../assets/ui/pop-title.svg')] bg-cover bg-center w-2/3  min-h-[80px] p-4 flex justify-center items-center">
+              <p className="text-xl font-semibold">{title}</p>
+            </div>
           </div>
         )}
-        <div className="flex-grow flex justify-center py-4">{children}</div>
+        <div className="flex-grow flex justify-center p-4">{children}</div>
       </div>
     </div>
   );
