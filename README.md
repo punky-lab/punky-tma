@@ -1,129 +1,27 @@
-# Telegram Mini Apps Next.js Template
+# Punky TG miniApp (Demo Version)
 
-This template demonstrates how developers can implement a web application on the Telegram
-Mini Apps platform using the following technologies and libraries:
+![punky logo](assets\logo\punkyLogo.png)
 
-- [Next.js](https://nextjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [@telegram-apps SDK](https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk)
-- [Telegram UI](https://github.com/Telegram-Mini-Apps/TelegramUI)
+Try out the demo version of our product on TG bot **@PunkyAIBot**
 
-> The template was created using yarn. Therefore, it is required to use
-> it for this project as well. Using other package managers, you will receive a corresponding error.
+## Gameplay
 
-## Install Dependencies
+**Punky Shiba Inu**, our MVP, is a GameFi + AI Companion Telegram Minigame which deploys on **Solana**. Within this game, users can build healthy relationships with both their personalized AI virtual pets and other players.
 
-If you have just cloned this template, you should install the project dependencies using the
-command:
+1. **Nurturing AI companions through consistent emotional bonding**
 
-```Bash
-yarn
-```
+Masters can pour out their emotions to Punky, and Punky will reply and comfort its master. At the same time, Punky will also actively interact with the user, so that the user can experience the two-way giving of feelings and establish a deeper emotional bond. As Punky builds deeper emotional bond with its master, Punky will gain feature weighting and change its appearance. Users can use their own Punky features to build their unique Punky, a one-of-a-kind digital collector's item engraved with full emotional value.
 
-## Scripts
+2. **Gaining Identity and Belonging within Punky Community**
 
-This project contains the following scripts:
+By holding Punky and continuing bonding with it, Punky HOLDER naturally fits into the punky community, a family filled with caring and love. Punky serves as the bridge between users, enabling diverse and interesting Punky players to connect with each other and find companionship through social gameing, such as e-dog-walking. Holding a personalized and rare Punky NFT essentially gives HOlDER a sense of identity and belongingness within the Punky family.
 
-- `dev`. Runs the application in development mode.
-- `dev:https`. Runs the application in development mode using self-signed SSL certificate.
-- `build`. Builds the application for production.
-- `start`. Starts the Next.js server in production mode.
-- `lint`. Runs [eslint](https://eslint.org/) to ensure the code quality meets the required
-  standards.
+3. **Trading dynamic Punky AI NFT in the marketplace freely**
 
-To run a script, use the `yarn run` command:
+Punky HOLDERs can trade Punky freely on the marketplace, in part or in whole. Users can choose to trade only Punky's certain traits or the entire Punky. Meanwhile, users can inscribe their memories with Punky on-chain, which provides an option for users to keep their Punky personalised while being traded for potential gains.
 
-```Bash
-yarn run {script}
-# Example: yarn dev
-```
+## Where to find us
 
-## Create Bot and Mini App
-
-Before you start, make sure you have already created a Telegram Bot. Here is
-a [comprehensive guide](https://docs.telegram-mini-apps.com/platform/creating-new-app) on how to
-do it.
-
-## Run
-
-Although Mini Apps are designed to be opened
-within [Telegram applications](https://docs.telegram-mini-apps.com/platform/about#supported-applications),
-you can still develop and test them outside of Telegram during the development process.
-
-To run the application in the development mode, use the `dev` script:
-
-```bash
-yarn dev
-```
-
-After this, you will see a similar message in your terminal:
-
-```bash
-▲ Next.js 14.2.3
-- Local:        http://localhost:3000
-
-✓ Starting...
-✓ Ready in 2.9s
-```
-
-To view the application, you need to open the `Local`
-link (`http://localhost:3000` in this example) in your browser.
-
-It is important to note that some libraries in this template, such as `@telegram-apps/sdk`, are not
-intended for use outside of Telegram.
-
-Nevertheless, they appear to function properly. This is because the `src/hooks/useTelegramMock.ts`
-file, which is imported in the application's `Root` component, employs the `mockTelegramEnv`
-function to simulate the Telegram environment. This trick convinces the application that it is
-running in a Telegram-based environment. Therefore, be cautious not to use this function in
-production mode unless you fully understand its implications.
-
-### Run Inside Telegram
-
-Although it is possible to run the application outside of Telegram, it is recommended to develop it
-within Telegram for the most accurate representation of its real-world functionality.
-
-To run the application inside Telegram, [@BotFather](https://t.me/botfather) requires an HTTPS link.
-
-This template already provides a solution.
-
-To retrieve a link with the HTTPS protocol, consider using the `dev:https` script:
-
-```bash
-$ yarn dev:https
-
-▲ Next.js 14.2.3
-- Local:        https://localhost:3000
-
-✓ Starting...
-✓ Ready in 2.4s
-```
-
-Visiting the `Local` link (`https://localhost:3000` in this example) in your
-browser, you will see the following warning:
-
-![SSL Warning](https://raw.githubusercontent.com/Telegram-Mini-Apps/nextjs-template/master/assets/ssl-warning.png)
-
-This browser warning is normal and can be safely ignored as long as the site is secure. Click
-the `Proceed to localhost (unsafe)` button to continue and view the application.
-
-Once the application is displayed correctly, submit the
-link `https://127.0.0.1:3000` (`https://localhost:3000` is considered as invalid by BotFather) as
-the Mini App link to [@BotFather](https://t.me/botfather). Then, navigate
-to [https://web.telegram.org/k/](https://web.telegram.org/k/), find your bot, and launch the
-Telegram Mini App. This approach provides the full development experience.
-
-## Deploy
-
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more
-details.
-
-## Useful Links
-
-- [Platform documentation](https://docs.telegram-mini-apps.com/)
-- [@telegram-apps/sdk-react documentation](https://docs.telegram-mini-apps.com/packages/telegram-apps-sdk-react)
-- [Telegram developers community chat](https://t.me/devs)
+- **Our Website**: [https://punky.app/](https://punky.app/)
+- **Follow us on Twitter/X**: [@punnkypunkyai](https://x.com/punkypunkyai)
+- **Join our community on Telegram**:[t.me/punkyaipunky](t.me/punkyaipunky)
