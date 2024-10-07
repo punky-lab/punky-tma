@@ -1,6 +1,6 @@
 # Punky TG miniApp (Demo Version)
 
-![punky logo](assets\logo\punkyLogo.png)
+![punky logo](assets/logo/punkyLogo.png)
 
 Try out the demo version of our product on TG bot **@PunkyAIBot**
 
