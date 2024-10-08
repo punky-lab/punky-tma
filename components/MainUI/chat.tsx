@@ -56,7 +56,7 @@ const Chat = forwardRef((props: Props, ref) => {
         setMessages((prevMessages) => {
           prevMessages[prevMessages.length - 1].role = "ai";
           prevMessages[prevMessages.length - 1].content = reply;
-          prevMessages[prevMessages.length - 1].type = "loading";
+          prevMessages[prevMessages.length - 1].type = "ai";
           return prevMessages;
         });
       })
