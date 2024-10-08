@@ -44,10 +44,10 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
             className="w-full h-auto mx-auto rounded-md"
           />
         </div>
-        <div className="text-white text-[10px] text-center mb-2 h-10 flex items-center justify-center">
+        {/* <div className="text-white text-[10px] text-center mb-2 h-10 flex items-center justify-center">
           {name}
-        </div>
-        {owned ? (
+        </div> */}
+        {/* {owned ? (
           <div className="bg-green-500 text-white text-center py-1 rounded-full text-xs font-medium">
             Owned
           </div>
@@ -65,7 +65,7 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
               </p>
             </div>
           </div>
-        )}
+        )} */}
       </div>
 
       {isModalOpen && (
