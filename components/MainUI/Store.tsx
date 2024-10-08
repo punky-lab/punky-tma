@@ -4,6 +4,7 @@ import { TraitMetadata } from "@/lib/traits";
 import { getTraitMetadata } from "@/app/api/traits";
 import StoreItem from "@/components/MainUI/storeItem";
 import LoadingAnimation from "@/components/loadingAnimation";
+import { div } from "framer-motion/client";
 
 export default function Store({ onClose }: { onClose: () => void }) {
   const [metadata, setMetadata] = useState<TraitMetadata[]>([]);
@@ -22,14 +23,16 @@ export default function Store({ onClose }: { onClose: () => void }) {
       {dataLoading ? (
         <LoadingAnimation text="loading" />
       ) : (
-        <div className="grid grid-cols-2 gap-x-2 gap-y-4 px-6 pb-10 overflow-auto">
+        <div className="grid grid-cols-2 gap-x-2 gap-y-2 px-4">
           {metadata.map((data, index) => (
-            <StoreItem
-              key={index}
-              image={data.image}
-              name={data.name}
-              owned={false}
-            />
+            <div className="flex justify-center" key={index}>
+              <StoreItem
+                key={index}
+                image={data.image}
+                name={data.name}
+                owned={false}
+              />
+            </div>
           ))}
         </div>
       )}

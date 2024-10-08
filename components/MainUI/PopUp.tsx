@@ -31,7 +31,7 @@ export default function PopUp({
             </div>
           </div>
         )}
-        <div className="flex-grow flex justify-center p-4">{children}</div>
+        <div className="flex-grow flex justify-center p-1.5">{children}</div>
       </div>
     </div>
   );
