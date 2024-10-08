@@ -72,7 +72,7 @@ export default function Main({
     const viewportHeight = window.innerHeight;
     console.log(viewportHeight); // 输出当前视口高度
     setViewHeight(viewHeight);
-  }, [window.innerHeight]);
+  }, [viewHeight]);
 
   return (
     <div className="flex flex-col w-full h-full px-2 py-4">
@@ -166,7 +166,7 @@ export default function Main({
         <div
           className="absolute flex flex-col items-center"
           style={{
-            top: `${window.innerHeight >= 844 ? `${window.innerHeight * 0.2 + 180}px` : `${window.innerHeight * 0.12 + 180}px`}`,
+            top: `${window.innerHeight >= 844 ? `${window.innerHeight * 0.2 + 160}px` : `${window.innerHeight * 0.12 + 160}px`}`,
           }}
         >
           <Link href="https://runner-game.punky.app/">

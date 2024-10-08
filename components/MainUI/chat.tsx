@@ -15,6 +15,7 @@ import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
 import { getGaiaNetResponse } from "@/app/api/chat";
 import ThinkingBubble from "@/components/thinkingBubble"; // 引入 ThinkingBubble
+import LoadingDots from "./loadingDots";
 
 interface Props {
   setIsTalking: any;
@@ -41,23 +42,32 @@ const Chat = forwardRef((props: Props, ref) => {
       return;
     }
     const content = message?.trim() ?? currentMessage.trim();
-    setMessages([...messages, { role: "user", content: content }]);
+    setMessages([
+      ...messages,
+      { role: "user", content: content },
+      { role: "ai", content: "", type: "loading" },
+    ]);
     setCurrentMessage("");
     setLoading(true); // 开始加载
     setIsTalking(true);
 
     getGaiaNetResponse(content)
       .then((reply) => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { role: "ai", content: reply },
-        ]);
+        setMessages((prevMessages) => {
+          prevMessages[prevMessages.length - 1].role = "ai";
+          prevMessages[prevMessages.length - 1].content = reply;
+          prevMessages[prevMessages.length - 1].type = "loading";
+          return prevMessages;
+        });
       })
       .catch((error) => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { role: "system", content: `ERROR: ${error}` },
-        ]);
+        setMessages((prevMessages) => {
+          prevMessages[prevMessages.length - 1].role = "system";
+          prevMessages[prevMessages.length - 1].content = `ERROR: ${error}`;
+          prevMessages[prevMessages.length - 1].type = "system";
+          return prevMessages;
+        });
+        // setMessages(messages);
       })
       .finally(() => {
         setLoading(false); // 加载完成
@@ -190,7 +200,6 @@ const Chat = forwardRef((props: Props, ref) => {
         className="absolute min-h-60 -translate-y-full w-full h-full overflow-y-auto"
       >
         {messages.map((message, index) => {
-          console.log("????", message);
           if (
             message.content !== "I just feed" &&
             message.content !== "I just treat" &&
@@ -200,7 +209,6 @@ const Chat = forwardRef((props: Props, ref) => {
           }
           return;
         })}
-        {loading && <ThinkingBubble />}
       </div>
       {isRecording && (
         <div className="flex justify-center mt-4 z-99">

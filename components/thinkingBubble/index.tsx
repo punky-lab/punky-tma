@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-const ThinkingBubble: React.FC = () => {
+interface Props {
+  className?: string;
+}
+
+const ThinkingBubble = ({ className }: Props) => {
   const [dots, setDots] = useState("");
 
   useEffect(() => {
@@ -17,7 +21,9 @@ const ThinkingBubble: React.FC = () => {
   }, []);
 
   return (
-    <div className="absolute top-[10%] left-[calc(30%+10px)] transform -translate-x-1/2 -translate-y-full">
+    <div
+      className={`absolute top-[10%] left-[calc(30%+10px)] transform -translate-x-1/2 -translate-y-full ${className}`}
+    >
       <div className="bg-pink-100 rounded-full p-2 shadow-md">
         <span className="text-pink-800 font-bold text-lg">{dots}</span>
       </div>
