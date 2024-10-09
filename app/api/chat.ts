@@ -21,15 +21,15 @@ export async function getGaiaNetResponse(message: string) {
 }
 
 export async function getChatResponse(message: string) {
-  const res = await fetch(`${baseUrl}/ai_response`, {
+  const res = await fetch(`/api/ai`, {
     method: "post",
     body: JSON.stringify({
-      content: message,
+      message,
     }),
     headers: {
       "Content-Type": "application/json",
     },
   });
   const data = await res.json();
-  return data.reply as string;
+  return data.message as string;
 }
