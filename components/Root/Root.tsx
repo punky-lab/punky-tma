@@ -18,6 +18,8 @@ import { ErrorPage } from "@/components/ErrorPage";
 import { useTelegramMock } from "@/hooks/useTelegramMock";
 import { useDidMount } from "@/hooks/useDidMount";
 import LoadingAnimation from "../loadingAnimation";
+import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
+import { SolanaWalletConnectors } from "@dynamic-labs/solana";
 
 function App(props: PropsWithChildren) {
   const lp = useLaunchParams();
@@ -39,11 +41,20 @@ function App(props: PropsWithChildren) {
 
   return (
     <AppRoot
-      appearance={miniApp.isDark ? "dark" : "light"}
-      platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
+      appearance={miniApp.isDark ? 'dark' : 'light'}
+      platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
     >
-      {props.children}
+      <DynamicContextProvider
+        settings={{
+          environmentId: 'db69ee58-41e4-43e7-be42-a601a83085ea',
+          walletConnectors: [SolanaWalletConnectors],
+        }}
+        theme={'dark'}
+      >
+        {props.children}
+      </DynamicContextProvider>
     </AppRoot>
+
   );
 }
 

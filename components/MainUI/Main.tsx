@@ -77,6 +77,8 @@ export default function Main({
   return (
     <div className="flex flex-col w-full h-full px-2 py-4">
       <div className="flex flex-row w-full justify-between">
+        {/* <Account /> */}
+        {/* <AccountInfo address={walletAddress} /> */}
         <Image
           src={CartIcon}
           alt=""
@@ -103,6 +105,7 @@ export default function Main({
           height={40}
           alt="Feed"
           className="cursor-pointer"
+          onClick={() => switchTo("wallet")}
         />
         <Image
           src={TOPlayIcon}
