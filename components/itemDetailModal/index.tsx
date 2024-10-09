@@ -1,5 +1,6 @@
 import Image from "next/image";
 import CloseIcon from "@/assets/icons/close.svg";
+import { div } from "framer-motion/client";
 
 interface ItemDetailModalProps {
   image: string;
@@ -36,32 +37,34 @@ export default function ItemDetailModal({
             <p className="text-xl font-semibold">Detail</p>
           </div>
         </div>
-        <div className="flex flex-col p-8">
-          <h2 className="text-sm font-bold text-white">{name}</h2>
+        <div className="flex flex-col items-center p-4">
           <div className="flex justify-center items-center mb-4">
             <Image
               src={image}
               alt={name}
-              width={150}
-              height={150}
+              width={100}
+              height={100}
               className="rounded-md"
             />
           </div>
+          <h2 className=" text-white font-[12px]">{name}</h2>
           <div className="flex items-center justify-center mb-4">
             <span className="text-lg text-gray-200 mr-2 mb-2">💰</span>
             <p className="text-lg mb-0 text-gray-200">{price}</p>
           </div>
-          <div className="flex justify-center">
-            {owned ? (
-              <button className="w-full bg-gradient-to-br from-purple-300 to-purple-900 text-white py-2 rounded-lg hover:from-indigo-600 hover:to-indigo-800 transition-colors">
-                Equip
-              </button>
-            ) : (
-              <button className="w-full bg-gradient-to-br from-purple-300 to-purple-900 text-white py-2 rounded-lg hover:from-pink-600 hover:to-red-600 transition-colors">
-                Buy
-              </button>
-            )}
-          </div>
+          {owned ? (
+            <div className="flex flex-row justify-center items-center">
+              <div className="bg-[url('../assets/ui/pop-label.svg')] bg-cover bg-center w-2/3  min-h-[60px] p-4 flex justify-center items-center">
+                <p className="text-[12px] font-semibold">Equip</p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-row justify-center items-center w-full">
+              <div className="bg-[url('../assets/ui/pop-label.svg')] bg-cover bg-center w-2/3  min-h-[56px] p-4 flex justify-center items-center">
+                <p className="text-[12px] font-semibold">Buy</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

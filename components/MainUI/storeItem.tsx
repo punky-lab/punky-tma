@@ -26,28 +26,24 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
 
   return (
     <>
-      <div
-        // className="bg-gradient-to-br rounded-lg p-3 shadow-lg transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
-        // style={{
-        //   background:
-        //     "linear-gradient(90deg, rgba(58, 46, 81, 1), rgba(85, 70, 100, 1))",
-        // }}
-        className="bg-[url('../assets/ui/pop-up-bg.svg')] bg-cover bg-center px-4"
-        onClick={handleItemClick}
-      >
-        <div className="rounded-lg pt-4">
-          <Image
-            src={image}
-            alt={name}
-            width={48}
-            height={48}
-            className="w-full h-auto mx-auto rounded-md"
-          />
-        </div>
-        <div className="text-white text-[10px] text-center mb-2 h-10 flex items-center justify-center">
+      <div className="flex flex-col">
+        <div
+          className="bg-[url('../assets/ui/pop-card.svg')] bg-cover bg-center w-[100px] h-[100px]"
+          onClick={handleItemClick}
+        >
+          <div className="rounded-lg mt-4">
+            <Image
+              src={image}
+              alt={name}
+              width={64}
+              height={64}
+              className="h-auto mx-auto rounded-md"
+            />
+          </div>
+          {/* <div className="text-white text-[10px] text-center mb-2 h-10 flex items-center justify-center">
           {name}
-        </div>
-        {owned ? (
+        </div> */}
+          {/* {owned ? (
           <div className="bg-green-500 text-white text-center py-1 rounded-full text-xs font-medium">
             Owned
           </div>
@@ -65,7 +61,14 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
               </p>
             </div>
           </div>
-        )}
+        )} */}
+        </div>
+        <div
+          className="bg-[url('../assets/ui/pop-label.svg')] bg-cover bg-center mt-4 w-full"
+          onClick={() => handleItemClick()}
+        >
+          <p className="font-[12px] text-center">Buy</p>
+        </div>
       </div>
 
       {isModalOpen && (

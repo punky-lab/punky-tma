@@ -18,8 +18,8 @@ export default function Achieve({ onClose }: { onClose: () => void }) {
   }, []);
 
   return (
-    <PopUp title="Achieve" onClose={onClose}>
-      <div className="w-full h-full relative">
+    <PopUp title="info" onClose={onClose}>
+      {/* <div className="w-full h-full relative">
         {dataLoading ? (
           <div className="absolute inset-0 flex items-center justify-center">
             <LoadingAnimation text="loading" />
@@ -36,7 +36,7 @@ export default function Achieve({ onClose }: { onClose: () => void }) {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
     </PopUp>
   );
 }
