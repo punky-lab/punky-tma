@@ -6,6 +6,7 @@ import Achieve from "@/components/MainUI/achieve";
 import User from "@/components/MainUI/User";
 import { UIState } from "@/lib/UI";
 import { ReactNode, useCallback, useState } from "react";
+import Wallet from "@/components/MainUI/Wallet";
 
 export default function Home() {
   const [currentUI, setCurrentUI] = useState<UIState>("main");
@@ -16,6 +17,7 @@ export default function Home() {
     ["store", <Store key="store" onClose={popUpClose} />],
     ["user", <User key="user" onClose={popUpClose} />],
     ["achieve", <Achieve key="achieve" onClose={popUpClose} />],
+    ["wallet", <Wallet key="wallet" onClose={popUpClose} />]
   ]);
 
   return (
