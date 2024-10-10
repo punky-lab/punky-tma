@@ -13,7 +13,7 @@ import React, {
 } from "react";
 import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
-import { getChatResponse } from "@/app/api/chat";
+import { getChatResponse, getResponse } from "@/app/api/chat";
 import ThinkingBubble from "@/components/thinkingBubble"; // 引入 ThinkingBubble
 import LoadingDots from "./loadingDots";
 
@@ -51,7 +51,7 @@ const Chat = forwardRef((props: Props, ref) => {
     setLoading(true); // 开始加载
     setIsTalking(true);
 
-    getChatResponse(content)
+    getResponse(content)
       .then((reply) => {
         setMessages((prevMessages) => {
           prevMessages[prevMessages.length - 1].role = "ai";
