@@ -6,7 +6,7 @@ import InfoIcon from "@/assets/icons/info.svg";
 import UserIcon from "@/assets/icons/user.svg";
 import FeedIcon from "@/assets/icons/feed.svg";
 import TreatIcon from "@/assets/icons/treat.svg";
-import ToyIcon from "@/assets/icons/Toy.svg";
+import ToyIcon from "@/assets/icons/toy.svg";
 import PlayIcon from "@/assets/icons/play.svg";
 import WalletIcon from "@/assets/icons/wallet.svg";
 import TOPlayIcon from "@/assets/icons/toPlay.svg";
