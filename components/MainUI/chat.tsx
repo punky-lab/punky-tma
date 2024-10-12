@@ -228,12 +228,12 @@ const Chat = forwardRef((props: Props, ref) => {
       )}
 
       <div className="w-full flex flex-row justify-between items-center">
-        <Image
+        {/* <Image
           src={isVoiceMode ? MicrophoneIcon : KeyboardIcon}
           alt="Toggle Input Mode"
           // onClick={toggleInputMode}
           className="mr-4 cursor-pointer z-50"
-        />
+        /> */}
         {isVoiceMode ? (
           <div className="relative w-full">
             <div className="flex justify-center items-center">
@@ -246,9 +246,8 @@ const Chat = forwardRef((props: Props, ref) => {
                 onTouchMove={handleTouchMove}
                 onMouseDown={startRecording}
                 onMouseUp={handleTouchEnd}
-                className={`p-4 rounded-full w-full ${
-                  isRecording ? "bg-red-500" : "bg-gray-300"
-                }`}
+                className={`p-4 rounded-full w-full ${isRecording ? "bg-red-500" : "bg-gray-300"
+                  }`}
               >
                 {isRecording ? "松开 结束" : "按住 说话"}
               </button>

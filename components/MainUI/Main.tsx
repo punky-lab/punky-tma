@@ -5,21 +5,30 @@ import CartIcon from "@/assets/icons/cart.svg";
 import InfoIcon from "@/assets/icons/info.svg";
 import UserIcon from "@/assets/icons/user.svg";
 import FeedIcon from "@/assets/icons/feed.svg";
+import TreatIcon from "@/assets/icons/treat.svg";
+import ToyIcon from "@/assets/icons/Toy.svg";
+import PlayIcon from "@/assets/icons/play.svg";
+import WalletIcon from "@/assets/icons/wallet.svg";
+import TOPlayIcon from "@/assets/icons/toPlay.svg";
+import Right1 from "@/assets/icons/right1.svg";
+import Right2 from "@/assets/icons/right2.svg";
+import HealthIcon from "@/assets/icons/health.svg";
+import LoyaltyIcon from "@/assets/icons/loyalty.svg";
+import FitnessIcon from "@/assets/icons/fitness.svg";
+import GameDataBackGround from "@/assets/icons/CTA.svg";
 import { UIState } from "@/lib/UI";
+
 import Chat from "./chat";
 import punkyFrames from "@/assets/animations/punky/idle"; // Default frames
 import punkySitFrames from "@/assets/animations/punky/sit.gif"; // Sit frames
 import punkyRollFrames from "@/assets/animations/punky/roll.gif"; // Roll frames
 import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
+
 import FrameAnimation from "../FrameAnimation";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import TOPlayIcon from "@/assets/icons/toPlay.svg";
-import Right1 from "@/assets/icons/right1.svg";
-import Right2 from "@/assets/icons/right2.svg";
-import PlayIcon from "@/assets/icons/play.svg";
+
 import { useRouter } from "next/navigation";
-import WalletIcon from "@/assets/icons/wallet.svg";
 
 export default function Main({
   switchTo,
@@ -77,8 +86,6 @@ export default function Main({
   return (
     <div className="flex flex-col w-full h-full px-2 py-4">
       <div className="flex flex-row w-full justify-between">
-        {/* <Account /> */}
-        {/* <AccountInfo address={walletAddress} /> */}
         <Image
           src={CartIcon}
           alt=""
@@ -98,7 +105,8 @@ export default function Main({
           onClick={() => switchTo("user")}
         />
       </div>
-      <div className="flex justify-between mt-8">
+      <div className="flex justify-between items-center mt-8">
+        {/* 左侧图标 */}
         <Image
           src={WalletIcon}
           width={40}
@@ -107,12 +115,55 @@ export default function Main({
           className="cursor-pointer"
           onClick={() => switchTo("wallet")}
         />
+
+        {/* 中间图标组 */}
+        <div className="relative flex justify-center items-center w-56 h-20
+        bg-[url('../assets/icons/CTA.svg')] bg-contain bg-center bg-no-repeat">
+          {/* <Image
+            src={GameDataBackGround}
+            alt="Background"
+            className="absolute top-0 left-0 w-full h-full object-fit"
+            style={{ transform: 'scale(1.2)', transformOrigin: 'center' }}
+          /> */}
+
+          {/* Image 组 */}
+          <div className="flex justify-center relative z-10 text-[8px]">
+            <div className="flex flex-col items-center">
+              <Image
+                src={HealthIcon}
+                alt="Health"
+                className="w-35 h-35 cursor-pointer mx-2" />
+              <div className="text-red-500">10</div>
+            </div>
+            <div className="flex flex-col items-center">
+              <Image
+                src={LoyaltyIcon}
+                alt="Loyalty"
+                className="w-35 h-35 cursor-pointer mx-2"
+              />
+              <span className="text-yellow-600">100</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <Image
+                src={FitnessIcon}
+                alt="Fitness"
+                className="w-35 h-35 cursor-pointer mx-2"
+              />
+              <span className="text-blue-500">50</span>
+            </div>
+          </div>
+        </div>
+
+
+
+        {/* 右侧图标 */}
         <Image
           src={TOPlayIcon}
           alt="Feed"
           className="w-35 h-35 cursor-pointer"
         />
       </div>
+
       <div className="grow flex justify-center relative">
         <div
           className={`flex flex-row absolute ${window.innerHeight >= 844 ? "top-[20%]" : "top-[12%]"} items-center`}
@@ -125,13 +176,13 @@ export default function Main({
               onClick={() => handleAction("feed")}
             />
             <Image
-              src={FeedIcon}
+              src={TreatIcon}
               alt="Treat"
               className="w-35 h-35 cursor-pointer mb-4"
               onClick={() => handleAction("treat")}
             />
             <Image
-              src={FeedIcon}
+              src={ToyIcon}
               alt="Toy"
               className="w-35 h-35 cursor-pointer"
               onClick={() => handleAction("play with toy")}
