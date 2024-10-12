@@ -1,0 +1,13 @@
+<svg width="172" height="40" viewBox="0 0 172 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 6V9H5V12H2V34H5V37H8V40H11V6H8Z" fill="#F4F4F7" fill-opacity="0.7"/>
+<path d="M8 6V9H5V12H2V15H5H8V12H11V9V6H8Z" fill="black" fill-opacity="0.7"/>
+<rect x="2" y="15" width="3" height="16" fill="black" fill-opacity="0.7"/>
+<path d="M8 40V37H5V34H2V31H5H8V34H11V37V40H8Z" fill="black" fill-opacity="0.7"/>
+<rect width="152" height="34" transform="translate(11 6)" fill="#F4F4F7" fill-opacity="0.7"/>
+<rect x="11" y="6" width="152" height="3" fill="black" fill-opacity="0.7"/>
+<rect x="11" y="37" width="152" height="3" fill="black" fill-opacity="0.7"/>
+<path d="M166 6V9H169V12H172V34H169V37H166V40H163V6H166Z" fill="#F4F4F7" fill-opacity="0.7"/>
+<path d="M166 6V9H169V12H172V15H169H166V12H163V9V6H166Z" fill="black" fill-opacity="0.7"/>
+<rect width="3" height="16" transform="matrix(-1 0 0 1 172 15)" fill="black" fill-opacity="0.7"/>
+<path d="M166 40V37H169V34H172V31H169H166V34H163V37V40H166Z" fill="black" fill-opacity="0.7"/>
+</svg>
