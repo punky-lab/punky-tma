@@ -64,7 +64,7 @@ export default function StoreItem({ image, name, owned }: StoreItemProps) {
         )} */}
         </div>
         <div
-          className="bg-[url('../assets/ui/pop-label.svg')] bg-cover bg-center mt-4 w-full"
+          className="bg-[url('../assets/ui/pop-label.svg')] bg-cover bg-center mt-2 w-full"
           onClick={() => handleItemClick()}
         >
           <p className="font-[12px] text-center">Buy</p>
