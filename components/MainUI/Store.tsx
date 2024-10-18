@@ -22,7 +22,27 @@ export default function Store({ onClose }: { onClose: () => void }) {
       {dataLoading ? (
         <LoadingAnimation text="loading" />
       ) : (
-        <div className="grid grid-cols-2 gap-x-2 gap-y-2 px-4 py-2">
+        <div className="grid grid-cols-2 gap-x-2 gap-y-2 px-4 py-2 max-h-96  overflow-y-auto">
+          {metadata.map((data, index) => (
+            <div className="flex justify-center" key={index}>
+              <StoreItem
+                key={index}
+                image={data.image}
+                name={data.name}
+                owned={false}
+              />
+            </div>
+          ))}
+          {metadata.map((data, index) => (
+            <div className="flex justify-center" key={index}>
+              <StoreItem
+                key={index}
+                image={data.image}
+                name={data.name}
+                owned={false}
+              />
+            </div>
+          ))}
           {metadata.map((data, index) => (
             <div className="flex justify-center" key={index}>
               <StoreItem

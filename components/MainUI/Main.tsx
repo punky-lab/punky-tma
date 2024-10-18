@@ -15,7 +15,6 @@ import Right2 from "@/assets/icons/right2.svg";
 import HealthIcon from "@/assets/icons/health.svg";
 import LoyaltyIcon from "@/assets/icons/loyalty.svg";
 import FitnessIcon from "@/assets/icons/fitness.svg";
-import GameDataBackGround from "@/assets/icons/CTA.svg";
 import { UIState } from "@/lib/UI";
 
 import Chat from "./chat";
@@ -119,12 +118,6 @@ export default function Main({
         {/* 中间图标组 */}
         <div className="relative flex justify-center items-center w-56 h-20
         bg-[url('../assets/icons/CTA.svg')] bg-contain bg-center bg-no-repeat">
-          {/* <Image
-            src={GameDataBackGround}
-            alt="Background"
-            className="absolute top-0 left-0 w-full h-full object-fit"
-            style={{ transform: 'scale(1.2)', transformOrigin: 'center' }}
-          /> */}
 
           {/* Image 组 */}
           <div className="flex justify-center relative z-10 text-[8px]">
