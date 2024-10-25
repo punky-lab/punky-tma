@@ -1,6 +1,7 @@
 import PopUp from "./PopUp";
 import Image from "next/image"; // 导入 Image 组件
 import DEFAULT_AVATAR from "@/assets/ui/avatar.jpg";
+import AvatarBackground from "@/assets/ui/avatar.svg"
 
 const DEFAULT_NAME = "xiang nuan"; // 默认用户名
 const DEFAULE_ISONLINE = "online";
@@ -26,21 +27,24 @@ export default function User({
   bio = DEFAULT_BIO,
 }: UserProps) {
   return (
-    <PopUp title="Account" onClose={onClose}>
+    <PopUp title="Profile" onClose={onClose}>
       <div className="w-full rounded-lg">
-        <div className="flex items-center mb-6 px-4">
-          <Image
+        <div className="flex flex-row justify-center items-center">
+          <Image src={AvatarBackground} alt="avatar"></Image>
+        </div>
+        {/* <div className="flex items-center mb-6 px-4"> */}
+        {/* <Image
             src={userAvatar}
             alt={`${userName}'s avatar`}
             className="w-16 h-16 rounded-full border-2 border-white mr-4"
             width={64}
             height={64}
-          />
-          <div className="px-4">
+          /> */}
+        {/* <div className="px-4">
             <p className="text-xs text-white">{userName}</p>
             <p className="text-green-300 font-medium text-sm">{isOnline}</p>
           </div>
-        </div>
+        </div> */}
         <div className="text-xs leading-relaxed text-white px-4">
           <p className="font-semibold text-sm">Contact:</p>
           <p className="text-gray-200">{contact}</p>
@@ -48,6 +52,6 @@ export default function User({
           <p className="text-gray-200">{bio}</p>
         </div>
       </div>
-    </PopUp>
+    </PopUp >
   );
 }
