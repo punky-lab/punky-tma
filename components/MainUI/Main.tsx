@@ -104,7 +104,7 @@ export default function Main({
           onClick={() => switchTo("user")}
         />
       </div>
-      <div className="flex justify-between items-center mt-8">
+      <div className="flex justify-between items-center">
         {/* 左侧图标 */}
         <Image
           src={WalletIcon}
