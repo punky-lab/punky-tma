@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   const promptText = getPrompt(message);
 
   const {text} = await generateText({
-    model: openai("google/gemini-flash-1.5-exp"),
+    model: openai("google/gemini-pro-1.5-exp"),
     prompt: promptText,
   });
 
