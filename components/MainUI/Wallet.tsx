@@ -14,23 +14,25 @@ interface WalletProps {
 export default function Wallet({
     onClose,
 }: WalletProps) {
-    const { solana } = new WalletTgSdk({
-        injected: true,
-        metaData: {
-            hostname: 'your-app.com',
-            name: 'Your DApp Name',
-            icon: 'https://example.com/icon.png',
-        },
-    });
+    let SDk: WalletTgSdk | undefined;
+    if (typeof window !== 'undefined') {
+        const { WalletTgSdk } = require('@uxuycom/web3-tg-sdk');
+        SDk = new WalletTgSdk();
+    }
+
+    const getSolana = () => {
+        return SDk?.solana;
+    }
 
     const [address, setAddress] = useState<Account | undefined>(undefined);
 
-    const solanaProvider = solana
+    const solanaProvider = getSolana()
 
     // 处理钱包连接
     const handleConnect = async () => {
-        await solanaProvider.connect({}, false);
-        const walletAddress = solanaProvider.publicKey?.toString();
+        const res = await solanaProvider?.connect({}, false);
+        console.log(res)
+        const walletAddress = solanaProvider?.publicKey?.toString();
         setAddress({ "address": walletAddress }); // 设置钱包地址
     };
 
@@ -53,7 +55,7 @@ export default function Wallet({
                         onConnectClick={handleConnect}
                         onDisconnectClick={() => {
                             setAddress(undefined);
-                            solanaProvider.disconnect()
+                            solanaProvider?.disconnect()
                         }}
                     />
                 </ConfigProvider>
