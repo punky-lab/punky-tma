@@ -7,13 +7,14 @@ import User from "@/components/MainUI/User";
 import { UIState } from "@/lib/UI";
 import { ReactNode, useCallback, useState } from "react";
 import Wallet from "@/components/MainUI/Wallet";
+import Init from "@/components/MainUI/Main2";
 
 export default function Home() {
   const [currentUI, setCurrentUI] = useState<UIState>("main");
   const popUpClose = useCallback(() => setCurrentUI("main"), []);
 
   const UIShowing = new Map<UIState, ReactNode>([
-    ["main", <Main key="main" switchTo={(target) => setCurrentUI(target)} />],
+    ["main", <Init key="main" switchTo={(target) => setCurrentUI(target)} />],
     ["store", <Store key="store" onClose={popUpClose} />],
     ["user", <User key="user" onClose={popUpClose} />],
     ["achieve", <Achieve key="achieve" onClose={popUpClose} />],
