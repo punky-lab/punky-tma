@@ -1,5 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Window, WindowHeader, WindowContent, Tabs, Tab, TabBody } from "react95";
+import Quests from "./components/Quests";
+import Ranking from "./components/Ranking";
+import Invite from "./components/Invite";
 
 export default function InfoPage() {
-  return <div>InfoPage</div>;
+    const [currentTab, setCurrentTab] = useState<string>("quest");
+    const renderTab = () => {
+        switch (currentTab) {
+            case "quest": return <Quests />;
+            case "ranking": return <Ranking />;
+            case "invite": return <Invite />;
+            default: return <Quests />;
+        }
+    }
+  return (
+    <Window>
+        <WindowHeader>Info</WindowHeader>
+        <WindowContent>
+            <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
+                <Tab value="quest">Quest</Tab>
+                <Tab value="ranking">Ranking</Tab>
+                <Tab value="invite">Invite</Tab>
+            </Tabs>
+            <TabBody>
+                {renderTab()}
+            </TabBody>
+        </WindowContent>
+    </Window>
+  )
 }
