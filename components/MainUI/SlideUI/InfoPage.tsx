@@ -4,6 +4,7 @@ import { Window, WindowHeader, WindowContent, Tabs, Tab, TabBody } from "react95
 import Quests from "./components/Quests";
 import Ranking from "./components/Ranking";
 import Invite from "./components/Invite";
+import { Page, WindowWrapper } from "./styles";
 
 export default function InfoPage() {
     const [currentTab, setCurrentTab] = useState<string>("quest");
@@ -16,9 +17,8 @@ export default function InfoPage() {
         }
     }
   return (
-    <Window>
-        <WindowHeader>Info</WindowHeader>
-        <WindowContent>
+    <Page>
+        <WindowWrapper>
             <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
                 <Tab value="quest">Quest</Tab>
                 <Tab value="ranking">Ranking</Tab>
@@ -27,7 +27,7 @@ export default function InfoPage() {
             <TabBody>
                 {renderTab()}
             </TabBody>
-        </WindowContent>
-    </Window>
+        </WindowWrapper>
+    </Page>
   )
 }

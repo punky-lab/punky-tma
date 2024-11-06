@@ -16,7 +16,7 @@ export default function NavBar() {
 
     const renderPage = () => {
         switch (currentPage) {
-            case "chat": return <div>Chat</div>//<ChatPage />;
+            case "chat": return <ChatPage/>;
             case "shop": return <ShopPage/>;
             case "info": return <InfoPage/>;
             case "user": return <UserPage/>;
