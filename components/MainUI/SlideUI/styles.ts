@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { Window } from "react95";
 
+
 // 基础混入样式
 const baseStyles = css`
   image-rendering: pixelated;
@@ -14,17 +15,18 @@ const baseShadow = css`
 // 基础容器
 const BaseContainer = styled.div`
   ${baseStyles}
-  padding: 16px;
+  padding: 4px;
 `;
 
 // 页面容器
 export const Page = styled(BaseContainer)<{ $navHeight: number }>`
   width: 100%;
   height: ${props => `calc(100vh - ${props.$navHeight}px)`};
-  background-color: #625669;
+  background-color: rgba(98, 86, 105, 0.65);
   backdrop-filter: blur(4px);
   overflow-y: auto;
   transition: top 0.3s steps(5);
+  padding: 0;
 `;
 
 // Window 包装器
@@ -32,6 +34,11 @@ export const WindowWrapper = styled(Window)`
   width: 100%;
   height: 100%;
   ${baseStyles}
+    // 直接覆盖 Window 组件的边框样式
+  &.w-window {
+    --border-color: #45A0CA;
+    border-color: #45A0CA;
+  }
 `;
 
 // 内容布局组件
@@ -46,7 +53,7 @@ export const FlexBox = styled(BaseContainer)<{ direction?: 'row' | 'column' }>`
 export const Grid = styled(BaseContainer)`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  gap: 8px;
 `;
 
 // 卡片基础组件
@@ -64,7 +71,6 @@ export const Card = styled(BaseContainer)`
 // 滚动容器
 export const ScrollContainer = styled(BaseContainer)`
   overflow-y: auto;
-  height: calc(100% - 80px);
   padding: 0;
   
   // 隐藏滚动条但保持滚动功能
