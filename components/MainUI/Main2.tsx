@@ -3,6 +3,7 @@ import Image from "next/image";
 import PetInfo from "./PetInfo/PetInfo";
 import Action from "./Action/Action";
 import NavBar from "./Navigator/NavBar";
+import Dog from "./Dog/Dog";
 import ChatPage from "./SlideUI/ChatPage";
 import ShopPage from "./SlideUI/ShopPage";
 import InfoPage from "./SlideUI/InfoPage";
@@ -29,6 +30,7 @@ export default function Init({
     return (
         <div className="flex flex-col w-full h-full relative">
             <PetInfo />
+            <Dog />
             <Action />
             <NavBar onPageChange={setCurrentPage} />
             {renderPage()}
