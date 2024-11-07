@@ -11,29 +11,34 @@ import UserPage from "./SlideUI/UserPage";
 import { useState } from "react";
 
 export default function Init({
-    switchTo,
+  switchTo,
 }: {
-    switchTo: (target: UIState) => void;
+  switchTo: (target: UIState) => void;
 }) {
-    const [currentPage, setCurrentPage] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<string | null>(null);
 
-    const renderPage = () => {
-        switch (currentPage) {
-            case "chat": return <ChatPage/>;
-            case "shop": return <ShopPage/>;
-            case "info": return <InfoPage/>;
-            case "user": return <UserPage/>;
-            default: return null;
-        }
+  const renderPage = () => {
+    switch (currentPage) {
+      case "chat":
+        return <ChatPage />;
+      case "shop":
+        return <ShopPage />;
+      case "info":
+        return <InfoPage />;
+      case "user":
+        return <UserPage />;
+      default:
+        return null;
     }
+  };
 
-    return (
-        <div className="flex flex-col w-full h-full relative">
-            <PetInfo />
-            <Dog />
-            <Action />
-            <NavBar onPageChange={setCurrentPage} />
-            {renderPage()}
-        </div>
-    )
+  return (
+    <div className="flex flex-col w-full h-full relative">
+      <PetInfo />
+      <Dog onClick={() => setCurrentPage(null)} />
+      <Action />
+      <NavBar onPageChange={setCurrentPage} />
+      {renderPage()}
+    </div>
+  );
 }
