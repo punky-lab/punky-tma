@@ -1,12 +1,21 @@
-import { WindowHeader, WindowContent } from "react95";
 import { Card, FlexBox } from "../styles";
 import styled from "styled-components";
 
 const RankItem = styled(Card)<{ $top3: boolean }>`
   display: flex;
   align-items: center;
-  padding: 8px;
-  background: ${props => props.$top3 ? '#c3c7cb' : 'transparent'};
+  padding: 12px;
+  background: ${props => props.$top3 ? '#c3c7cb' : 'white'};
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const PlayerInfo = styled.div`
+  flex: 1;
+  margin: 0 12px;
 `;
 
 export default function Ranking() {
@@ -20,11 +29,11 @@ export default function Ranking() {
     <FlexBox direction="column">
       {players.map(player => (
         <RankItem key={player.rank} $top3={player.rank <= 3}>
-          <span>{player.avatar}</span>
-          <div style={{ flex: 1 }}>
-            <div>{player.name}</div>
-            <div>Score: {player.score}</div>
-          </div>
+          <span style={{ fontSize: '24px' }}>{player.avatar}</span>
+          <PlayerInfo>
+            <div style={{ fontWeight: 'bold' }}>{player.name}</div>
+            <div style={{ color: '#424242' }}>Score: {player.score}</div>
+          </PlayerInfo>
           <div>#{player.rank}</div>
         </RankItem>
       ))}

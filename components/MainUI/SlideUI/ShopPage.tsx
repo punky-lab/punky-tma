@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { WindowHeader, WindowContent, Tabs, Tab } from "react95";
 import ShopGrid from "./components/ShopGrid";
 import { Page, WindowWrapper } from "./styles";
+import { useNavHeight } from "@/components/Root/navHeightContext";
 
 // 保持原有的 interface 和模拟数据
 interface ShopItem {
@@ -21,12 +22,12 @@ const TRAITS_DATA: ShopItem[] = [
 ];
 
 export default function ShopPageComponent() {
+  const { navHeight } = useNavHeight();
   const [currentTab, setCurrentTab] = useState<string>("items");
   
   return (
-    <Page>
+    <Page $navHeight={navHeight}>
       <WindowWrapper>
-        <WindowHeader>Shop</WindowHeader>
         <WindowContent>
           <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
             <Tab value="items">Items</Tab>
