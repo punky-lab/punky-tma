@@ -1,17 +1,6 @@
 import { Card, FlexBox } from "../styles";
 import styled from "styled-components";
 
-const RankItem = styled(Card)<{ $top3: boolean }>`
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  background: ${props => props.$top3 ? '#c3c7cb' : 'white'};
-  margin-bottom: 8px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
 
 const PlayerInfo = styled.div`
   flex: 1;
@@ -28,14 +17,14 @@ export default function Ranking() {
   return (
     <FlexBox direction="column">
       {players.map(player => (
-        <RankItem key={player.rank} $top3={player.rank <= 3}>
+        <Card key={player.rank}>
           <span style={{ fontSize: '24px' }}>{player.avatar}</span>
           <PlayerInfo>
             <div style={{ fontWeight: 'bold' }}>{player.name}</div>
             <div style={{ color: '#424242' }}>Score: {player.score}</div>
           </PlayerInfo>
           <div>#{player.rank}</div>
-        </RankItem>
+        </Card>
       ))}
     </FlexBox>
   );

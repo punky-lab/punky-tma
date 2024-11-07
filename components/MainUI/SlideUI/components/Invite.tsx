@@ -1,11 +1,11 @@
 import React from "react";
 import { TextInput, Button, ProgressBar } from "react95";
-import { Card, FlexBox, ContentWrapper } from "../styles";
+import { Card, FlexBox } from "../styles";
 
 export default function Invite() {
     return (
-        <ContentWrapper>
-            <Card>
+        <FlexBox direction="column" style={{ alignItems: 'stretch', padding: 0 }}>
+            <Card style={{ marginBottom: '16px' }}>
                 <p style={{ margin: '0 0 12px 0' }}>Invite Code: ABC123XYZ</p>
                 <FlexBox>
                     <TextInput
@@ -18,8 +18,8 @@ export default function Invite() {
             </Card>
 
             <Card>
-                <FlexBox direction="column" style={{ gap: '12px' }}>
-                    <FlexBox style={{ justifyContent: 'space-between', width: '100%' }}>
+                <FlexBox direction="column" style={{ gap: '12px', alignItems: 'stretch' }}>
+                    <FlexBox style={{ justifyContent: 'space-between' }}>
                         <span>Invited: 3</span>
                         <span>Target: 5</span>
                     </FlexBox>
@@ -29,6 +29,6 @@ export default function Invite() {
                     </Button>
                 </FlexBox>
             </Card>
-        </ContentWrapper>
+        </FlexBox>
     )
 }

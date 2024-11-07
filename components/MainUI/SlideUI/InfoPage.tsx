@@ -1,37 +1,43 @@
 import React, { useState } from "react";
-import { Tabs, Tab, TabBody, WindowContent } from "react95";
+import { Tabs, Tab, WindowContent } from "react95";
+import { 
+  Page, 
+  WindowWrapper, 
+  TabsContainer,
+  ScrollContainer
+} from "./styles";
+import { useNavHeight } from "@/components/Root/navHeightContext";
 import Quests from "./components/Quests";
 import Ranking from "./components/Ranking";
 import Invite from "./components/Invite";
-import { Page, WindowWrapper, ContentWrapper } from "./styles";
-import { useNavHeight } from "@/components/Root/navHeightContext";
 
 export default function InfoPage() {
-    const { navHeight } = useNavHeight();
-    const [currentTab, setCurrentTab] = useState<string>("quest");
-    const renderTab = () => {
-        switch (currentTab) {
-            case "quest": return <Quests />;
-            case "ranking": return <Ranking />;
-            case "invite": return <Invite />;
-            default: return <Quests />;
-        }
-    }
-    
-    return (
-        <Page $navHeight={navHeight}>
-            <WindowWrapper>
-                <WindowContent>
-                    <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
-                        <Tab value="quest">Quest</Tab>
-                        <Tab value="ranking">Ranking</Tab>
-                        <Tab value="invite">Invite</Tab>
-                    </Tabs>
-                    <ContentWrapper>
-                        {renderTab()}
-                    </ContentWrapper>
-                </WindowContent>
-            </WindowWrapper>
-        </Page>
-    )
+  const { navHeight } = useNavHeight();
+  const [currentTab, setCurrentTab] = useState<string>("quest");
+  
+  return (
+    <Page $navHeight={navHeight}>
+      <WindowWrapper>
+        <WindowContent style={{ 
+          height: 'calc(100% - 33px)', 
+          padding: '8px',
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <TabsContainer>
+            <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
+              <Tab value="quest">Quest</Tab>
+              <Tab value="ranking">Ranking</Tab>
+              <Tab value="invite">Invite</Tab>
+            </Tabs>
+          </TabsContainer>
+          <ScrollContainer>
+            {currentTab === "quest" && <Quests />}
+            {currentTab === "ranking" && <Ranking />}
+            {currentTab === "invite" && <Invite />}
+          </ScrollContainer>
+        </WindowContent>
+      </WindowWrapper>
+    </Page>
+  );
 }

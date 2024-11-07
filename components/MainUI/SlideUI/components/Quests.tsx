@@ -1,14 +1,6 @@
 import React from "react";
-import { Button, GroupBox, ProgressBar } from "react95";
-import { Card, FlexBox, ContentWrapper } from "../styles";
-import styled from "styled-components";
-
-const QuestCard = styled(Card)`
-  margin-bottom: 16px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
+import { Button, ProgressBar } from "react95";
+import { Card, FlexBox } from "../styles";
 
 const QuestContent = ({ label, description, progress, total, reward }: { 
   label: string, 
@@ -17,24 +9,24 @@ const QuestContent = ({ label, description, progress, total, reward }: {
   total: number, 
   reward: string 
 }) => (
-  <QuestCard>
-    <FlexBox direction="column" style={{ gap: '12px' }}>
+  <Card style={{ marginBottom: '16px' }}>
+    <FlexBox direction="column" style={{ gap: '12px', alignItems: 'stretch' }}>
       <h4 style={{ margin: 0 }}>{label}</h4>
       <p style={{ margin: 0, color: '#424242' }}>{description}</p>
       <ProgressBar value={(progress / total) * 100} variant="tile" />
-      <FlexBox style={{ justifyContent: 'space-between', width: '100%' }}>
+      <FlexBox style={{ justifyContent: 'space-between' }}>
         <span>Progress: {progress}/{total}</span>
         <Button disabled={progress < total}>
           Claim {reward}
         </Button>
       </FlexBox>
     </FlexBox>
-  </QuestCard>
+  </Card>
 );
 
 export default function Quests() {
   return (
-    <ContentWrapper>
+    <FlexBox direction="column" style={{ alignItems: 'stretch', padding: 0 }}>
       <QuestContent
         label="Daily Challenge"
         description="Complete 3 battles today"
@@ -49,6 +41,6 @@ export default function Quests() {
         total={10}
         reward="Rare Item Box"
       />
-    </ContentWrapper>
+    </FlexBox>
   );
 }

@@ -1,23 +1,8 @@
 import React from "react";
-import { WindowHeader, WindowContent, Button } from "react95";
+import { WindowContent, Button } from "react95";
 import Image from 'next/image';
-import { Page, WindowWrapper, Card, Grid, FlexBox } from "./styles";
-import styled from "styled-components";
+import { Page, WindowWrapper, Card, Grid, FlexBox, Avatar, StatCard } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
-
-const Avatar = styled.div`
-  width: 80px;
-  height: 80px;
-  border: 2px solid #424242;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-`;
-
-const StatCard = styled(Card)`
-  text-align: center;
-  padding: 12px;
-`;
 
 export default function UserPage() {
   const { navHeight } = useNavHeight();

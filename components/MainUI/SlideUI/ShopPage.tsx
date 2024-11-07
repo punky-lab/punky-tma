@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import { WindowHeader, WindowContent, Tabs, Tab } from "react95";
+import { WindowContent, Tabs, Tab } from "react95";
 import ShopGrid from "./components/ShopGrid";
-import { Page, WindowWrapper } from "./styles";
+import { 
+  Page, 
+  WindowWrapper,
+  TabsContainer,
+  ScrollContainer
+} from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
 
-// 保持原有的 interface 和模拟数据
 interface ShopItem {
   id: string;
   name: string;
@@ -28,12 +32,21 @@ export default function ShopPageComponent() {
   return (
     <Page $navHeight={navHeight}>
       <WindowWrapper>
-        <WindowContent>
-          <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
-            <Tab value="items">Items</Tab>
-            <Tab value="traits">Traits</Tab>
-          </Tabs>
-          <ShopGrid items={currentTab === "items" ? ITEMS_DATA : TRAITS_DATA} />
+        <WindowContent style={{ 
+          height: 'calc(100% - 33px)', 
+          padding: '8px',
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <TabsContainer>
+            <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
+              <Tab value="items">Items</Tab>
+              <Tab value="traits">Traits</Tab>
+            </Tabs>
+          </TabsContainer>
+          <ScrollContainer>
+            <ShopGrid items={currentTab === "items" ? ITEMS_DATA : TRAITS_DATA} />
+          </ScrollContainer>
         </WindowContent>
       </WindowWrapper>
     </Page>
