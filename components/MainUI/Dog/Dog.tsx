@@ -38,8 +38,9 @@ export default function Dog({ onClick }: { onClick?: () => void }) {
     }
   };
   return (
-    <div className="grow flex justify-center relative mt-[20%]" onClick={onClick}>
+    <div className="grow flex flex-col items-center" onClick={onClick}>
       <div
+        className="fixed top-[29%]"
         onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
           handleTouchStart(e)
         }

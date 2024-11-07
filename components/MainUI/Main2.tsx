@@ -1,5 +1,4 @@
 import { UIState } from "@/lib/UI";
-import Image from "next/image";
 import PetInfo from "./PetInfo/PetInfo";
 import Action from "./Action/Action";
 import NavBar from "./Navigator/NavBar";
@@ -16,6 +15,11 @@ export default function Init({
   switchTo: (target: UIState) => void;
 }) {
   const [currentPage, setCurrentPage] = useState<string | null>(null);
+  const [isActionOpen, setIsActionOpen] = useState(false);
+
+  const toggleAction = () => {
+    setIsActionOpen(!isActionOpen);
+  };
 
   const renderPage = () => {
     switch (currentPage) {
@@ -36,9 +40,9 @@ export default function Init({
     <div className="flex flex-col w-full h-full relative">
       <PetInfo />
       <Dog onClick={() => setCurrentPage(null)} />
-      <Action />
-      <NavBar onPageChange={setCurrentPage} />
-      {renderPage()}
+      {isActionOpen && <Action />}
+      <NavBar onPageChange={setCurrentPage} toggleAction={toggleAction} />
+      <div className="max-h-[32%] overflow-hidden">{renderPage()}</div>
     </div>
   );
 }
