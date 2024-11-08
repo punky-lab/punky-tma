@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { WindowContent, TextInput, Button } from "react95";
-import { 
-  Page, 
-  WindowWrapper, 
-  FlexBox, 
-  ChatContainer, 
-  MessageBubble 
+import {
+  Page,
+  WindowWrapper,
+  FlexBox,
+  ChatContainer,
+  MessageBubble,
 } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
 
@@ -13,7 +13,7 @@ export default function ChatPage() {
   const { navHeight } = useNavHeight();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
-    { text: "Hi!", isMe: true },
+    { text: "🐶🐶🥰Hi!", isMe: false },
   ]);
 
   const handleSend = () => {
@@ -26,33 +26,64 @@ export default function ChatPage() {
   return (
     <Page $navHeight={navHeight}>
       <WindowWrapper>
-        <WindowContent style={{ 
-          height: '33%', 
-          display: 'flex', 
-          flexDirection: 'column',
-          padding: 0,
-        }}>
-          <div className="grow flex flex-col gap-2 overflow-y-scroll">
-            {messages.map((msg, index) => (
-              <div key={index} className="nes-balloon from-right text-black">
-                <p>{msg.text}</p>
-              </div>
-            ))}
+        <WindowContent
+          style={{
+            height: "33%",
+            display: "flex",
+            flexDirection: "column",
+            padding: 0,
+          }}
+        >
+          <div
+            className="grow flex flex-col gap-3 overflow-y-scroll text-black text-lg px-4"
+            ref={(el) => {
+              if (el) {
+                el.scrollTop = el.scrollHeight;
+              }
+            }}
+          >
+            {messages.map((msg, index) =>
+              msg.isMe ? (
+                <div
+                  key={index}
+                  className="nes-container is-rounded with-title bg-white"
+                >
+                  <p className="title">Me</p>
+                  <p>{msg.text}</p>
+                </div>
+              ) : (
+                <div
+                  key={index}
+                  className="nes-container is-rounded with-title bg-white"
+                >
+                  <p className="title">Punky</p>
+                  <p>{msg.text}</p>
+                </div>
+              )
+            )}
           </div>
-          
-          <FlexBox style={{ 
-            padding: '16px',
-            borderTop: '2px solid #424242',
-            marginTop: 'auto'
-          }}>
-            <TextInput
+
+          <FlexBox
+            style={{
+              padding: "8px",
+              borderTop: "2px solid #424242",
+              marginTop: "auto",
+            }}
+          >
+            <input
+              type="text"
+              className="nes-input grow text-black"
               value={message}
+              placeholder="Chat..."
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type a message..."
-              style={{ flex: 1 }}
-              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             />
-            <Button onClick={handleSend}>Send</Button>
+            <button
+              type="button"
+              className="nes-btn is-success"
+              onClick={handleSend}
+            >
+              Send
+            </button>
           </FlexBox>
         </WindowContent>
       </WindowWrapper>
