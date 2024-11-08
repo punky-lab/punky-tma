@@ -13,7 +13,6 @@ export default function ChatPage() {
   const { navHeight } = useNavHeight();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
-    { text: "Hello!", isMe: false },
     { text: "Hi!", isMe: true },
   ]);
 
@@ -28,19 +27,18 @@ export default function ChatPage() {
     <Page $navHeight={navHeight}>
       <WindowWrapper>
         <WindowContent style={{ 
-          height: 'calc(100% - 33px)', 
+          height: '33%', 
           display: 'flex', 
           flexDirection: 'column',
           padding: 0,
-          overflow: 'hidden'
         }}>
-          <ChatContainer>
+          <div className="grow flex flex-col gap-2 overflow-y-scroll">
             {messages.map((msg, index) => (
-              <MessageBubble key={index} $isMe={msg.isMe}>
-                {msg.text}
-              </MessageBubble>
+              <div key={index} className="nes-balloon from-right text-black">
+                <p>{msg.text}</p>
+              </div>
             ))}
-          </ChatContainer>
+          </div>
           
           <FlexBox style={{ 
             padding: '16px',
