@@ -23,6 +23,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
           name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
+        <link
+          href="https://unpkg.com/nes.css@latest/css/nes.min.css"
+          rel="stylesheet"
+        />
       </head>
       <body className={pressStart2P.className}>
         <Root>{children}</Root>
