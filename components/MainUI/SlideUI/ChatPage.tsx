@@ -30,11 +30,11 @@ export default function ChatPage() {
           style={{
             height: "33%",
             display: "flex",
-            flexDirection: "column", 
+            flexDirection: "column",
             padding: 0,
           }}
         >
-          <div 
+          <div
             className="grow flex flex-col gap-3 overflow-y-scroll text-black text-lg px-4"
             ref={(el) => {
               if (el) {
