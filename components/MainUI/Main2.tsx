@@ -7,8 +7,9 @@ import ChatPage from "./SlideUI/ChatPage";
 import ShopPage from "./SlideUI/ShopPage";
 import InfoPage from "./SlideUI/InfoPage";
 import UserPage from "./SlideUI/UserPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { animated, useSpring } from "@react-spring/web";
+import { authApis } from "@/app/normalApi";
 
 export type PageState = "chat" | "shop" | "info" | "user";
 
@@ -25,6 +26,12 @@ export default function Init({
       maxHeight: 0,
     },
   }));
+
+  const [userInfo, setUserInfo] = useState<any>(null); // 用户信息
+  const [gameAccount, setGameAccount] = useState<any>(null); // 游戏账户信息
+  const [loading, setLoading] = useState(false); // 对话加载状态
+
+
 
   const toggleAction = () => {
     setIsActionOpen(!isActionOpen);
@@ -63,16 +70,56 @@ export default function Init({
     setCurrentPage(page);
   };
 
+  const autoLogin = async () => {
+    try {
+      const response = await authApis.login({
+        username: "wsnm@website.me",
+        password: "password"
+      });
+      const { access_token, refresh_token } = response.data.data;
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('refresh_token', refresh_token);
+    } catch (error) {
+      console.error('自动登录失败:', error);
+    }
+  };
+
+  const fetchUserData = async () => {
+    try {
+      const [userResponse, gameResponse] = await Promise.all([
+        authApis.getUserInfo(),
+        authApis.getGameAccount(),
+      ]);
+
+      if (userResponse.data.success) {
+        setUserInfo(userResponse.data.data);
+      }
+      if (gameResponse.data.success) {
+        setGameAccount(gameResponse.data.data);
+      }
+    } catch (error) {
+      console.error("获取数据失败:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await autoLogin();
+      await fetchUserData();
+    }
+    fetchData();
+  }, []);
+
   const renderPage = () => {
     switch (currentPage) {
       case "chat":
-        return <ChatPage />;
+        return <ChatPage loading={loading} setLoading={setLoading} />;
       case "shop":
         return <ShopPage />;
       case "info":
         return <InfoPage />;
       case "user":
-        return <UserPage />;
+        return <UserPage userInfo={userInfo} gameAccount={gameAccount} />;
       default:
         return null;
     }
@@ -97,8 +144,8 @@ export default function Init({
 
   return (
     <div className="flex flex-col w-full h-full relative">
-      <PetInfo />
-      <Dog onClick={closeSlide} />
+      <PetInfo gameAccount={gameAccount} />
+      <Dog onClick={closeSlide} loading={loading} />
       {renderAction()}
       <NavBar
         onPageChange={changePage}

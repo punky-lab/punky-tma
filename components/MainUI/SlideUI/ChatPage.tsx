@@ -1,25 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { WindowContent, TextInput, Button } from "react95";
 import {
   Page,
   WindowWrapper,
   FlexBox,
-  ChatContainer,
-  MessageBubble,
 } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
+import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
+import { authApis } from "@/app/normalApi";
+import LoadingDots from "../LoadingDot";
 
-export default function ChatPage() {
+export default function ChatPage({ loading, setLoading }: { loading: boolean, setLoading: (loading: boolean) => void }) {
   const { navHeight } = useNavHeight();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
-    { text: "🐶🐶🥰Hi!", isMe: false },
+    { text: "🐶 🐶 🥰 Hi!", isMe: false },
   ]);
 
-  const handleSend = () => {
+  useEffect(() => {
+    const savedMessages = localStorage.getItem('chatMessages');
+    if (savedMessages) {
+      setMessages(JSON.parse(savedMessages));
+    }
+  }, []);
+
+  const handleSend = async () => {
     if (message.trim()) {
-      setMessages([...messages, { text: message, isMe: true }]);
+      const newMessages = [...messages, { text: message, isMe: true }];
+      setMessages(newMessages);
+      localStorage.setItem('chatMessages', JSON.stringify(newMessages));
       setMessage("");
+
+      try {
+        setLoading(true);
+        const response = await authApis.getReply(message);
+        let replyEmojis = response.data.data.emojis;
+
+        if (!replyEmojis) {
+          const keywords = extractKeywords(message);
+          const localEmojis = await findRelatedEmojis(keywords);
+          replyEmojis = localEmojis.join(' ');
+        }
+
+        const updatedMessages = [...newMessages, { text: replyEmojis, isMe: false }];
+        setLoading(false);
+        setMessages(updatedMessages);
+        localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+      } catch (error) {
+        console.error('发送消息失败:', error);
+        const keywords = extractKeywords(message);
+        const localEmojis = await findRelatedEmojis(keywords);
+        const replyEmojis = localEmojis.join(' ');
+
+        const updatedMessages = [...newMessages, { text: replyEmojis, isMe: false }];
+        setMessages(updatedMessages);
+        localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+      }
     }
   };
 
@@ -63,6 +99,7 @@ export default function ChatPage() {
                 </div>
               )
             )}
+            {loading && <LoadingDots />}
           </div>
 
           <FlexBox

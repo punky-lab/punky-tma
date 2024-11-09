@@ -14,24 +14,6 @@ export default function Home() {
   const [currentUI, setCurrentUI] = useState<UIState>("main");
   const popUpClose = useCallback(() => setCurrentUI("main"), []);
 
-  useEffect(() => {
-    const autoLogin = async () => {
-      try {
-        const response = await authApis.login({
-          username: "wsnm@website.me",
-          password: "password"
-        });
-        const { access_token, refresh_token } = response.data.data;
-        localStorage.setItem('token', access_token);
-        localStorage.setItem('refresh_token', refresh_token);
-      } catch (error) {
-        console.error('自动登录失败:', error);
-      }
-    };
-
-    autoLogin();
-  }, []);
-
   const UIShowing = new Map<UIState, ReactNode>([
     ["main", <Init key="main" switchTo={(target) => setCurrentUI(target)} />],
     ["store", <Store key="store" onClose={popUpClose} />],

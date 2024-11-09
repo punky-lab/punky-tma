@@ -4,8 +4,9 @@ import punkyRollFrames from "@/assets/animations/punky/roll.gif"; // Roll frames
 import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
 import FrameAnimation from "@/components/FrameAnimation";
 import { useState } from "react";
+import LoadingDots from "../loadingDots";
 
-export default function Dog({ onClick }: { onClick?: () => void }) {
+export default function Dog({ onClick, loading }: { onClick?: () => void, loading: boolean }) {
   const [isTalking, setIsTalking] = useState(false);
   const [currentFrames, setCurrentFrames] = useState<any[]>(punkyFrames); // Default frames
   const [isSitting, setIsSitting] = useState(false);
@@ -46,6 +47,7 @@ export default function Dog({ onClick }: { onClick?: () => void }) {
         }
         onTouchEnd={(e: React.TouchEvent<HTMLDivElement>) => handleTouchEnd(e)}
       >
+        {loading && <LoadingDots />}
         <FrameAnimation
           frames={currentFrames}
           interval={800}
