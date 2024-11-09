@@ -10,6 +10,7 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
+  retrieveLaunchParams,
 } from "@telegram-apps/sdk-react";
 import { AppRoot } from "@telegram-apps/telegram-ui";
 
@@ -20,12 +21,14 @@ import { useDidMount } from "@/hooks/useDidMount";
 import LoadingAnimation from "../loadingAnimation";
 import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { SolanaWalletConnectors } from "@dynamic-labs/solana";
+import axios from "axios";
 
 function App(props: PropsWithChildren) {
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
+  const { initDataRaw } = retrieveLaunchParams();
 
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
@@ -39,22 +42,43 @@ function App(props: PropsWithChildren) {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
+  useEffect(() => {
+    console.log(initDataRaw);
+    if (!initDataRaw) {
+      console.error("initDataRaw is empty");
+      return;
+    }
+    axios
+      .post(`/api/v1/telegram/login?init_data=${initDataRaw}`)
+      .then((res) => {
+        console.log("telegram login", res);
+        if (!res.data.success) {
+          throw new Error(`telegram login failed: ${res.data.message}`);
+        }
+        const data = res.data.data;
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("refresh_token", data.refresh_token);
+      })
+      .catch((err) => {
+        console.error("telegram login error", err);
+      });
+  }, [initDataRaw]);
+
   return (
     <AppRoot
-      appearance={miniApp.isDark ? 'dark' : 'light'}
-      platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
+      appearance={miniApp.isDark ? "dark" : "light"}
+      platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
       <DynamicContextProvider
         settings={{
-          environmentId: 'db69ee58-41e4-43e7-be42-a601a83085ea',
+          environmentId: "db69ee58-41e4-43e7-be42-a601a83085ea",
           walletConnectors: [SolanaWalletConnectors],
         }}
-        theme={'dark'}
+        theme={"dark"}
       >
         {props.children}
       </DynamicContextProvider>
     </AppRoot>
-
   );
 }
 

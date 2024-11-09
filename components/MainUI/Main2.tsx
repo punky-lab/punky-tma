@@ -71,17 +71,17 @@ export default function Init({
   };
 
   const autoLogin = async () => {
-    try {
-      const response = await authApis.login({
-        username: "wsnm@website.me",
-        password: "password"
-      });
-      const { access_token, refresh_token } = response.data.data;
-      localStorage.setItem('token', access_token);
-      localStorage.setItem('refresh_token', refresh_token);
-    } catch (error) {
-      console.error('自动登录失败:', error);
-    }
+    // try {
+    //   const response = await authApis.login({
+    //     username: "wsnm@website.me", 
+    //     password: "password"
+    //   });
+    //   const { access_token, refresh_token } = response.data.data;
+    //   localStorage.setItem('token', access_token);
+    //   localStorage.setItem('refresh_token', refresh_token);
+    // } catch (error) {
+    //   console.error('自动登录失败:', error);
+    // }
   };
 
   const fetchUserData = async () => {
