@@ -21,6 +21,10 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ value, Icon }) => {
                 ></div>
                 {/* 外框的高光效果 */}
                 <div className="absolute top-0 left-0 w-full h-full border border-[#20818f] rounded-md pointer-events-none"></div>
+                {/* 进度值文字 */}
+                <div className="absolute top-0 left-2 h-full flex items-center text-white text-sm">
+                    {Math.round(value)}%
+                </div>
             </div>
         </div>
     );

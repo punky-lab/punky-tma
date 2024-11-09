@@ -113,7 +113,7 @@ export default function Init({
   const renderPage = () => {
     switch (currentPage) {
       case "chat":
-        return <ChatPage loading={loading} setLoading={setLoading} />;
+        return <ChatPage loading={loading} setLoading={setLoading} fetchUserData={fetchUserData} />;
       case "shop":
         return <ShopPage />;
       case "info":
@@ -127,7 +127,7 @@ export default function Init({
 
   const renderAction = () => {
     if (isActionOpen) {
-      return <Action />;
+      return <Action fetchUserData={fetchUserData} />;
     }
 
     if (!isActionOpen && !isSlideOpen) {

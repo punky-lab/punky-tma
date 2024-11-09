@@ -10,7 +10,7 @@ import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
 import { authApis } from "@/app/normalApi";
 import LoadingDots from "../LoadingDot";
 
-export default function ChatPage({ loading, setLoading }: { loading: boolean, setLoading: (loading: boolean) => void }) {
+export default function ChatPage({ loading, setLoading, fetchUserData }: { loading: boolean, setLoading: (loading: boolean) => void, fetchUserData: () => void }) {
   const { navHeight } = useNavHeight();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
@@ -46,6 +46,7 @@ export default function ChatPage({ loading, setLoading }: { loading: boolean, se
         setLoading(false);
         setMessages(updatedMessages);
         localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+        fetchUserData();
       } catch (error) {
         console.error('发送消息失败:', error);
         const keywords = extractKeywords(message);

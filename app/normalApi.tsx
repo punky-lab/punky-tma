@@ -141,6 +141,17 @@ interface ChatResponse {
     emojis: string;
 }
 
+// 添加摸宠物接口响应类型
+interface PetInteractionResponse {
+    interaction_date: string;
+    feeding_count: number;
+    petting_count: number;
+    last_feeding_at: string;
+    last_petting_at: string;
+    id: string;
+    game_account_id: string;
+}
+
 // 登录接口
 export const authApis = {
     // 用户登录
@@ -178,6 +189,11 @@ export const authApis = {
         return api.post<ApiResponse<ChatResponse>>('/game/chat/message', {
             message: message
         });
+    },
+
+    // 摸宠物接口
+    touchPet: () => {
+        return api.post<ApiResponse<PetInteractionResponse>>('/game/pet/pet');
     }
 };
 
