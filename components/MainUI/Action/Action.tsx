@@ -6,16 +6,16 @@ import GameIcon from "@/assets/icons/v2/game.svg";
 
 export default function Action() {
   return (
-    <div className="flex mb-4 w-full items-center justify-center space-x-8">
-      <div className="w-12 h-12 flex items-center justify-center border-2 border-[#62cadc] rounded-full">
+    <div className="flex mb-2 w-full items-center justify-center space-x-8">
+      <div className="w-12 h-12 flex items-center justify-center bg-[url(../assets/icons/button-round.svg)] bg-contain bg-center z-50">
         <Image src={HandIcon} alt="Hand" className="w-10 h-10" />
       </div>
 
-      <div className="w-12 h-12 flex items-center justify-center border-2 border-[#62cadc] rounded-full">
+      <div className="w-12 h-12 flex items-center justify-center bg-[url(../assets/icons/button-round.svg)] bg-contain bg-center z-50">
         <Image src={MicroIcon} alt="Micro" className="w-10 h-10" />
       </div>
 
-      <div className="w-12 h-12 flex items-center justify-center border-2 border-[#62cadc] rounded-full">
+      <div className="w-12 h-12 flex items-center justify-center bg-[url(../assets/icons/button-round.svg)] bg-contain bg-center z-50">
         <Image src={GameIcon} alt="Game" className="w-10 h-10" />
       </div>
     </div>

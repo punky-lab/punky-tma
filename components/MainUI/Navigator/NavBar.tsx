@@ -5,15 +5,23 @@ import ShopIcon from "@/assets/ui/nav-02-store.svg";
 import BallIcon from "@/assets/ui/nav-03-ball.svg";
 import InfoIcon from "@/assets/ui/nav-04-info.svg";
 import PersonIcon from "@/assets/ui/nav-05-me.svg";
-
+import SpriteBall from "../SpriteBall/SpriteBall";
 import { useNavHeight } from "@/components/Root/navHeightContext";
+import { PageState } from "../Main2";
 
 interface NavBarProps {
-  onPageChange: (page: string | null) => void;
+  onPageChange: (page: PageState) => void;
   toggleAction: () => void;
+  openSlide: () => void;
+  closeSlide: () => void;
 }
 
-export default function NavBar({ onPageChange, toggleAction }: NavBarProps) {
+export default function NavBar({
+  onPageChange,
+  toggleAction,
+  openSlide,
+  closeSlide,
+}: NavBarProps) {
   const { setNavHeight } = useNavHeight();
   const navRef = useRef<HTMLDivElement>(null);
 
@@ -50,14 +58,12 @@ export default function NavBar({ onPageChange, toggleAction }: NavBarProps) {
       >
         <Image src={ShopIcon} alt="Shop" />
       </div>
-      <div
-        onClick={() => {
-          // onPageChange("ball");
-          toggleAction();
-        }}
-        className="flex items-center justify-center w-12 h-12"
-      >
-        <Image src={BallIcon} alt="Ball" />
+      <div className="flex items-center justify-center w-12 h-12">
+        <SpriteBall
+          onPress={() => toggleAction()}
+          onSwipeUp={() => openSlide()}
+          onSwipeDown={() => closeSlide()}
+        />
       </div>
       <div
         onClick={() => onPageChange("info")}
