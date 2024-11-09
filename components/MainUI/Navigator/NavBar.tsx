@@ -5,6 +5,7 @@ import ShopIcon from "@/assets/ui/nav-02-store.svg";
 import BallIcon from "@/assets/ui/nav-03-ball.svg";
 import InfoIcon from "@/assets/ui/nav-04-info.svg";
 import PersonIcon from "@/assets/ui/nav-05-me.svg";
+import SpriteBall from "../SpriteBall/SpriteBall";
 
 import { useNavHeight } from "@/components/Root/navHeightContext";
 
@@ -57,7 +58,11 @@ export default function NavBar({ onPageChange, toggleAction }: NavBarProps) {
         }}
         className="flex items-center justify-center w-12 h-12"
       >
-        <Image src={BallIcon} alt="Ball" />
+        <SpriteBall
+          onPress={() => console.log("press")}
+          onSwipeUp={() => console.log("swipe up")}
+          onSwipeDown={() => console.log("swipe down")}
+        />
       </div>
       <div
         onClick={() => onPageChange("info")}
