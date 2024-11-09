@@ -58,8 +58,11 @@ function App(props: PropsWithChildren) {
       return;
     }
 
-    axios
-      .post(`/api/v1/telegram/login?init_data=${initDataRaw}`)
+    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/telegram/login?init_data=${initDataRaw}`;
+    fetch(url, {
+      method: "POST",
+    })
+      .then((res) => res.json())
       .then((res) => {
         console.log("telegram login", res);
         if (!res.data.success) {
