@@ -44,7 +44,7 @@ export default function NavBar({
   return (
     <div
       ref={navRef}
-      className="flex items-center justify-around w-screen h-[95px] px-2.5 bg-no-repeat bg-[url('../assets/ui/top-bott-bar.svg')] bg-contain bg-bottom"
+      className="flex items-center justify-around w-screen h-[95px] px-2.5 bg-no-repeat bg-[url('../assets/ui/top-bott-bar.svg')] bg-contain bg-bottom z-20"
     >
       <div
         onClick={() => onPageChange("chat")}

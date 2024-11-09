@@ -60,6 +60,9 @@ function App(props: PropsWithChildren) {
 
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/telegram/login`;
     fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       method: "POST",
       body: JSON.stringify({ init_data: initDataRaw }),
     })

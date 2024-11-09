@@ -4,6 +4,7 @@ import HandIcon from "@/assets/icons/v2/hand.svg";
 import MicroIcon from "@/assets/icons/v2/micro.svg";
 import GameIcon from "@/assets/icons/v2/game.svg";
 import { authApis } from "@/app/normalApi";
+import { useRouter } from "next/navigation";
 
 export default function Action({ fetchUserData, setIsPetting }: { fetchUserData: () => void, setIsPetting: (isPetting: boolean) => void }) {
   const handlePetTouch = async () => {
@@ -18,6 +19,8 @@ export default function Action({ fetchUserData, setIsPetting }: { fetchUserData:
     }
   };
 
+  const router = useRouter()
+
   return (
     <div className="flex mb-2 w-full items-center justify-center space-x-8">
       <div
@@ -31,7 +34,8 @@ export default function Action({ fetchUserData, setIsPetting }: { fetchUserData:
         <Image src={MicroIcon} alt="Micro" className="w-10 h-10" />
       </div>
 
-      <div className="w-12 h-12 flex items-center justify-center bg-[url(../assets/icons/button-round.svg)] bg-contain bg-center z-50">
+      <div className="w-12 h-12 flex items-center justify-center bg-[url(../assets/icons/button-round.svg)] bg-contain bg-center z-50"
+        onClick={() => { router.push('https://runner-game.punky.app') }}>
         <Image src={GameIcon} alt="Game" className="w-10 h-10" />
       </div>
     </div>
