@@ -3,7 +3,7 @@ import axios from 'axios';
 // 创建axios实例
 const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1',
-    timeout: 10000,
+    timeout: 30000,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -120,6 +120,27 @@ interface GameAccount {
     last_view_at: string;
 }
 
+// 添加聊天消息接口类型
+interface ChatMessage {
+    message: string;
+}
+
+interface ChatResponse {
+    interaction: {
+        interaction_date: string;
+        chat_count: number;
+        last_chat_sent_at: string;
+        last_response_at: string;
+        id: string;
+        game_account_id: string;
+    };
+    response: string;
+    keywords: {
+        [key: string]: string[];
+    };
+    emojis: string;
+}
+
 // 登录接口
 export const authApis = {
     // 用户登录
@@ -150,6 +171,13 @@ export const authApis = {
     // 获取游戏账户信息
     getGameAccount: () => {
         return api.get<ApiResponse<GameAccount>>('/game/account');
+    },
+
+    // 获取聊天回复
+    getReply: (message: string) => {
+        return api.post<ApiResponse<ChatResponse>>('/game/chat/message', {
+            message: message
+        });
     }
 };
 
