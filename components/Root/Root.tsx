@@ -30,11 +30,6 @@ function App(props: PropsWithChildren) {
   const viewport = useViewport();
   const { initDataRaw } = retrieveLaunchParams();
 
-  fetch("/api/log", {
-    method: "POST",
-    body: JSON.stringify({ initDataRaw }),
-  });
-
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
@@ -49,10 +44,20 @@ function App(props: PropsWithChildren) {
 
   useEffect(() => {
     console.log(initDataRaw);
+    fetch("/api/log", {
+      method: "POST",
+      body: JSON.stringify({ initDataRaw }),
+    });
+
     if (!initDataRaw) {
       console.error("initDataRaw is empty");
+      fetch("/api/log", {
+        method: "POST",
+        body: JSON.stringify({ initDataRaw: "empty" }),
+      });
       return;
     }
+
     axios
       .post(`/api/v1/telegram/login?init_data=${initDataRaw}`)
       .then((res) => {
