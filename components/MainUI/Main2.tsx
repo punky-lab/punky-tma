@@ -8,6 +8,7 @@ import ShopPage from "./SlideUI/ShopPage";
 import InfoPage from "./SlideUI/InfoPage";
 import UserPage from "./SlideUI/UserPage";
 import { useState } from "react";
+import { animated, useSpring } from "@react-spring/web";
 
 export type PageState = "chat" | "shop" | "info" | "user";
 
@@ -18,18 +19,46 @@ export default function Init({
 }) {
   const [currentPage, setCurrentPage] = useState<PageState>("chat");
   const [isActionOpen, setIsActionOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSlideOpen, setIsSlideOpen] = useState(false);
+  const [springs, api] = useSpring(() => ({
+    from: {
+      maxHeight: 0,
+    },
+  }));
 
   const toggleAction = () => {
     setIsActionOpen(!isActionOpen);
   };
 
   const closeSlide = () => {
-    setIsOpen(false);
+    setIsSlideOpen(false);
+    api.start({
+      from: {
+        maxHeight: 288,
+      },
+      to: {
+        maxHeight: 0,
+      },
+    });
   };
 
   const openSlide = () => {
-    setIsOpen(true);
+    setIsSlideOpen(true);
+    api.start({
+      from: {
+        maxHeight: 0,
+      },
+      to: {
+        maxHeight: 288,
+      },
+    });
+  };
+
+  const changePage = (page: PageState) => {
+    if (!isSlideOpen) {
+      openSlide();
+    }
+    setCurrentPage(page);
   };
 
   const renderPage = () => {
@@ -53,14 +82,19 @@ export default function Init({
       <Dog onClick={closeSlide} />
       {isActionOpen && <Action />}
       <NavBar
-        onPageChange={setCurrentPage}
+        onPageChange={changePage}
         toggleAction={toggleAction}
         openSlide={openSlide}
         closeSlide={closeSlide}
       />
-      {isOpen && (
-        <div className="max-h-72 overflow-hidden">{renderPage()}</div>
-      )}
+      <animated.div
+        style={{
+          overflow: "hidden",
+          ...springs,
+        }}
+      >
+        {renderPage()}
+      </animated.div>
     </div>
   );
 }

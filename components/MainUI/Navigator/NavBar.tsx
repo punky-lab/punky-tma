@@ -41,24 +41,19 @@ export default function NavBar({
     };
   }, [setNavHeight]);
 
-  const openPage = (page: PageState) => {
-    onPageChange(page);
-    openSlide();
-  };
-
   return (
     <div
       ref={navRef}
       className="flex items-center justify-around w-screen h-[95px] px-2.5 bg-no-repeat bg-[url('../assets/ui/top-bott-bar.svg')] bg-contain bg-bottom"
     >
       <div
-        onClick={() => openPage("chat")}
+        onClick={() => onPageChange("chat")}
         className="flex items-center justify-center w-12 h-12"
       >
         <Image src={ChatIcon} alt="Chat" />
       </div>
       <div
-        onClick={() => openPage("shop")}
+        onClick={() => onPageChange("shop")}
         className="flex items-center justify-center w-12 h-12"
       >
         <Image src={ShopIcon} alt="Shop" />
@@ -71,13 +66,13 @@ export default function NavBar({
         />
       </div>
       <div
-        onClick={() => openPage("info")}
+        onClick={() => onPageChange("info")}
         className="flex items-center justify-center w-12 h-12"
       >
         <Image src={InfoIcon} alt="Info" />
       </div>
       <div
-        onClick={() => openPage("user")}
+        onClick={() => onPageChange("user")}
         className="flex items-center justify-center w-12 h-12"
       >
         <Image src={PersonIcon} alt="User" />
