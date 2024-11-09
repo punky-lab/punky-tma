@@ -76,11 +76,28 @@ export default function Init({
     }
   };
 
+  const renderAction = () => {
+    if (isActionOpen) {
+      return <Action />;
+    }
+
+    if (!isActionOpen && !isSlideOpen) {
+      return (
+        <div className="flex flex-col items-center w-full mb-2">
+          <div className="text-white text-sm shadow-lg">Try to interact with me</div>
+          <div className="text-sm">👇</div>
+        </div>
+      )
+    }
+
+    return null;
+  };
+
   return (
     <div className="flex flex-col w-full h-full relative">
       <PetInfo />
       <Dog onClick={closeSlide} />
-      {isActionOpen && <Action />}
+      {renderAction()}
       <NavBar
         onPageChange={changePage}
         toggleAction={toggleAction}
