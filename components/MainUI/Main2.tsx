@@ -31,6 +31,7 @@ export default function Init({
   };
 
   const closeSlide = () => {
+    if (!isSlideOpen) return;
     setIsSlideOpen(false);
     api.start({
       from: {
@@ -43,6 +44,7 @@ export default function Init({
   };
 
   const openSlide = () => {
+    if (isSlideOpen) return;
     setIsSlideOpen(true);
     api.start({
       from: {
