@@ -69,7 +69,7 @@ function App(props: PropsWithChildren) {
           throw new Error(`telegram login failed: ${res.data.message}`);
         }
         const data = res.data.data;
-        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
       })
       .catch((err) => {
