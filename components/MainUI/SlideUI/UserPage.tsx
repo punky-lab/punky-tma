@@ -1,49 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { WindowContent } from "react95";
-import Image from 'next/image';
+import Image from "next/image";
 import { Page, WindowWrapper, Avatar } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
 
 import { authApis } from "@/app/normalApi";
 
-import { WalletTgSdk } from '@uxuycom/web3-tg-sdk';
+import { WalletTgSdk } from "@uxuycom/web3-tg-sdk";
 
-import { ConnectButton } from "@ant-design/web3"
-import type { Account } from '@ant-design/web3';
-import { ConfigProvider } from 'antd';
+import { ConnectButton } from "@ant-design/web3";
+import type { Account } from "@ant-design/web3";
+import { ConfigProvider } from "antd";
 
 export default function UserPage() {
-  const { navHeight } = useNavHeight();// 获取导航栏高度
+  const { navHeight } = useNavHeight(); // 获取导航栏高度
   const [userInfo, setUserInfo] = useState<any>(null); // 用户信息
   const [gameAccount, setGameAccount] = useState<any>(null); // 游戏账户信息
   let SDk: WalletTgSdk | undefined;
-  if (typeof window !== 'undefined') {
-    const { WalletTgSdk } = require('@uxuycom/web3-tg-sdk');
+  if (typeof window !== "undefined") {
+    const { WalletTgSdk } = require("@uxuycom/web3-tg-sdk");
     SDk = new WalletTgSdk();
   }
 
   const getSolana = () => {
     return SDk?.solana;
-  }
+  };
 
   const [address, setAddress] = useState<Account | undefined>(undefined);
 
-  const solanaProvider = getSolana()
+  const solanaProvider = getSolana();
 
   // 处理钱包连接
   const handleConnect = async () => {
     const res = await solanaProvider?.connect({}, false);
-    console.log(res)
+    console.log(res);
     const walletAddress = solanaProvider?.publicKey?.toString();
-    setAddress({ "address": walletAddress }); // 设置钱包地址
+    setAddress({ address: walletAddress }); // 设置钱包地址
   };
-
 
   const fetchData = async () => {
     try {
       const [userResponse, gameResponse] = await Promise.all([
         authApis.getUserInfo(),
-        authApis.getGameAccount()
+        authApis.getGameAccount(),
       ]);
 
       if (userResponse.data.success) {
@@ -53,24 +52,26 @@ export default function UserPage() {
         setGameAccount(gameResponse.data.data);
       }
     } catch (error) {
-      console.error('获取数据失败:', error);
+      console.error("获取数据失败:", error);
     }
   };
 
-
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, []);
 
   return (
     <Page $navHeight={navHeight}>
       <WindowWrapper>
-        <WindowContent style={{
-          height: '33%',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: 0,
-        }}>
+        <WindowContent
+          style={{
+            height: 288,
+            display: "flex",
+            flexDirection: "column",
+            padding: 0,
+            paddingBottom: 20,
+          }}
+        >
           <div className="grow flex flex-col">
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2 -mb-2">
@@ -79,12 +80,14 @@ export default function UserPage() {
                     src="/default-avatar.png"
                     alt={`${userInfo?.name}`}
                     fill
-                    style={{ objectFit: 'cover' }}
+                    style={{ objectFit: "cover" }}
                   />
                 </Avatar>
                 <div>
                   <h2 className="mb-0">{userInfo?.name}</h2>
-                  <p className="m-0 text-white text-sm">Email:{userInfo?.email}</p>
+                  <p className="m-0 text-white text-sm">
+                    Email:{userInfo?.email}
+                  </p>
                 </div>
               </div>
             </div>
@@ -111,15 +114,15 @@ export default function UserPage() {
               theme={{
                 components: {
                   Button: {
-                    colorPrimary: '#212529',
+                    colorPrimary: "#212529",
                     algorithm: true,
                   },
                 },
                 token: {
-                  colorPrimary: '#ffffff',
-                  colorBgBase: '#212529',
-                  colorTextBase: '#ffffff',
-                  colorBorder: '#444444',
+                  colorPrimary: "#ffffff",
+                  colorBgBase: "#212529",
+                  colorTextBase: "#ffffff",
+                  colorBorder: "#444444",
                 },
               }}
             >
@@ -129,7 +132,7 @@ export default function UserPage() {
                 onConnectClick={handleConnect}
                 onDisconnectClick={() => {
                   setAddress(undefined);
-                  solanaProvider?.disconnect()
+                  solanaProvider?.disconnect();
                 }}
               />
             </ConfigProvider>

@@ -6,15 +6,22 @@ import BallIcon from "@/assets/ui/nav-03-ball.svg";
 import InfoIcon from "@/assets/ui/nav-04-info.svg";
 import PersonIcon from "@/assets/ui/nav-05-me.svg";
 import SpriteBall from "../SpriteBall/SpriteBall";
-
 import { useNavHeight } from "@/components/Root/navHeightContext";
+import { PageState } from "../Main2";
 
 interface NavBarProps {
-  onPageChange: (page: string | null) => void;
+  onPageChange: (page: PageState) => void;
   toggleAction: () => void;
+  openSlide: () => void;
+  closeSlide: () => void;
 }
 
-export default function NavBar({ onPageChange, toggleAction }: NavBarProps) {
+export default function NavBar({
+  onPageChange,
+  toggleAction,
+  openSlide,
+  closeSlide,
+}: NavBarProps) {
   const { setNavHeight } = useNavHeight();
   const navRef = useRef<HTMLDivElement>(null);
 
@@ -34,44 +41,43 @@ export default function NavBar({ onPageChange, toggleAction }: NavBarProps) {
     };
   }, [setNavHeight]);
 
+  const openPage = (page: PageState) => {
+    onPageChange(page);
+    openSlide();
+  };
+
   return (
     <div
       ref={navRef}
       className="flex items-center justify-around w-screen h-[95px] px-2.5 bg-no-repeat bg-[url('../assets/ui/top-bott-bar.svg')] bg-contain bg-bottom"
     >
       <div
-        onClick={() => onPageChange("chat")}
+        onClick={() => openPage("chat")}
         className="flex items-center justify-center w-12 h-12"
       >
         <Image src={ChatIcon} alt="Chat" />
       </div>
       <div
-        onClick={() => onPageChange("shop")}
+        onClick={() => openPage("shop")}
         className="flex items-center justify-center w-12 h-12"
       >
         <Image src={ShopIcon} alt="Shop" />
       </div>
-      <div
-        onClick={() => {
-          // onPageChange("ball");
-          toggleAction();
-        }}
-        className="flex items-center justify-center w-12 h-12"
-      >
+      <div className="flex items-center justify-center w-12 h-12">
         <SpriteBall
-          onPress={() => console.log("press")}
-          onSwipeUp={() => console.log("swipe up")}
-          onSwipeDown={() => console.log("swipe down")}
+          onPress={() => toggleAction()}
+          onSwipeUp={() => openSlide()}
+          onSwipeDown={() => closeSlide()}
         />
       </div>
       <div
-        onClick={() => onPageChange("info")}
+        onClick={() => openPage("info")}
         className="flex items-center justify-center w-12 h-12"
       >
         <Image src={InfoIcon} alt="Info" />
       </div>
       <div
-        onClick={() => onPageChange("user")}
+        onClick={() => openPage("user")}
         className="flex items-center justify-center w-12 h-12"
       >
         <Image src={PersonIcon} alt="User" />

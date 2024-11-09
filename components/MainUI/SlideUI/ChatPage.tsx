@@ -28,10 +28,12 @@ export default function ChatPage() {
       <WindowWrapper>
         <WindowContent
           style={{
-            height: "33%",
+            height: 288,
             display: "flex",
             flexDirection: "column",
             padding: 0,
+            paddingBottom: 20,
+            paddingTop: 8,
           }}
         >
           <div

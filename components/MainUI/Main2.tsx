@@ -9,16 +9,27 @@ import InfoPage from "./SlideUI/InfoPage";
 import UserPage from "./SlideUI/UserPage";
 import { useState } from "react";
 
+export type PageState = "chat" | "shop" | "info" | "user";
+
 export default function Init({
   switchTo,
 }: {
   switchTo: (target: UIState) => void;
 }) {
-  const [currentPage, setCurrentPage] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<PageState>("chat");
   const [isActionOpen, setIsActionOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleAction = () => {
     setIsActionOpen(!isActionOpen);
+  };
+
+  const closeSlide = () => {
+    setIsOpen(false);
+  };
+
+  const openSlide = () => {
+    setIsOpen(true);
   };
 
   const renderPage = () => {
@@ -39,10 +50,17 @@ export default function Init({
   return (
     <div className="flex flex-col w-full h-full relative">
       <PetInfo />
-      <Dog onClick={() => setCurrentPage(null)} />
+      <Dog onClick={closeSlide} />
       {isActionOpen && <Action />}
-      <NavBar onPageChange={setCurrentPage} toggleAction={toggleAction} />
-      <div className="max-h-[32%] overflow-hidden">{renderPage()}</div>
+      <NavBar
+        onPageChange={setCurrentPage}
+        toggleAction={toggleAction}
+        openSlide={openSlide}
+        closeSlide={closeSlide}
+      />
+      {isOpen && (
+        <div className="max-h-72 overflow-hidden">{renderPage()}</div>
+      )}
     </div>
   );
 }
