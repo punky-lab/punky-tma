@@ -58,9 +58,10 @@ function App(props: PropsWithChildren) {
       return;
     }
 
-    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/telegram/login?init_data=${initDataRaw}`;
+    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/telegram/login`;
     fetch(url, {
       method: "POST",
+      body: JSON.stringify({ init_data: initDataRaw }),
     })
       .then((res) => res.json())
       .then((res) => {
