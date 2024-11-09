@@ -9,17 +9,16 @@ import LoadingDots from "../loadingDots";
 export default function Dog({ onClick, loading }: { onClick?: () => void, loading: boolean }) {
   const [isTalking, setIsTalking] = useState(false);
   const [currentFrames, setCurrentFrames] = useState<any[]>(punkyFrames); // Default frames
+  const [isSitting, setIsSitting] = useState(false);
 
   const handleSwipe = () => {
-    const animations = [punkySitFrames, punkyRollFrames, punkyRunFrames];
-    const randomAnimationIndex = Math.floor(Math.random() * animations.length);
-    const randomAnimation = animations[randomAnimationIndex];
-
-    setCurrentFrames([randomAnimation]);
-
-    setTimeout(() => {
-      setCurrentFrames(punkyFrames); // 恢复到默认帧动画
-    }, 3000); // 2 秒后恢复
+    if (isSitting) {
+      setCurrentFrames(punkyFrames);
+      setIsSitting(false);
+    } else {
+      setCurrentFrames([punkySitFrames]);
+      setIsSitting(true);
+    }
   };
 
   let touchStartX: number | null = null;
@@ -38,10 +37,11 @@ export default function Dog({ onClick, loading }: { onClick?: () => void, loadin
       handleSwipe(); // 触发随机动画
     }
   };
+
   return (
     <div className="grow flex flex-col items-center" onClick={onClick}>
       <div
-        className="fixed top-[29%]"
+        className="fixed top-[240px]"
         onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
           handleTouchStart(e)
         }
@@ -50,7 +50,7 @@ export default function Dog({ onClick, loading }: { onClick?: () => void, loadin
         {loading && <LoadingDots />}
         <FrameAnimation
           frames={currentFrames}
-          interval={300}
+          interval={800}
           width={180}
           height={180}
           isThinking={isTalking}
