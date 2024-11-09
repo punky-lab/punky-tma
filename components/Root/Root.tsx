@@ -30,6 +30,11 @@ function App(props: PropsWithChildren) {
   const viewport = useViewport();
   const { initDataRaw } = retrieveLaunchParams();
 
+  fetch("/api/log", {
+    method: "POST",
+    body: JSON.stringify({ initDataRaw }),
+  });
+
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
