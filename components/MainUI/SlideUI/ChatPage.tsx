@@ -10,13 +10,12 @@ import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
 import { authApis } from "@/app/normalApi";
 import LoadingDots from "../LoadingDot";
 
-export default function ChatPage() {
+export default function ChatPage({ loading, setLoading }: { loading: boolean, setLoading: (loading: boolean) => void }) {
   const { navHeight } = useNavHeight();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
     { text: "🐶 🐶 🥰 Hi!", isMe: false },
   ]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const savedMessages = localStorage.getItem('chatMessages');

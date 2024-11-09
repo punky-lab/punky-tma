@@ -12,10 +12,8 @@ import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
 import { ConfigProvider } from "antd";
 
-export default function UserPage() {
+export default function UserPage({ userInfo, gameAccount }: { userInfo: any, gameAccount: any }) {
   const { navHeight } = useNavHeight(); // 获取导航栏高度
-  const [userInfo, setUserInfo] = useState<any>(null); // 用户信息
-  const [gameAccount, setGameAccount] = useState<any>(null); // 游戏账户信息
   let SDk: WalletTgSdk | undefined;
   if (typeof window !== "undefined") {
     const { WalletTgSdk } = require("@uxuycom/web3-tg-sdk");
@@ -37,28 +35,6 @@ export default function UserPage() {
     const walletAddress = solanaProvider?.publicKey?.toString();
     setAddress({ address: walletAddress }); // 设置钱包地址
   };
-
-  const fetchData = async () => {
-    try {
-      const [userResponse, gameResponse] = await Promise.all([
-        authApis.getUserInfo(),
-        authApis.getGameAccount(),
-      ]);
-
-      if (userResponse.data.success) {
-        setUserInfo(userResponse.data.data);
-      }
-      if (gameResponse.data.success) {
-        setGameAccount(gameResponse.data.data);
-      }
-    } catch (error) {
-      console.error("获取数据失败:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <Page $navHeight={navHeight}>
