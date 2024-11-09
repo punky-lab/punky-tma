@@ -6,7 +6,7 @@ import FrameAnimation from "@/components/FrameAnimation";
 import { useState } from "react";
 import LoadingDots from "../loadingDots";
 
-export default function Dog({ onClick, loading }: { onClick?: () => void, loading: boolean }) {
+export default function Dog({ onClick, loading, isPetting }: { onClick?: () => void, loading: boolean, isPetting: boolean }) {
   const [isTalking, setIsTalking] = useState(false);
   const [currentFrames, setCurrentFrames] = useState<any[]>(punkyFrames); // Default frames
   const [isSitting, setIsSitting] = useState(false);
@@ -40,6 +40,12 @@ export default function Dog({ onClick, loading }: { onClick?: () => void, loadin
 
   return (
     <div className="grow flex flex-col items-center" onClick={onClick}>
+      {loading && <div className="fixed top-[220px]"><LoadingDots /></div>}
+      {isPetting && (
+        <div className="fixed top-[220px] animate-[blink_1s_ease-in-out_infinite]">
+          <i className="nes-icon is-medium heart"></i>
+        </div>
+      )}
       <div
         className="fixed top-[240px]"
         onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
@@ -47,7 +53,6 @@ export default function Dog({ onClick, loading }: { onClick?: () => void, loadin
         }
         onTouchEnd={(e: React.TouchEvent<HTMLDivElement>) => handleTouchEnd(e)}
       >
-        {loading && <LoadingDots />}
         <FrameAnimation
           frames={currentFrames}
           interval={800}

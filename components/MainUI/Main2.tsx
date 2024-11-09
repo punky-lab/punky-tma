@@ -30,6 +30,7 @@ export default function Init({
   const [userInfo, setUserInfo] = useState<any>(null); // 用户信息
   const [gameAccount, setGameAccount] = useState<any>(null); // 游戏账户信息
   const [loading, setLoading] = useState(false); // 对话加载状态
+  const [isPetting, setIsPetting] = useState(false); // 摸宠物状态
 
 
 
@@ -127,7 +128,7 @@ export default function Init({
 
   const renderAction = () => {
     if (isActionOpen) {
-      return <Action fetchUserData={fetchUserData} />;
+      return <Action fetchUserData={fetchUserData} setIsPetting={setIsPetting} />;
     }
 
     if (!isActionOpen && !isSlideOpen) {
@@ -145,7 +146,7 @@ export default function Init({
   return (
     <div className="flex flex-col w-full h-full relative">
       <PetInfo gameAccount={gameAccount} />
-      <Dog onClick={closeSlide} loading={loading} />
+      <Dog onClick={closeSlide} loading={loading} isPetting={isPetting} />
       {renderAction()}
       <NavBar
         onPageChange={changePage}

@@ -5,11 +5,13 @@ import MicroIcon from "@/assets/icons/v2/micro.svg";
 import GameIcon from "@/assets/icons/v2/game.svg";
 import { authApis } from "@/app/normalApi";
 
-export default function Action({ fetchUserData }: { fetchUserData: () => void }) {
+export default function Action({ fetchUserData, setIsPetting }: { fetchUserData: () => void, setIsPetting: (isPetting: boolean) => void }) {
   const handlePetTouch = async () => {
     try {
+      setIsPetting(true)
       const response = await authApis.touchPet();
       fetchUserData()
+      setIsPetting(false)
       console.log('摸宠物成功：', response.data);
     } catch (error) {
       console.error('摸宠物失败：', error);
