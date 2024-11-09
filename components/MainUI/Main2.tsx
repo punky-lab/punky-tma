@@ -8,17 +8,59 @@ import ShopPage from "./SlideUI/ShopPage";
 import InfoPage from "./SlideUI/InfoPage";
 import UserPage from "./SlideUI/UserPage";
 import { useState } from "react";
+import { animated, useSpring } from "@react-spring/web";
+
+export type PageState = "chat" | "shop" | "info" | "user";
 
 export default function Init({
   switchTo,
 }: {
   switchTo: (target: UIState) => void;
 }) {
-  const [currentPage, setCurrentPage] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<PageState>("chat");
   const [isActionOpen, setIsActionOpen] = useState(false);
+  const [isSlideOpen, setIsSlideOpen] = useState(false);
+  const [springs, api] = useSpring(() => ({
+    from: {
+      maxHeight: 0,
+    },
+  }));
 
   const toggleAction = () => {
     setIsActionOpen(!isActionOpen);
+  };
+
+  const closeSlide = () => {
+    if (!isSlideOpen) return;
+    setIsSlideOpen(false);
+    api.start({
+      from: {
+        maxHeight: 288,
+      },
+      to: {
+        maxHeight: 0,
+      },
+    });
+  };
+
+  const openSlide = () => {
+    if (isSlideOpen) return;
+    setIsSlideOpen(true);
+    api.start({
+      from: {
+        maxHeight: 0,
+      },
+      to: {
+        maxHeight: 288,
+      },
+    });
+  };
+
+  const changePage = (page: PageState) => {
+    if (!isSlideOpen) {
+      openSlide();
+    }
+    setCurrentPage(page);
   };
 
   const renderPage = () => {
@@ -36,13 +78,42 @@ export default function Init({
     }
   };
 
+  const renderAction = () => {
+    if (isActionOpen) {
+      return <Action />;
+    }
+
+    if (!isActionOpen && !isSlideOpen) {
+      return (
+        <div className="flex flex-col items-center w-full mb-2">
+          <div className="text-white text-sm shadow-lg">Try to interact with me</div>
+          <div className="text-sm">👇</div>
+        </div>
+      )
+    }
+
+    return null;
+  };
+
   return (
     <div className="flex flex-col w-full h-full relative">
       <PetInfo />
-      <Dog onClick={() => setCurrentPage(null)} />
-      {isActionOpen && <Action />}
-      <NavBar onPageChange={setCurrentPage} toggleAction={toggleAction} />
-      <div className="max-h-[32%] overflow-hidden">{renderPage()}</div>
+      <Dog onClick={closeSlide} />
+      {renderAction()}
+      <NavBar
+        onPageChange={changePage}
+        toggleAction={toggleAction}
+        openSlide={openSlide}
+        closeSlide={closeSlide}
+      />
+      <animated.div
+        style={{
+          overflow: "hidden",
+          ...springs,
+        }}
+      >
+        {renderPage()}
+      </animated.div>
     </div>
   );
 }

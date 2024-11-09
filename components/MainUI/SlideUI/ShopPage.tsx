@@ -67,10 +67,11 @@ export default function ShopPageComponent() {
       <WindowWrapper>
         <WindowContent
           style={{
-            height: "33%",
+            height: 288,
             padding: "8px",
             display: "flex",
             flexDirection: "column",
+            paddingBottom: 20,
           }}
         >
           <div className="grow flex justify-center items-center flex-col">

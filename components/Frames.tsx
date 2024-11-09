@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import ThinkingBubble from "./thinkingBubble";
 
 interface FramesProps {
   frames: { src: string }[]; // frames 是包含 src 字段的对象数组
@@ -28,7 +27,7 @@ export default function Frames({
     if (frames.length === 0) return;
 
     let loadedCount = 0;
-    console.log("..frames..", frames);
+    // console.log("..frames..", frames);
     preloadedImages.current = frames.map((frame) => {
       const img = new window.Image();
       img.src = frame.src;
