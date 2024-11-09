@@ -32,7 +32,11 @@ export default function Init({
   const [loading, setLoading] = useState(false); // 对话加载状态
   const [isPetting, setIsPetting] = useState(false); // 摸宠物状态
 
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
 
+  const handleConfirm = () => {
+    setIsDialogOpen(false);
+  };
 
   const toggleAction = () => {
     setIsActionOpen(!isActionOpen);
@@ -144,24 +148,45 @@ export default function Init({
   };
 
   return (
-    <div className="flex flex-col w-full h-full relative">
-      <PetInfo gameAccount={gameAccount} />
-      <Dog onClick={closeSlide} loading={loading} isPetting={isPetting} />
-      {renderAction()}
-      <NavBar
-        onPageChange={changePage}
-        toggleAction={toggleAction}
-        openSlide={openSlide}
-        closeSlide={closeSlide}
-      />
-      <animated.div
-        style={{
-          overflow: "hidden",
-          ...springs,
-        }}
-      >
-        {renderPage()}
-      </animated.div>
-    </div>
+    <>
+      {isDialogOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
+          <dialog
+            className="nes-dialog relative z-50"
+            id="dialog-default"
+            open={isDialogOpen}
+          >
+            <form method="dialog">
+              <p className="title">Tips</p>
+              <p>This is an alpha test version of the app.</p>
+              <p>Notice :Your off-chain data may lose.</p>
+              <menu className="dialog-menu">
+                <button className="nes-btn" onClick={() => setIsDialogOpen(false)}>Cancel</button>
+                <button className="nes-btn is-primary" onClick={handleConfirm}>Confirm</button>
+              </menu>
+            </form>
+          </dialog>
+        </div>
+      )}
+      <div className="flex flex-col w-full h-full relative">
+        <PetInfo gameAccount={gameAccount} />
+        <Dog onClick={closeSlide} loading={loading} isPetting={isPetting} />
+        {renderAction()}
+        <NavBar
+          onPageChange={changePage}
+          toggleAction={toggleAction}
+          openSlide={openSlide}
+          closeSlide={closeSlide}
+        />
+        <animated.div
+          style={{
+            overflow: "hidden",
+            ...springs,
+          }}
+        >
+          {renderPage()}
+        </animated.div>
+      </div>
+    </>
   );
 }
