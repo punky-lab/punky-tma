@@ -49,17 +49,9 @@ function App(props: PropsWithChildren) {
 
   useEffect(() => {
     console.log(initData);
-    fetch("/api/log", {
-      method: "POST",
-      body: JSON.stringify({ initData }),
-    });
 
     if (!initData) {
       console.error("initData is empty");
-      fetch("/api/log", {
-        method: "POST",
-        body: JSON.stringify({ initData: "empty" }),
-      });
       return;
     }
 
