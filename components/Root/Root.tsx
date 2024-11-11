@@ -22,6 +22,7 @@ import LoadingAnimation from "../loadingAnimation";
 import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { SolanaWalletConnectors } from "@dynamic-labs/solana";
 import axios from "axios";
+import { json } from "stream/consumers";
 
 function App(props: PropsWithChildren) {
   const lp = useLaunchParams();
@@ -77,6 +78,13 @@ function App(props: PropsWithChildren) {
         localStorage.setItem("refresh_token", data.refresh_token);
       })
       .catch((err) => {
+        fetch("/api/post", {
+          method: "POST",
+          body: JSON.stringify({
+            message: "login error",
+            err: err,
+          }),
+        });
         console.error("telegram login error", err);
       });
   }, [initDataRaw]);
