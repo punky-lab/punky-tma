@@ -22,7 +22,6 @@ import LoadingAnimation from "../loadingAnimation";
 import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { SolanaWalletConnectors } from "@dynamic-labs/solana";
 import axios from "axios";
-import { json } from "stream/consumers";
 
 function App(props: PropsWithChildren) {
   const lp = useLaunchParams();
@@ -30,6 +29,11 @@ function App(props: PropsWithChildren) {
   const themeParams = useThemeParams();
   const viewport = useViewport();
   const { initDataRaw } = retrieveLaunchParams();
+
+  var initData = initDataRaw;
+  if (process.env.NODE_ENV === "development") {
+    initData = process.env.NEXT_PUBLIC_TELEGRAM_MOCK_INIT_DATA;
+  }
 
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
@@ -44,50 +48,36 @@ function App(props: PropsWithChildren) {
   }, [viewport]);
 
   useEffect(() => {
-    console.log(initDataRaw);
+    console.log(initData);
     fetch("/api/log", {
       method: "POST",
-      body: JSON.stringify({ initDataRaw }),
+      body: JSON.stringify({ initData }),
     });
 
-    if (!initDataRaw) {
-      console.error("initDataRaw is empty");
+    if (!initData) {
+      console.error("initData is empty");
       fetch("/api/log", {
         method: "POST",
-        body: JSON.stringify({ initDataRaw: "empty" }),
+        body: JSON.stringify({ initData: "empty" }),
       });
       return;
     }
 
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/telegram/login`;
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ init_data: initDataRaw }),
-    })
-      .then((res) => res.json())
+    axios
+      .post(url, {
+        init_data: initData,
+      })
       .then((res) => {
-        console.log("telegram login", res);
-        if (!res.data.success) {
-          throw new Error(`telegram login failed: ${res.data.message}`);
-        }
-        const data = res.data;
+        const data = res.data.data;
+        console.log("login success", data);
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
       })
       .catch((err) => {
-        fetch("/api/post", {
-          method: "POST",
-          body: JSON.stringify({
-            message: "login error",
-            err: err,
-          }),
-        });
-        console.error("telegram login error", err);
+        console.error("failed to login", err);
       });
-  }, [initDataRaw]);
+  }, [initData]);
 
   return (
     <AppRoot
