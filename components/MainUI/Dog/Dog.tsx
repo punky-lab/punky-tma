@@ -40,18 +40,20 @@ export default function Dog({ onClick, loading, isPetting }: { onClick?: () => v
 
   return (
     <div className="grow flex flex-col items-center" onClick={onClick}>
-      {loading && <div className="fixed top-[220px]"><LoadingDots /></div>}
+      {loading && (
+        <div className="fixed top-[26vh]">
+          <LoadingDots />
+        </div>
+      )}
       {isPetting && (
-        <div className="fixed top-[220px] animate-[blink_1s_ease-in-out_infinite]">
+        <div className="fixed top-[26vh] animate-[blink_1s_ease-in-out_infinite]">
           <i className="nes-icon is-medium heart"></i>
         </div>
       )}
       <div
-        className="fixed top-[240px]"
-        onTouchStart={(e: React.TouchEvent<HTMLDivElement>) =>
-          handleTouchStart(e)
-        }
-        onTouchEnd={(e: React.TouchEvent<HTMLDivElement>) => handleTouchEnd(e)}
+        className="fixed top-[28vh] "
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <FrameAnimation
           frames={currentFrames}
