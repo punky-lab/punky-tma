@@ -137,8 +137,8 @@ export default function Init({
 
     if (!isActionOpen && !isSlideOpen) {
       return (
-        <div className="flex flex-col items-center w-full mb-2">
-          <div className="text-white text-sm shadow-lg">Try to interact with me</div>
+        <div className="flex flex-col items-center w-full mb-6">
+          <div className="text-white text-sm shadow-lg">Interact with me</div>
           <div className="text-sm">👇</div>
         </div>
       )

@@ -12,7 +12,13 @@ import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
 import { ConfigProvider } from "antd";
 
-export default function UserPage({ userInfo, gameAccount }: { userInfo: any, gameAccount: any }) {
+export default function UserPage({
+  userInfo,
+  gameAccount,
+}: {
+  userInfo: any;
+  gameAccount: any;
+}) {
   const { navHeight } = useNavHeight(); // 获取导航栏高度
   let SDk: WalletTgSdk | undefined;
   if (typeof window !== "undefined") {
@@ -50,19 +56,19 @@ export default function UserPage({ userInfo, gameAccount }: { userInfo: any, gam
         >
           <div className="grow flex flex-col">
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 -mb-2">
-                <Avatar>
+              <div className="flex items-center gap-2">
+                {/*<Avatar>
                   <Image
                     src="/default-avatar.png"
                     alt={`${userInfo?.name}`}
                     fill
                     style={{ objectFit: "cover" }}
                   />
-                </Avatar>
-                <div>
-                  <h2 className="mb-0">{userInfo?.name}</h2>
+                </Avatar>*/}
+                <div className="p-4">
+                  <p className="mb-2">{userInfo?.name}</p>
                   <p className="m-0 text-white text-sm">
-                    Email:{userInfo?.email}
+                    @{userInfo?.telegram_username}
                   </p>
                 </div>
               </div>

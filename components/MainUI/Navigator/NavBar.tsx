@@ -46,18 +46,21 @@ export default function NavBar({
       ref={navRef}
       className="flex items-center justify-around w-screen h-[95px] px-2.5 bg-no-repeat bg-[url('../assets/ui/top-bott-bar.svg')] bg-contain bg-bottom z-20"
     >
-      <div
-        onClick={() => onPageChange("chat")}
-        className="flex items-center justify-center w-12 h-12"
-      >
-        <Image src={ChatIcon} alt="Chat" />
+      <div className="flex items-center justify-center">
+        <div
+          onClick={() => onPageChange("chat")}
+          className="flex items-center justify-center w-12 h-12 mr-3"
+        >
+          <Image src={ChatIcon} alt="Chat" />
+        </div>
+        <div
+          onClick={() => onPageChange("shop")}
+          className="flex items-center justify-center w-12 h-12"
+        >
+          <Image src={ShopIcon} alt="Shop" />
+        </div>
       </div>
-      <div
-        onClick={() => onPageChange("shop")}
-        className="flex items-center justify-center w-12 h-12"
-      >
-        <Image src={ShopIcon} alt="Shop" />
-      </div>
+
       <div className="flex items-center justify-center w-12 h-12">
         <SpriteBall
           onPress={() => toggleAction()}
@@ -65,17 +68,20 @@ export default function NavBar({
           onSwipeDown={() => closeSlide()}
         />
       </div>
-      <div
-        onClick={() => onPageChange("info")}
-        className="flex items-center justify-center w-12 h-12"
-      >
-        <Image src={InfoIcon} alt="Info" />
-      </div>
-      <div
-        onClick={() => onPageChange("user")}
-        className="flex items-center justify-center w-12 h-12"
-      >
-        <Image src={PersonIcon} alt="User" />
+
+      <div className="flex items-center justify-center">
+        <div
+          onClick={() => onPageChange("info")}
+          className="flex items-center justify-center w-12 h-12 mr-3"
+        >
+          <Image src={InfoIcon} alt="Info" />
+        </div>
+        <div
+          onClick={() => onPageChange("user")}
+          className="flex items-center justify-center w-12 h-12"
+        >
+          <Image src={PersonIcon} alt="User" />
+        </div>
       </div>
     </div>
   );

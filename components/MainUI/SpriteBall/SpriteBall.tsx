@@ -82,7 +82,7 @@ export default function SpriteBall({
         document.addEventListener("touchend", handleTouchEnd);
       }}
     >
-      <div className="w-full h-full relative -top-2 -left-1">
+      <div className="w-full h-full relative -top-14 -left-7">
         {getAnimation()}
       </div>
     </div>
