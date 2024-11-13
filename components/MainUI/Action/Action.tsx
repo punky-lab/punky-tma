@@ -22,7 +22,7 @@ export default function Action({ fetchUserData, setIsPetting }: { fetchUserData:
   const router = useRouter()
 
   return (
-    <div className="flex mb-2 w-full items-center justify-center space-x-8">
+    <div className="flex mb-6 w-full items-center justify-center space-x-8">
       <div
         className="w-12 h-12 flex items-center justify-center bg-[url(../assets/icons/button-round.svg)] bg-contain bg-center z-50 cursor-pointer"
         onClick={handlePetTouch}

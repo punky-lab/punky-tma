@@ -10,8 +10,8 @@ interface OnceAnimationProps {
 
 const animationConfig = {
   interval: 200,
-  width: 52,
-  height: 52,
+  width: 100,
+  height: 100,
 };
 
 export function IdleAnimation() {

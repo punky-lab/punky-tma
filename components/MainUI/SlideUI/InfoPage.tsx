@@ -8,8 +8,36 @@ import Invite from "./components/Invite";
 
 export default function InfoPage() {
   const { navHeight } = useNavHeight();
-  const [currentTab, setCurrentTab] = useState<string>("quest");
+  // const [currentTab, setCurrentTab] = useState<string>("quest");
 
+  // return (
+  //   <Page $navHeight={navHeight}>
+  //     <WindowWrapper>
+  //       <WindowContent
+  //         style={{
+  //           height: 288,
+  //           padding: "8px",
+  //           display: "flex",
+  //           flexDirection: "column",
+  //           paddingBottom: 20,
+  //         }}
+  //       >
+  //         <TabsContainer>
+  //           <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
+  //             <Tab value="quest">Quest</Tab>
+  //             <Tab value="ranking">Ranking</Tab>
+  //             <Tab value="invite">Invite</Tab>
+  //           </Tabs>
+  //         </TabsContainer>
+  //         <ScrollContainer>
+  //           {currentTab === "quest" && <Quests />}
+  //           {currentTab === "ranking" && <Ranking />}
+  //           {currentTab === "invite" && <Invite />}
+  //         </ScrollContainer>
+  //       </WindowContent>
+  //     </WindowWrapper>
+  //   </Page>
+  // );
   return (
     <Page $navHeight={navHeight}>
       <WindowWrapper>
@@ -20,20 +48,12 @@ export default function InfoPage() {
             display: "flex",
             flexDirection: "column",
             paddingBottom: 20,
+            width: "100%",
           }}
         >
-          <TabsContainer>
-            <Tabs value={currentTab} onChange={(value) => setCurrentTab(value)}>
-              <Tab value="quest">Quest</Tab>
-              <Tab value="ranking">Ranking</Tab>
-              <Tab value="invite">Invite</Tab>
-            </Tabs>
-          </TabsContainer>
-          <ScrollContainer>
-            {currentTab === "quest" && <Quests />}
-            {currentTab === "ranking" && <Ranking />}
-            {currentTab === "invite" && <Invite />}
-          </ScrollContainer>
+          <div className="grow flex flex-col items-center justify-center">
+            <p className="text-sm text-center">Ranking not opened</p>
+          </div>
         </WindowContent>
       </WindowWrapper>
     </Page>
