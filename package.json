@@ -1,5 +1,5 @@
 {
-  "name": "nextjs-template",
+  "name": "punky-mini-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,14 +11,9 @@
     "export": "next export"
   },
   "dependencies": {
-    "@ai-sdk/google": "^0.0.51",
     "@ai-sdk/openai": "^0.0.62",
     "@ant-design/web3": "^1.17.2",
     "@coral-xyz/anchor": "^0.30.1",
-    "@dynamic-labs/ethereum": "^3.3.0",
-    "@dynamic-labs/sdk-react-core": "^3.3.0",
-    "@dynamic-labs/solana": "^3.3.0",
-    "@google/generative-ai": "^0.21.0",
     "@react-spring/web": "^9.7.5",
     "@solana/spl-token": "^0.4.9",
     "@solana/web3.js": "^1.95.4",
@@ -37,7 +32,6 @@
     "next": "14.2.4",
     "node-emoji": "^2.1.3",
     "normalize.css": "^8.0.1",
-    "openai": "^4.67.2",
     "react": "^18",
     "react-dom": "^18",
     "react95": "^4.0.0",
