@@ -135,6 +135,7 @@ export default function Init({
       return <Action fetchUserData={fetchUserData} setIsPetting={setIsPetting} />;
     }
 
+    /*
     if (!isActionOpen && !isSlideOpen) {
       return (
         <div className="flex flex-col items-center w-full mb-6">
@@ -143,6 +144,7 @@ export default function Init({
         </div>
       )
     }
+    */
 
     return null;
   };
