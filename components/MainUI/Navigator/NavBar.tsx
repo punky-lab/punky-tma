@@ -7,7 +7,7 @@ import InfoIcon from "@/assets/ui/nav-04-info.svg";
 import PersonIcon from "@/assets/ui/nav-05-me.svg";
 import SpriteBall from "../SpriteBall/SpriteBall";
 import { useNavHeight } from "@/components/Root/navHeightContext";
-import { PageState } from "../Main2";
+import { PageState } from "../Init";
 
 interface NavBarProps {
   onPageChange: (page: PageState) => void;

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Root } from "@/components/Root/Root";
 import "normalize.css/normalize.css";
 import "./globals.css";
-import { Press_Start_2P } from "@next/font/google";
+import { Press_Start_2P } from "next/font/google";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           rel="stylesheet"
         />
       </head>
-      <body className={pressStart2P.className}>
+      <body>
         <Root>{children}</Root>
       </body>
     </html>

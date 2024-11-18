@@ -29,6 +29,9 @@ import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 
+/**
+ * @deprecated Use Init component from Init.tsx
+ */
 export default function Main({
   switchTo,
 }: {
