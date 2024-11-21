@@ -11,5 +11,12 @@ export default function Root(props: PropsWithChildren) {
       return <TelegramRoot>{props.children}</TelegramRoot>;
     case "tiktok":
       return <TiktokRoot>{props.children}</TiktokRoot>;
+    default:
+      return (
+        <div>
+          <h1>Invalid platform configuration</h1>
+          <p>Please check `NEXT_PUBLIC_APP_PLATFORM` in your `.env` file.</p>
+        </div>
+      );
   }
 }
