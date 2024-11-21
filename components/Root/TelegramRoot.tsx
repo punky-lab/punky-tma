@@ -22,12 +22,6 @@ import axios from "axios";
 import AppLoading from "../AppLoading";
 
 function TelegramApp(props: PropsWithChildren) {
-  // Mock Telegram environment in development mode if needed.
-  if (process.env.NODE_ENV === "development") {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useTelegramMock();
-  }
-
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
@@ -119,6 +113,11 @@ function RootInner({ children }: PropsWithChildren) {
 }
 
 export function TelegramRoot(props: PropsWithChildren) {
+  // Mock Telegram environment in development mode if needed.
+  if (process.env.NODE_ENV === "development") {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useTelegramMock();
+  }
   // Unfortunately, Telegram Mini Apps does not allow us to use all features of the Server Side
   // Rendering. That's why we are showing loader on the server side.
   const didMount = useDidMount();
