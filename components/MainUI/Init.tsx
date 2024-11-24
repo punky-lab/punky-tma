@@ -34,6 +34,8 @@ export default function Init({
 
   const [isDialogOpen, setIsDialogOpen] = useState(true);
 
+  const [emojisContent, setEmojisContent] = useState<string>(""); //气泡表情内容
+
   const handleConfirm = () => {
     setIsDialogOpen(false);
   };
@@ -78,7 +80,7 @@ export default function Init({
   const autoLogin = async () => {
     // try {
     //   const response = await authApis.login({
-    //     username: "wsnm@website.me", 
+    //     username: "wsnm@website.me",
     //     password: "password"
     //   });
     //   const { access_token, refresh_token } = response.data.data;
@@ -111,14 +113,21 @@ export default function Init({
     const fetchData = async () => {
       await autoLogin();
       await fetchUserData();
-    }
+    };
     fetchData();
   }, []);
 
   const renderPage = () => {
     switch (currentPage) {
       case "chat":
-        return <ChatPage loading={loading} setLoading={setLoading} fetchUserData={fetchUserData} />;
+        return (
+          <ChatPage
+            loading={loading}
+            setLoading={setLoading}
+            fetchUserData={fetchUserData}
+            setEmojisContent={setEmojisContent}
+          />
+        );
       case "shop":
         return <ShopPage />;
       case "info":
@@ -132,7 +141,9 @@ export default function Init({
 
   const renderAction = () => {
     if (isActionOpen) {
-      return <Action fetchUserData={fetchUserData} setIsPetting={setIsPetting} />;
+      return (
+        <Action fetchUserData={fetchUserData} setIsPetting={setIsPetting} />
+      );
     }
 
     /*
@@ -163,8 +174,18 @@ export default function Init({
               <p>This is an alpha test version of the app.</p>
               <p>Notice :Your off-chain data may lose.</p>
               <menu className="dialog-menu mt-4">
-                <button className="nes-btn" onClick={() => setIsDialogOpen(false)}>Cancel</button>
-                <button className="nes-btn is-primary ml-10" onClick={handleConfirm}>Confirm</button>
+                <button
+                  className="nes-btn"
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="nes-btn is-primary ml-10"
+                  onClick={handleConfirm}
+                >
+                  Confirm
+                </button>
               </menu>
             </form>
           </dialog>
@@ -172,7 +193,12 @@ export default function Init({
       )}
       <div className="flex flex-col w-full h-full relative">
         <PetInfo gameAccount={gameAccount} />
-        <Dog onClick={closeSlide} loading={loading} isPetting={isPetting} />
+        <Dog
+          onClick={closeSlide}
+          loading={loading}
+          isPetting={isPetting}
+          emojisContent={emojisContent}
+        />
         {renderAction()}
         <NavBar
           onPageChange={changePage}

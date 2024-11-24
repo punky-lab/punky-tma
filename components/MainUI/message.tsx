@@ -1,6 +1,6 @@
 import { ChatMessage } from "@/lib/chat";
 import React from "react";
-import LoadingDots from "./loadingDots";
+import LoadingDots from "./Dog/bubbleLoadingDots";
 
 export default function Message({ message }: { message: ChatMessage }) {
   if (message.role === "user")

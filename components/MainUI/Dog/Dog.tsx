@@ -4,9 +4,20 @@ import punkyRollFrames from "@/assets/animations/punky/roll.gif"; // Roll frames
 import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
 import FrameAnimation from "@/components/FrameAnimation";
 import { useState } from "react";
-import LoadingDots from "../loadingDots";
+import BubbleLoadingDots from "./bubbleLoadingDots";
+import BubbleMessage from "./bubbleMessage";
 
-export default function Dog({ onClick, loading, isPetting }: { onClick?: () => void, loading: boolean, isPetting: boolean }) {
+export default function Dog({
+  onClick,
+  loading,
+  isPetting,
+  emojisContent,
+}: {
+  onClick?: () => void;
+  loading: boolean;
+  isPetting: boolean;
+  emojisContent: string;
+}) {
   const [isTalking, setIsTalking] = useState(false);
   const [currentFrames, setCurrentFrames] = useState<any[]>(punkyFrames); // Default frames
   const [isSitting, setIsSitting] = useState(false);
@@ -42,7 +53,12 @@ export default function Dog({ onClick, loading, isPetting }: { onClick?: () => v
     <div className="grow flex flex-col items-center" onClick={onClick}>
       {loading && (
         <div className="fixed top-[26vh]">
-          <LoadingDots />
+          <BubbleLoadingDots />
+        </div>
+      )}
+      {!loading && emojisContent !== "" && (
+        <div className="fixed top-[20vh]">
+          <BubbleMessage message={emojisContent} />
         </div>
       )}
       {isPetting && (

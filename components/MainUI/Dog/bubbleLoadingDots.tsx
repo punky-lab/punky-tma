@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoadingDots: React.FC = () => {
+const BubbleLoadingDots: React.FC = () => {
   return (
     <div className="flex justify-start items-center space-x-2">
       <div className="w-3 h-3 bg-orange-300 rounded-full animate-bounce"></div>
@@ -10,4 +10,4 @@ const LoadingDots: React.FC = () => {
   );
 };
 
-export default LoadingDots;
+export default BubbleLoadingDots;
