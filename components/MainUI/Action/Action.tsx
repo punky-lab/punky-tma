@@ -19,9 +19,9 @@ export default function Action({
       const response = await authApis.touchPet();
       fetchUserData();
       setIsPetting(false);
-      console.log("摸宠物成功：", response.data);
+      console.log("touch pet success", response.data);
     } catch (error) {
-      console.error("摸宠物失败：", error);
+      console.error("touch pet error", error);
     }
   };
 
