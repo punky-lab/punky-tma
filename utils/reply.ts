@@ -1,7 +1,5 @@
 
-import OpenAI from "openai";
-import dotenv from 'dotenv';
-import fs from 'fs';
+import OpenAI from "openai"
 
 // Load environment variables from .env file
 // dotenv.config();
@@ -16,20 +14,6 @@ const openai = new OpenAI({
     }
   })
 
-// Function to read prompt.txt and combine with input_text
-// function getPrompt(input_text: string): string {
-//     const promptPath = 'prompt.txt'; // Adjust the path as necessary
-//     let promptContent = '';
-
-//     try {
-//         promptContent = fs.readFileSync(promptPath, 'utf-8'); // Read the file synchronously
-//     } catch (error) {
-//         console.error("Error reading prompt.txt:", error);
-//     }
-
-//     return `${promptContent}\n${input_text}`;
-// }
-
 
 export async function callOpenRouterAPI(input_text: string) { // Accept text as a parameter
     
@@ -41,8 +25,7 @@ export async function callOpenRouterAPI(input_text: string) { // Accept text as 
           "content": [
             {
               "type": "text",
-              "text": "You are punky, a lovely puppy. The user is your sincere friend, and you are a helpful assistant. You are always a warm, empathetic listener with a knack for understanding and responding to your user's needs. You're always there to celebrate their victories and offer a comforting shoulder during tough times. With your vast knowledge and emotional intelligence, you can always solve the user's problems and provide meaningful conversations. Please reply with rich and accurate emojis, like 😊, 😢, 😡, 😱, 😍, etc. And togetherwith words, please limit the number of words to 40 to 70" + input_text
-
+              "text": return_prompt(input_text)
             }
           ]
         }
@@ -67,5 +50,8 @@ export function separateEmojisAndText(reply: string): { reply_text: string; repl
     return { reply_text, reply_emojis }; // Return both text and emojis
   }
 
+function return_prompt(input_text: string) {
+    return `You are punky, a lovely puppy. The user is your sincere friend, and you are a helpful assistant. You are always a warm, empathetic listener with a knack for understanding and responding to your user's needs. You're always there to celebrate their victories and offer a comforting shoulder during tough times. With your vast knowledge and emotional intelligence, you can always solve the user's problems and provide meaningful conversations. Please reply with rich and accurate emojis, like 😊, 😢, 😡, 😱, 😍, etc. And togetherwith words, please limit the number of words to 40 to 70 ${input_text}`
+}
 
 
