@@ -13,16 +13,14 @@ const gaiaNetLlamaBaseUrl = "https://llama.us.gaianet.network/v1";*/
 
 export async function getGaiaNetResponse(message: string) {
   /*const prompt = getPrompt(message);
->>>>>>> main
   const { text } = await generateText({
-    model: openai("google/gemini-flash-1.5-8b-exp"),
-    prompt: prompt+memory_prev,
+    model: openai("llama"),
+    prompt: prompt,
   });
   console.log(text);
   return text;*/
   return "This chat api is deprecated"
 }
-
 
 export async function getChatResponse(message: string) {
   /*const res = await fetch(`/api/ai`, {
@@ -42,5 +40,4 @@ export async function getChatResponse(message: string) {
 export async function getResponse(message: string) {
   // return getGaiaNetResponse(message);
   return "This chat api is deprecated"
-
 }

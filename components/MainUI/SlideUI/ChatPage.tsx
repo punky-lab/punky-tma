@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { WindowContent, TextInput, Button } from "react95";
-import {
-  Page,
-  WindowWrapper,
-  FlexBox,
-} from "./styles";
+import { Page, WindowWrapper, FlexBox } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
 import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
 import { authApis } from "@/app/normalApi";
-// import LoadingDots from "../LoadingDot";
+import ChatLoadingDots from "../chatLoadingDot";
 
-import VoiceInput from "../voicechat";
-
-export default function ChatPage({ loading, setLoading, fetchUserData }: { loading: boolean, setLoading: (loading: boolean) => void, fetchUserData: () => void }) {
+export default function ChatPage({
+  loading,
+  setLoading,
+  fetchUserData,
+  setEmojisContent,
+}: {
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+  fetchUserData: () => void;
+  setEmojisContent: (emojisContent: string) => void;
+}) {
   const { navHeight } = useNavHeight();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
@@ -20,7 +24,7 @@ export default function ChatPage({ loading, setLoading, fetchUserData }: { loadi
   ]);
 
   useEffect(() => {
-    const savedMessages = localStorage.getItem('chatMessages');
+    const savedMessages = localStorage.getItem("chatMessages");
     if (savedMessages) {
       setMessages(JSON.parse(savedMessages));
     }
@@ -33,34 +37,48 @@ export default function ChatPage({ loading, setLoading, fetchUserData }: { loadi
     if (textToSend.trim()) {
       const newMessages = [...messages, { text: textToSend, isMe: true }];
       setMessages(newMessages);
-      localStorage.setItem('chatMessages', JSON.stringify(newMessages));
+      localStorage.setItem("chatMessages", JSON.stringify(newMessages));
       setMessage("");
 
       try {
         setLoading(true);
         const response = await authApis.getReply(textToSend); 
         let replyEmojis = response.data.data.emojis;
+        let replyText = response.data.data.response;
 
         if (!replyEmojis) {
           const keywords = extractKeywords(message);
           const localEmojis = await findRelatedEmojis(keywords);
-          replyEmojis = localEmojis.join(' ');
+          replyEmojis = localEmojis.join(" ");
         }
 
-        const updatedMessages = [...newMessages, { text: replyEmojis, isMe: false }];
         setLoading(false);
+        setEmojisContent(replyEmojis);
+        const updatedMessages = [
+          ...newMessages,
+          { text: replyText, isMe: false },
+        ];
         setMessages(updatedMessages);
-        localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+        localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+
         fetchUserData();
       } catch (error) {
         // console.error('发送消息失败:', error);
         const keywords = extractKeywords(textToSend);
         const localEmojis = await findRelatedEmojis(keywords);
-        const replyEmojis = localEmojis.join(' ');
+        const replyEmojis = localEmojis.join(" ");
 
-        const updatedMessages = [...newMessages, { text: replyEmojis, isMe: false }];
+        setLoading(false);
+        setEmojisContent(replyEmojis);
+        const updatedMessages = [
+          ...newMessages,
+          {
+            text: "Sorry, I'm just a doggie, I don't understand.",
+            isMe: false,
+          },
+        ];
         setMessages(updatedMessages);
-        localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+        localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
       }
     }
   };
@@ -105,7 +123,7 @@ export default function ChatPage({ loading, setLoading, fetchUserData }: { loadi
                 </div>
               )
             )}
-            {/* {loading && <LoadingDots />} */}
+            {loading && <ChatLoadingDots />}
           </div>
 
           <FlexBox
