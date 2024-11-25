@@ -13,7 +13,6 @@ import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
 import { getChatResponse, getResponse } from "@/app/api/chat";
 
-
 interface Props {
   setIsTalking: any;
 }
@@ -44,7 +43,6 @@ const Chat = forwardRef((props: Props, ref) => {
       { role: "user", content: content },
       { role: "ai", content: "", type: "loading" },
     ]);
-    
     setCurrentMessage("");
     setLoading(true); // 开始加载
     setIsTalking(true);
@@ -55,7 +53,6 @@ const Chat = forwardRef((props: Props, ref) => {
           prevMessages[prevMessages.length - 1].role = "ai";
           prevMessages[prevMessages.length - 1].content = reply;
           prevMessages[prevMessages.length - 1].type = "ai";
-          
           return prevMessages;
         });
       })
