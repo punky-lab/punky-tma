@@ -26,16 +26,19 @@ export default function ChatPage({ loading, setLoading, fetchUserData }: { loadi
     }
   }, []);
 
-  const handleSend = async () => {
-    if (message.trim()) {
-      const newMessages = [...messages, { text: message, isMe: true }];
+  const handleSend = async (voiceText?: string) => {
+    // 使用 voiceText 或 message
+    const textToSend = voiceText || message;
+    
+    if (textToSend.trim()) {
+      const newMessages = [...messages, { text: textToSend, isMe: true }];
       setMessages(newMessages);
       localStorage.setItem('chatMessages', JSON.stringify(newMessages));
       setMessage("");
 
       try {
         setLoading(true);
-        const response = await authApis.getReply(message);
+        const response = await authApis.getReply(textToSend); 
         let replyEmojis = response.data.data.emojis;
 
         if (!replyEmojis) {
@@ -50,8 +53,8 @@ export default function ChatPage({ loading, setLoading, fetchUserData }: { loadi
         localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
         fetchUserData();
       } catch (error) {
-        console.error('发送消息失败:', error);
-        const keywords = extractKeywords(message);
+        // console.error('发送消息失败:', error);
+        const keywords = extractKeywords(textToSend);
         const localEmojis = await findRelatedEmojis(keywords);
         const replyEmojis = localEmojis.join(' ');
 
@@ -122,19 +125,16 @@ export default function ChatPage({ loading, setLoading, fetchUserData }: { loadi
             <button
               type="button"
               className="nes-btn is-success"
-              onClick={handleSend}
+              onClick={() => handleSend()} // 修改这里
             >
               Send
             </button>
             <VoiceInput 
               onTranscript={(text) => {
-                setMessage(text);  // 设置识别到的文本
+                setMessage(text);  // 更新输入框的文本
               }}
-              onStop={() => {
-                // 确保消息已经设置后再调用 handleSend
-                if (message.trim()) {
-                  handleSend();
-                }
+              onStop={(text) => {
+                handleSend(text);  // 传入当前的语音文本
               }}
             />
           </FlexBox>
