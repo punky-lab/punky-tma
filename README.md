@@ -23,5 +23,5 @@ Punky HOLDERs can trade Punky freely on the marketplace, in part or in whole. Us
 ## Where to find us
 
 - **Our Website**: [https://punky.app/](https://punky.app/)
-- **Follow us on Twitter/X**: [@punnkypunkyai](https://x.com/punkypunkyai)
+- **Follow us on Twitter/X**: [@punkycompanion](https://x.com/punkycompanion)
 - **Join our community on Telegram**:[t.me/punkyaipunky](t.me/punkyaipunky)

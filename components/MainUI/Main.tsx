@@ -27,16 +27,14 @@ import FrameAnimation from "../FrameAnimation";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
-
-
-import { useRouter } from "next/navigation";
-
+/**
+ * @deprecated Use Init component from Init.tsx
+ */
 export default function Main({
   switchTo,
 }: {
   switchTo: (target: UIState) => void;
 }) {
-  const router = useRouter();
   const [isTalking, setIsTalking] = useState(false);
   const [currentFrames, setCurrentFrames] = useState<any[]>(punkyFrames); // Default frames
   const chatRef = useRef<any>(null); // 创建 ref
@@ -118,16 +116,18 @@ export default function Main({
         />
 
         {/* 中间图标组 */}
-        <div className="relative flex justify-center items-center w-56 h-20
-        bg-[url('../assets/icons/CTA.svg')] bg-contain bg-center bg-no-repeat">
-
+        <div
+          className="relative flex justify-center items-center w-56 h-20
+        bg-[url('../assets/icons/CTA.svg')] bg-contain bg-center bg-no-repeat"
+        >
           {/* Image 组 */}
           <div className="flex justify-center relative z-10 text-[8px]">
             <div className="flex flex-col items-center">
               <Image
                 src={HealthIcon}
                 alt="Health"
-                className="w-35 h-35 cursor-pointer mx-2" />
+                className="w-35 h-35 cursor-pointer mx-2"
+              />
               <div className="text-red-500">10</div>
             </div>
             <div className="flex flex-col items-center">
@@ -148,8 +148,6 @@ export default function Main({
             </div>
           </div>
         </div>
-
-
 
         {/* 右侧图标 */}
         <Image

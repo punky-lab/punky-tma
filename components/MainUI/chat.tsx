@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import PlayIcon from "@/assets/icons/toMessage.svg";
-import MicrophoneIcon from "@/assets/icons/microphone.svg"; // 添加语音输入图标
-import KeyboardIcon from "@/assets/icons/keyboard.svg"; // 添加键盘输入图标
 import React, {
   useEffect,
   useRef,
@@ -14,8 +12,6 @@ import React, {
 import { ChatMessage } from "@/lib/chat";
 import Message from "@/components/MainUI/message";
 import { getChatResponse, getResponse } from "@/app/api/chat";
-import ThinkingBubble from "@/components/thinkingBubble"; // 引入 ThinkingBubble
-import LoadingDots from "./loadingDots";
 
 
 interface Props {
@@ -249,8 +245,9 @@ const Chat = forwardRef((props: Props, ref) => {
                 onTouchMove={handleTouchMove}
                 onMouseDown={startRecording}
                 onMouseUp={handleTouchEnd}
-                className={`p-4 rounded-full w-full ${isRecording ? "bg-red-500" : "bg-gray-300"
-                  }`}
+                className={`p-4 rounded-full w-full ${
+                  isRecording ? "bg-red-500" : "bg-gray-300"
+                }`}
               >
                 {isRecording ? "松开 结束" : "按住 说话"}
               </button>
