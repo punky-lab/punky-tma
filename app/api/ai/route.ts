@@ -11,13 +11,14 @@ const openai = createOpenAI({
 })
 
 export async function POST(req: Request) {
+  const user_name = "punky-test";
   const { message } = await req.json();
   console.log(message);
 
-  const promptText = getPrompt(message);
+  const promptText = getPrompt(user_name, message);
 
   const {text} = await generateText({
-    model: openai("google/gemini-flash-1.5-exp"),
+    model: openai("google/gemini-pro-1.5-exp"),
     prompt: promptText,
   });
 
