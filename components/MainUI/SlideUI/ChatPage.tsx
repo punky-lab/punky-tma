@@ -5,6 +5,9 @@ import { useNavHeight } from "@/components/Root/navHeightContext";
 import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
 import { authApis } from "@/app/normalApi";
 import ChatLoadingDots from "../chatLoadingDot";
+import VoiceInput from "../voicechat";
+import { callOpenRouterAPI, separateEmojisAndText } from '@/utils/reply'; // Adjust the path as necessary
+import { text } from "stream/consumers";
 
 export default function ChatPage({
   loading,
@@ -64,16 +67,22 @@ export default function ChatPage({
         fetchUserData();
       } catch (error) {
         // console.error('发送消息失败:', error);
-        const keywords = extractKeywords(textToSend);
-        const localEmojis = await findRelatedEmojis(keywords);
-        const replyEmojis = localEmojis.join(" ");
+        // const keywords = extractKeywords(textToSend);
+        // const localEmojis = await findRelatedEmojis(keywords);
+        // const replyEmojis = localEmojis.join(" ");
 
+        // setLoading(false);
+        // setEmojisContent(replyEmojis);
+        const raw_reply = await callOpenRouterAPI(textToSend);
+        const { reply_text, reply_emojis } = separateEmojisAndText(raw_reply);
         setLoading(false);
-        setEmojisContent(replyEmojis);
+        setEmojisContent(reply_emojis.join(" "));
+
         const updatedMessages = [
           ...newMessages,
           {
-            text: "Sorry, I'm just a doggie, I don't understand.",
+            text: reply_text,
+            // text: "Sorry, I'm having trouble connecting to the server. Please try again later.",
             isMe: false,
           },
         ];
