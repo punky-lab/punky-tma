@@ -32,7 +32,13 @@
     "dotenv": "^16.4.5",
     "eruda": "^3.0.1",
     "framer-motion": "^11.5.4",
+<<<<<<< Updated upstream
     "mem0ai": "^1.0.20",
+=======
+    "keyword-extractor": "^0.0.28",
+    "lucide-react": "^0.460.0",
+    "natural": "^8.0.1",
+>>>>>>> Stashed changes
     "next": "14.2.4",
     "normalize.css": "^8.0.1",
     "openai": "^4.67.2",
