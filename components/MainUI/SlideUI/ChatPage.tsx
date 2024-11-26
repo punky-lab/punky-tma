@@ -5,6 +5,8 @@ import { useNavHeight } from "@/components/Root/navHeightContext";
 import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
 import { authApis } from "@/app/normalApi";
 import ChatLoadingDots from "../chatLoadingDot";
+import VoiceInput from "../voicechat";
+import { callOpenRouterAPI, separateEmojisAndText } from '@/utils/reply';
 
 export default function ChatPage({
   loading,
@@ -30,52 +32,64 @@ export default function ChatPage({
     }
   }, []);
 
-  const handleSend = async () => {
-    if (message.trim()) {
-      const newMessages = [...messages, { text: message, isMe: true }];
+  const handleSend = async (voiceText?: string) => {
+    // 使用 voiceText 或 message
+    const textToSend = voiceText || message;
+    
+    if (textToSend.trim()) {
+      const newMessages = [...messages, { text: textToSend, isMe: true }];
       setMessages(newMessages);
       localStorage.setItem("chatMessages", JSON.stringify(newMessages));
       setMessage("");
 
       try {
+        // setLoading(true);
+        // const response = await authApis.getReply(textToSend); 
+        // let replyEmojis = response.data.data.emojis;
+        // let replyText = response.data.data.response;
+
+        // if (!replyEmojis) {
+        //   const keywords = extractKeywords(message);
+        //   const localEmojis = await findRelatedEmojis(keywords);
+        //   replyEmojis = localEmojis.join(" ");
+        // }
+
+        // setLoading(false);
+        // setEmojisContent(replyEmojis);
+        // const updatedMessages = [
+        //   ...newMessages,
+        //   { text: replyText, isMe: false },
+        // ];
+        // setMessages(updatedMessages);
+        // localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+
         setLoading(true);
-        const response = await authApis.getReply(message);
-        let replyEmojis = response.data.data.emojis;
-        let replyText = response.data.data.response;
-
-        if (!replyEmojis) {
-          const keywords = extractKeywords(message);
-          const localEmojis = await findRelatedEmojis(keywords);
-          replyEmojis = localEmojis.join(" ");
-        }
-
+        const raw_reply = await callOpenRouterAPI(textToSend);
+        const { reply_text, reply_emojis } = separateEmojisAndText(raw_reply);
         setLoading(false);
-        setEmojisContent(replyEmojis);
-        const updatedMessages = [
-          ...newMessages,
-          { text: replyText, isMe: false },
-        ];
-        setMessages(updatedMessages);
-        localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+        setEmojisContent(reply_emojis.join(" "));
 
-        fetchUserData();
-      } catch (error) {
-        console.error("Send message error:", error);
-        const keywords = extractKeywords(message);
-        const localEmojis = await findRelatedEmojis(keywords);
-        const replyEmojis = localEmojis.join(" ");
-
-        setLoading(false);
-        setEmojisContent(replyEmojis);
         const updatedMessages = [
           ...newMessages,
           {
-            text: "Sorry, I'm just a doggie, I don't understand.",
+            text: reply_text,
+            // text: "Sorry, I'm having trouble connecting to the server. Please try again later.",
             isMe: false,
           },
         ];
         setMessages(updatedMessages);
         localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+
+        fetchUserData();
+
+      } catch (error) {
+        console.error('发送消息失败:', error);
+        const keywords = extractKeywords(textToSend);
+        const localEmojis = await findRelatedEmojis(keywords);
+        const replyEmojis = localEmojis.join(" ");
+
+        setLoading(false);
+        setEmojisContent(replyEmojis);
       }
     }
   };
@@ -140,10 +154,20 @@ export default function ChatPage({
             <button
               type="button"
               className="nes-btn is-success"
-              onClick={handleSend}
+              onClick={() => handleSend()} // 修改这里
             >
               Send
             </button>
+            <VoiceInput 
+              onTranscript={(text) => {
+                console.log("transcript text", text);
+                setMessage(text);  // 更新输入框的文本
+              }}
+              onStop={(text) => {
+                console.log("transcript stop");
+                handleSend(text);  // 传入当前的语音文本
+              }}
+            />
           </FlexBox>
         </WindowContent>
       </WindowWrapper>
