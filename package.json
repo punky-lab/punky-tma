@@ -18,7 +18,7 @@
     "@solana/spl-token": "^0.4.9",
     "@solana/web3.js": "^1.95.4",
     "@telegram-apps/react-router-integration": "^1.0.0",
-    "@telegram-apps/sdk-react": "^2.0.13",
+    "@telegram-apps/sdk-react": "^1.1.3",
     "@telegram-apps/telegram-ui": "^2.1.5",
     "@types/node-emoji": "^1.8.2",
     "@uxuycom/web3-tg-sdk": "^0.1.3",
