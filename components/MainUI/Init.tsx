@@ -10,6 +10,17 @@ import UserPage from "./SlideUI/UserPage";
 import { useEffect, useState } from "react";
 import { animated, useSpring } from "@react-spring/web";
 import { authApis } from "@/app/normalApi";
+import { ConfigProvider } from "antd";
+import { WalletTgSdk } from "@uxuycom/web3-tg-sdk";
+import {
+  Connection,
+  PublicKey,
+  Transaction,
+  SystemProgram,
+} from "@solana/web3.js";
+import { Program, AnchorProvider, BN } from "@coral-xyz/anchor";
+import IDL from "@/contract/idl.json";
+import { Idl } from "@coral-xyz/anchor";
 
 export type PageState = "chat" | "shop" | "info" | "user";
 
@@ -18,6 +29,11 @@ export default function Init({
 }: {
   switchTo: (target: UIState) => void;
 }) {
+  let SDk: WalletTgSdk | undefined;
+  if (typeof window !== "undefined") {
+    const { WalletTgSdk } = require("@uxuycom/web3-tg-sdk");
+    SDk = new WalletTgSdk();
+  }
   const [currentPage, setCurrentPage] = useState<PageState>("chat");
   const [isActionOpen, setIsActionOpen] = useState(false);
   const [isSlideOpen, setIsSlideOpen] = useState(false);
@@ -117,6 +133,107 @@ export default function Init({
     fetchData();
   }, []);
 
+  const getSolana = () => {
+    return SDk?.solana;
+  };
+  const solanaProvider = getSolana();
+
+  const PROGRAM_ID = new PublicKey(
+    "6YmNaSBGPwjxnxAFQePz7Z4R9YUMEoaCJGE2JakDrY7D"
+  );
+
+  const getProgram = async () => {
+    if (!solanaProvider) return null;
+
+    const connection = new Connection("https://api.testnet.sonic.game");
+    // 创建一个符合 Wallet 接口的对象
+    const wallet = {
+      publicKey: new PublicKey(solanaProvider?.publicKey?.toString()),
+      signTransaction: solanaProvider.signTransaction.bind(solanaProvider),
+      signAllTransactions:
+        solanaProvider.signAllTransactions.bind(solanaProvider),
+    };
+
+    // 使用正确的 wallet 配置创建 provider
+    const provider = new AnchorProvider(
+      connection,
+      wallet,
+      AnchorProvider.defaultOptions()
+    );
+
+    return new Program(IDL as Idl, provider);
+  };
+
+  const feedPet = async () => {
+    try {
+      const program = await getProgram();
+      if (!program || !gameAccount) return;
+
+      const gameAccountPDA = new PublicKey(gameAccount.address);
+
+      await program.methods
+        .feedPet()
+        .accounts({
+          gameAccount: gameAccountPDA,
+        })
+        .rpc();
+
+      await fetchUserData(); // 刷新数据
+    } catch (error) {
+      console.error("Feed pet failed:", error);
+    }
+  };
+
+  const petPet = async () => {
+    console.log("pet pet");
+    try {
+      const program = await getProgram();
+      console.log(program);
+      if (!program || !gameAccount) return;
+
+      const gameAccountPDA = new PublicKey(gameAccount.address);
+
+      await program.methods
+        .petPet()
+        .accounts({
+          gameAccount: gameAccountPDA,
+        })
+        .rpc();
+
+      await fetchUserData(); // 刷新数据
+    } catch (error) {
+      console.error("Pet pet failed:", error);
+    }
+  };
+
+  const initializeGameAccount = async () => {
+    try {
+      const program = await getProgram();
+      if (!program || !solanaProvider) return;
+
+      const userPublicKey = new PublicKey(solanaProvider.publicKey?.toString());
+      console.log(userPublicKey);
+
+      const [gameAccountPDA] = PublicKey.findProgramAddressSync(
+        [Buffer.from("game_account"), userPublicKey.toBytes()],
+        PROGRAM_ID
+      );
+
+      await program.methods
+        .initialize()
+        .accounts({
+          signer: userPublicKey,
+          gameAccount: gameAccountPDA,
+          systemProgram: SystemProgram.programId,
+        })
+        .rpc();
+
+      await fetchUserData(); // 刷新数据
+    } catch (error) {
+      console.error("Initialize failed:", error);
+    }
+  };
+
   const renderPage = () => {
     switch (currentPage) {
       case "chat":
@@ -133,7 +250,31 @@ export default function Init({
       case "info":
         return <InfoPage />;
       case "user":
-        return <UserPage userInfo={userInfo} gameAccount={gameAccount} />;
+        return (
+          <ConfigProvider
+            theme={{
+              components: {
+                Button: {
+                  colorPrimary: "#212529",
+                  algorithm: true,
+                },
+              },
+              token: {
+                colorPrimary: "#ffffff",
+                colorBgBase: "#212529",
+                colorTextBase: "#ffffff",
+                colorBorder: "#444444",
+              },
+            }}
+          >
+            <UserPage
+              userInfo={userInfo}
+              gameAccount={gameAccount}
+              solanaProvider={solanaProvider}
+              initializeGameAccount={initializeGameAccount}
+            />
+          </ConfigProvider>
+        );
       default:
         return null;
     }
