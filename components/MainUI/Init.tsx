@@ -145,8 +145,8 @@ export default function Init({
   const getProgram = async () => {
     if (!solanaProvider) return null;
 
-    const connection = new Connection("https://api.testnet.sonic.game");
-    // 创建一个符合 Wallet 接口的对象
+    const connection = new Connection("https://api.devnet.sonic.game");
+
     const wallet = {
       publicKey: new PublicKey(solanaProvider?.publicKey?.toString()),
       signTransaction: solanaProvider.signTransaction.bind(solanaProvider),
@@ -154,7 +154,6 @@ export default function Init({
         solanaProvider.signAllTransactions.bind(solanaProvider),
     };
 
-    // 使用正确的 wallet 配置创建 provider
     const provider = new AnchorProvider(
       connection,
       wallet,
@@ -167,7 +166,7 @@ export default function Init({
   const feedPet = async () => {
     try {
       const program = await getProgram();
-      if (!program || !gameAccount) return;
+      if (!program) return;
 
       const gameAccountPDA = new PublicKey(gameAccount.address);
 
@@ -178,20 +177,42 @@ export default function Init({
         })
         .rpc();
 
-      await fetchUserData(); // 刷新数据
+      await fetchUserData();
     } catch (error) {
       console.error("Feed pet failed:", error);
     }
   };
 
-  const petPet = async () => {
-    console.log("pet pet");
+  const getAccountData = async () => {
     try {
       const program = await getProgram();
-      console.log(program);
-      if (!program || !gameAccount) return;
+      if (!program || !solanaProvider) return;
+      const userPublicKey = new PublicKey(solanaProvider.publicKey?.toString());
+      // 获取 PDA
+      const [gameAccountPDA] = PublicKey.findProgramAddressSync(
+        [Buffer.from("game_account"), userPublicKey.toBytes()],
+        PROGRAM_ID
+      );
+      // 获取账户数据
+      const accountData =
+        await program.account.gameAccount.fetch(gameAccountPDA);
+      return accountData;
+    } catch (error) {
+      console.error("Failed to fetch account data:", error);
+      return null;
+    }
+  };
 
-      const gameAccountPDA = new PublicKey(gameAccount.address);
+  const petPet = async () => {
+    try {
+      const program = await getProgram();
+      if (!program || !solanaProvider) return;
+
+      const userPublicKey = new PublicKey(solanaProvider.publicKey?.toString());
+      const [gameAccountPDA] = PublicKey.findProgramAddressSync(
+        [Buffer.from("game_account"), userPublicKey.toBytes()],
+        PROGRAM_ID
+      );
 
       await program.methods
         .petPet()
@@ -200,7 +221,9 @@ export default function Init({
         })
         .rpc();
 
-      await fetchUserData(); // 刷新数据
+      const accountData = await getAccountData();
+      console.log("accountData", accountData);
+      setGameAccount(accountData);
     } catch (error) {
       console.error("Pet pet failed:", error);
     }
@@ -212,7 +235,6 @@ export default function Init({
       if (!program || !solanaProvider) return;
 
       const userPublicKey = new PublicKey(solanaProvider.publicKey?.toString());
-      console.log(userPublicKey);
 
       const [gameAccountPDA] = PublicKey.findProgramAddressSync(
         [Buffer.from("game_account"), userPublicKey.toBytes()],
@@ -228,7 +250,8 @@ export default function Init({
         })
         .rpc();
 
-      await fetchUserData(); // 刷新数据
+      const accountData = await getAccountData();
+      setGameAccount(accountData);
     } catch (error) {
       console.error("Initialize failed:", error);
     }
@@ -283,7 +306,11 @@ export default function Init({
   const renderAction = () => {
     if (isActionOpen) {
       return (
-        <Action fetchUserData={fetchUserData} setIsPetting={setIsPetting} />
+        <Action
+          fetchUserData={fetchUserData}
+          setIsPetting={setIsPetting}
+          petPet={petPet}
+        />
       );
     }
 

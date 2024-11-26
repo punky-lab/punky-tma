@@ -67,7 +67,7 @@ export default function UserPage({
                 <p className="title">Coins</p>
                 <div className="flex flex-col items-center">
                   <i className="nes-icon coin"></i>
-                  <p>{gameAccount?.coins}</p>
+                  <p>{gameAccount?.balance}</p>
                 </div>
               </div>
               <div className="nes-container is-dark with-title w-[43%] h-[75%]">
