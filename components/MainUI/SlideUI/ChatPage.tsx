@@ -6,8 +6,7 @@ import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
 import { authApis } from "@/app/normalApi";
 import ChatLoadingDots from "../chatLoadingDot";
 import VoiceInput from "../voicechat";
-import { callOpenRouterAPI, separateEmojisAndText } from '@/utils/reply'; // Adjust the path as necessary
-import { text } from "stream/consumers";
+import { callOpenRouterAPI, separateEmojisAndText } from '@/utils/reply';
 
 export default function ChatPage({
   loading,
@@ -44,35 +43,27 @@ export default function ChatPage({
       setMessage("");
 
       try {
-        setLoading(true);
-        const response = await authApis.getReply(textToSend); 
-        let replyEmojis = response.data.data.emojis;
-        let replyText = response.data.data.response;
+        // setLoading(true);
+        // const response = await authApis.getReply(textToSend); 
+        // let replyEmojis = response.data.data.emojis;
+        // let replyText = response.data.data.response;
 
-        if (!replyEmojis) {
-          const keywords = extractKeywords(message);
-          const localEmojis = await findRelatedEmojis(keywords);
-          replyEmojis = localEmojis.join(" ");
-        }
-
-        setLoading(false);
-        setEmojisContent(replyEmojis);
-        const updatedMessages = [
-          ...newMessages,
-          { text: replyText, isMe: false },
-        ];
-        setMessages(updatedMessages);
-        localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-
-        fetchUserData();
-      } catch (error) {
-        // console.error('发送消息失败:', error);
-        // const keywords = extractKeywords(textToSend);
-        // const localEmojis = await findRelatedEmojis(keywords);
-        // const replyEmojis = localEmojis.join(" ");
+        // if (!replyEmojis) {
+        //   const keywords = extractKeywords(message);
+        //   const localEmojis = await findRelatedEmojis(keywords);
+        //   replyEmojis = localEmojis.join(" ");
+        // }
 
         // setLoading(false);
         // setEmojisContent(replyEmojis);
+        // const updatedMessages = [
+        //   ...newMessages,
+        //   { text: replyText, isMe: false },
+        // ];
+        // setMessages(updatedMessages);
+        // localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+
+        setLoading(true);
         const raw_reply = await callOpenRouterAPI(textToSend);
         const { reply_text, reply_emojis } = separateEmojisAndText(raw_reply);
         setLoading(false);
@@ -88,6 +79,17 @@ export default function ChatPage({
         ];
         setMessages(updatedMessages);
         localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+
+        fetchUserData();
+
+      } catch (error) {
+        console.error('发送消息失败:', error);
+        const keywords = extractKeywords(textToSend);
+        const localEmojis = await findRelatedEmojis(keywords);
+        const replyEmojis = localEmojis.join(" ");
+
+        setLoading(false);
+        setEmojisContent(replyEmojis);
       }
     }
   };
@@ -158,9 +160,11 @@ export default function ChatPage({
             </button>
             <VoiceInput 
               onTranscript={(text) => {
+                console.log("transcript text", text);
                 setMessage(text);  // 更新输入框的文本
               }}
               onStop={(text) => {
+                console.log("transcript stop");
                 handleSend(text);  // 传入当前的语音文本
               }}
             />
