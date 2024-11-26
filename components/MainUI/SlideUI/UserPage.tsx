@@ -4,42 +4,30 @@ import Image from "next/image";
 import { Page, WindowWrapper, Avatar } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
 
-import { authApis } from "@/app/normalApi";
-
-import { WalletTgSdk } from "@uxuycom/web3-tg-sdk";
-
 import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
-import { ConfigProvider } from "antd";
 
 export default function UserPage({
   userInfo,
   gameAccount,
+  solanaProvider,
+  initializeGameAccount,
 }: {
   userInfo: any;
   gameAccount: any;
+  solanaProvider: any;
+  initializeGameAccount: () => void;
 }) {
   const { navHeight } = useNavHeight(); // 获取导航栏高度
-  let SDk: WalletTgSdk | undefined;
-  if (typeof window !== "undefined") {
-    const { WalletTgSdk } = require("@uxuycom/web3-tg-sdk");
-    SDk = new WalletTgSdk();
-  }
-
-  const getSolana = () => {
-    return SDk?.solana;
-  };
 
   const [address, setAddress] = useState<Account | undefined>(undefined);
-
-  const solanaProvider = getSolana();
 
   // 处理钱包连接
   const handleConnect = async () => {
     const res = await solanaProvider?.connect({}, false);
-    console.log(res);
     const walletAddress = solanaProvider?.publicKey?.toString();
     setAddress({ address: walletAddress }); // 设置钱包地址
+    initializeGameAccount();
   };
 
   return (
@@ -92,32 +80,15 @@ export default function UserPage({
             </div>
             {/* <a className="nes-btn" href="#">Connect Wallet</a> */}
 
-            <ConfigProvider
-              theme={{
-                components: {
-                  Button: {
-                    colorPrimary: "#212529",
-                    algorithm: true,
-                  },
-                },
-                token: {
-                  colorPrimary: "#ffffff",
-                  colorBgBase: "#212529",
-                  colorTextBase: "#ffffff",
-                  colorBorder: "#444444",
-                },
+            <ConnectButton
+              type="primary"
+              account={address}
+              onConnectClick={handleConnect}
+              onDisconnectClick={() => {
+                setAddress(undefined);
+                solanaProvider?.disconnect();
               }}
-            >
-              <ConnectButton
-                type="primary"
-                account={address}
-                onConnectClick={handleConnect}
-                onDisconnectClick={() => {
-                  setAddress(undefined);
-                  solanaProvider?.disconnect();
-                }}
-              />
-            </ConfigProvider>
+            />
           </div>
         </WindowContent>
       </WindowWrapper>
