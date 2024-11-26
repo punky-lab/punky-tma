@@ -37,35 +37,39 @@ function TelegramApp(props: PropsWithChildren) {
   }
 
   useEffect(() => {
-    console.log(initData);
-    setIsLoggingIn(true);
+    try {
+      console.log(initData);
+      setIsLoggingIn(true);
 
-    if (!initData) {
-      console.error("initData is empty");
-      return;
+      if (!initData) {
+        console.error("initData is empty");
+        return;
+      }
+
+      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/telegram/login`;
+      axios
+        .post(url, {
+          init_data: initData,
+        })
+        .then((res) => {
+          if (res.status != 200) {
+            throw new Error(`Login request failed: ${res.data.message}`);
+          }
+
+          const data = res.data.data;
+          console.log("login success", data);
+          localStorage.setItem("token", data.access_token);
+          localStorage.setItem("refresh_token", data.refresh_token);
+        })
+        .catch((err) => {
+          console.error("failed to login", err);
+        })
+        .finally(() => {
+          setIsLoggingIn(false);
+        });
+    } catch (error) {
+      console.error("failed to login", error);
     }
-
-    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/telegram/login`;
-    axios
-      .post(url, {
-        init_data: initData,
-      })
-      .then((res) => {
-        if (res.status != 200) {
-          throw new Error(`Login request failed: ${res.data.message}`);
-        }
-
-        const data = res.data.data;
-        console.log("login success", data);
-        localStorage.setItem("token", data.access_token);
-        localStorage.setItem("refresh_token", data.refresh_token);
-      })
-      .catch((err) => {
-        console.error("failed to login", err);
-      })
-      .finally(() => {
-        setIsLoggingIn(false);
-      });
   }, [initData]);
 
   useEffect(() => {
