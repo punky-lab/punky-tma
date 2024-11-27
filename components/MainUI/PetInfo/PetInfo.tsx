@@ -17,14 +17,14 @@ export default function PetInfo({ gameAccount }: { gameAccount: any }) {
     console.log("gameAccount", gameAccount);
   }, [gameAccount]);
   return (
-    <div className="grid grid-cols-2 w-screen h-[95px] py-2 px-2.5 bg-no-repeat bg-[url('../assets/ui/top-bott-bar.svg')] bg-contain bg-top">
+    <div className="grid grid-cols-2 w-screen h-[95px] py-2 px-2 bg-no-repeat bg-[url('../assets/ui/top-bott-bar.svg')] bg-contain bg-top">
       <ProgressBar value={happiness / 10} Icon={HeartIcon} />
-      <ProgressBar value={fitness / 10} Icon={BatteryIcon} />
-      <ProgressBar value={loyalty / 10} Icon={CoinIcon} />
-      <div className="flex items-center">
+      <div className="flex items-center ml-10">
         <Image src={CoinIcon} alt="Coin" className="w-10 h-10" />
-        <p className="text-white text-xs">{balance} coins</p>
+        <p className="text-white text-xs">{balance} $</p>
       </div>
+      <ProgressBar value={fitness / 10} Icon={BatteryIcon} />
+      {/* <ProgressBar value={loyalty / 10} Icon={CoinIcon} /> */}
     </div>
   );
 }
