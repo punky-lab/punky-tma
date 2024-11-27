@@ -7,7 +7,6 @@ export default function TxError() {
   return (
     <dialog className="nes-dialog" id="solana-popup-tx-error">
       <form method="dialog">
-        <p className="title">Transaction Error</p>
         <p id="solana-popup-tx-error-message"></p>
       </form>
       <menu className="dialog-menu">

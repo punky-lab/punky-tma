@@ -1,3 +1,4 @@
+import { PublicKey } from "@solana/web3.js";
 import { WalletTgSdk } from "@uxuycom/web3-tg-sdk";
 
 export function useSolanaProvider() {
@@ -9,3 +10,12 @@ export function useSolanaProvider() {
 
   return { provider: SDK?.solana };
 }
+
+export const usePublicKey = () => {
+  const { provider } = useSolanaProvider();
+  let publicKey: PublicKey | undefined;
+  if (provider && provider.publicKey) {
+    publicKey = new PublicKey(provider.publicKey.toString());
+  }
+  return { publicKey };
+};
