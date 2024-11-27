@@ -11,16 +11,11 @@ import { useEffect, useState } from "react";
 import { animated, useSpring } from "@react-spring/web";
 import { authApis } from "@/app/normalApi";
 import { ConfigProvider } from "antd";
-import { WalletTgSdk } from "@uxuycom/web3-tg-sdk";
-import {
-  Connection,
-  PublicKey,
-  Transaction,
-  SystemProgram,
-} from "@solana/web3.js";
-import { Program, AnchorProvider, BN } from "@coral-xyz/anchor";
-import IDL from "@/contract/idl.json";
-import { Idl } from "@coral-xyz/anchor";
+import { PublicKey, SystemProgram } from "@solana/web3.js";
+import { useGameAccountPDA, useGameProgram, usePublicKey } from "@/solana/game";
+import { useSolanaProvider } from "@/solana/provider";
+import { showTxErrorModal } from "@/utils/solana";
+import TxError from "../SolanaPopups/TxError";
 
 export type PageState = "chat" | "shop" | "info" | "user";
 
@@ -29,11 +24,6 @@ export default function Init({
 }: {
   switchTo: (target: UIState) => void;
 }) {
-  let SDk: WalletTgSdk | undefined;
-  if (typeof window !== "undefined") {
-    const { WalletTgSdk } = require("@uxuycom/web3-tg-sdk");
-    SDk = new WalletTgSdk();
-  }
   const [currentPage, setCurrentPage] = useState<PageState>("chat");
   const [isActionOpen, setIsActionOpen] = useState(false);
   const [isSlideOpen, setIsSlideOpen] = useState(false);
@@ -42,15 +32,32 @@ export default function Init({
       maxHeight: 0,
     },
   }));
-
   const [userInfo, setUserInfo] = useState<any>(null); // 用户信息
   const [gameAccount, setGameAccount] = useState<any>(null); // 游戏账户信息
   const [loading, setLoading] = useState(false); // 对话加载状态
   const [isPetting, setIsPetting] = useState(false); // 摸宠物状态
-
   const [isDialogOpen, setIsDialogOpen] = useState(true);
-
   const [emojisContent, setEmojisContent] = useState<string>(""); //气泡表情内容
+
+  const { program } = useGameProgram();
+  const { publicKey } = usePublicKey();
+  const { provider } = useSolanaProvider();
+
+  useEffect(() => {
+    console.log("publicKey changed", publicKey);
+  }, [publicKey]);
+
+  useEffect(() => {
+    console.log("program changed", program);
+  }, [program]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await autoLogin();
+      await fetchUserData();
+    };
+    fetchData();
+  }, []);
 
   const handleConfirm = () => {
     setIsDialogOpen(false);
@@ -93,19 +100,7 @@ export default function Init({
     setCurrentPage(page);
   };
 
-  const autoLogin = async () => {
-    // try {
-    //   const response = await authApis.login({
-    //     username: "wsnm@website.me",
-    //     password: "password"
-    //   });
-    //   const { access_token, refresh_token } = response.data.data;
-    //   localStorage.setItem('token', access_token);
-    //   localStorage.setItem('refresh_token', refresh_token);
-    // } catch (error) {
-    //   console.error('自动登录失败:', error);
-    // }
-  };
+  const autoLogin = async () => {};
 
   const fetchUserData = async () => {
     try {
@@ -125,47 +120,8 @@ export default function Init({
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await autoLogin();
-      await fetchUserData();
-    };
-    fetchData();
-  }, []);
-
-  const getSolana = () => {
-    return SDk?.solana;
-  };
-  const solanaProvider = getSolana();
-
-  const PROGRAM_ID = new PublicKey(
-    "6YmNaSBGPwjxnxAFQePz7Z4R9YUMEoaCJGE2JakDrY7D"
-  );
-
-  const getProgram = async () => {
-    if (!solanaProvider) return null;
-
-    const connection = new Connection("https://api.devnet.sonic.game");
-
-    const wallet = {
-      publicKey: new PublicKey(solanaProvider?.publicKey?.toString()),
-      signTransaction: solanaProvider.signTransaction.bind(solanaProvider),
-      signAllTransactions:
-        solanaProvider.signAllTransactions.bind(solanaProvider),
-    };
-
-    const provider = new AnchorProvider(
-      connection,
-      wallet,
-      AnchorProvider.defaultOptions()
-    );
-
-    return new Program(IDL as Idl, provider);
-  };
-
   const feedPet = async () => {
     try {
-      const program = await getProgram();
       if (!program) return;
 
       const gameAccountPDA = new PublicKey(gameAccount.address);
@@ -185,17 +141,9 @@ export default function Init({
 
   const getAccountData = async () => {
     try {
-      const program = await getProgram();
-      if (!program || !solanaProvider) return;
-      const userPublicKey = new PublicKey(solanaProvider.publicKey?.toString());
-      // 获取 PDA
-      const [gameAccountPDA] = PublicKey.findProgramAddressSync(
-        [Buffer.from("game_account"), userPublicKey.toBytes()],
-        PROGRAM_ID
-      );
+      const { pda } = useGameAccountPDA();
       // 获取账户数据
-      const accountData =
-        await program.account.gameAccount.fetch(gameAccountPDA);
+      const accountData = await program?.account.gameAccount.fetch(pda);
       return accountData;
     } catch (error) {
       console.error("Failed to fetch account data:", error);
@@ -205,19 +153,14 @@ export default function Init({
 
   const petPet = async () => {
     try {
-      const program = await getProgram();
-      if (!program || !solanaProvider) return;
+      if (!program) return;
 
-      const userPublicKey = new PublicKey(solanaProvider.publicKey?.toString());
-      const [gameAccountPDA] = PublicKey.findProgramAddressSync(
-        [Buffer.from("game_account"), userPublicKey.toBytes()],
-        PROGRAM_ID
-      );
+      const { pda } = useGameAccountPDA();
 
       await program.methods
         .petPet()
         .accounts({
-          gameAccount: gameAccountPDA,
+          gameAccount: pda,
         })
         .rpc();
 
@@ -225,27 +168,22 @@ export default function Init({
       console.log("accountData", accountData);
       setGameAccount(accountData);
     } catch (error) {
+      showTxErrorModal((error as any).transactionMessage);
       console.error("Pet pet failed:", error);
     }
   };
 
   const initializeGameAccount = async () => {
     try {
-      const program = await getProgram();
-      if (!program || !solanaProvider) return;
+      if (!program) return;
 
-      const userPublicKey = new PublicKey(solanaProvider.publicKey?.toString());
-
-      const [gameAccountPDA] = PublicKey.findProgramAddressSync(
-        [Buffer.from("game_account"), userPublicKey.toBytes()],
-        PROGRAM_ID
-      );
+      const { pda } = useGameAccountPDA();
 
       await program.methods
         .initialize()
         .accounts({
-          signer: userPublicKey,
-          gameAccount: gameAccountPDA,
+          signer: publicKey,
+          gameAccount: pda,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
@@ -254,6 +192,12 @@ export default function Init({
       setGameAccount(accountData);
     } catch (error) {
       console.error("Initialize failed:", error);
+      // if the error message contains custom error 0x0, it means the account is already initialized
+      if ((error as any).transactionMessage.includes("custom program error: 0x0")) {
+        showTxErrorModal("Account already initialized");
+      } else {
+        showTxErrorModal((error as any).transactionMessage);
+      }
     }
   };
 
@@ -293,7 +237,7 @@ export default function Init({
             <UserPage
               userInfo={userInfo}
               gameAccount={gameAccount}
-              solanaProvider={solanaProvider}
+              solanaProvider={provider}
               initializeGameAccount={initializeGameAccount}
             />
           </ConfigProvider>
@@ -330,6 +274,7 @@ export default function Init({
 
   return (
     <>
+      <TxError />
       {isDialogOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
           <dialog

@@ -1,0 +1,157 @@
+{
+  "address": "6YmNaSBGPwjxnxAFQePz7Z4R9YUMEoaCJGE2JakDrY7D",
+  "metadata": {
+    "name": "punky_solana_program",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "feed_pet",
+      "discriminator": [
+        178,
+        186,
+        190,
+        67,
+        17,
+        33,
+        124,
+        31
+      ],
+      "accounts": [
+        {
+          "name": "game_account",
+          "writable": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "game_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pet_pet",
+      "discriminator": [
+        204,
+        202,
+        246,
+        145,
+        5,
+        144,
+        100,
+        75
+      ],
+      "accounts": [
+        {
+          "name": "game_account",
+          "writable": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GameAccount",
+      "discriminator": [
+        168,
+        26,
+        58,
+        96,
+        13,
+        208,
+        230,
+        188
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "AlreadyInitialized",
+      "msg": "This account has already been initialized"
+    }
+  ],
+  "types": [
+    {
+      "name": "GameAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initialized",
+            "type": "bool"
+          },
+          {
+            "name": "fitness",
+            "type": "u16"
+          },
+          {
+            "name": "loyalty",
+            "type": "u16"
+          },
+          {
+            "name": "happiness",
+            "type": "u16"
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}

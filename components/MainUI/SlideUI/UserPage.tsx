@@ -6,6 +6,8 @@ import { useNavHeight } from "@/components/Root/navHeightContext";
 
 import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
+import InitializeGameAccount from "@/components/SolanaPopups/Initialize";
+import { showInitializeModal } from "@/utils/solana";
 
 export default function UserPage({
   userInfo,
@@ -27,7 +29,7 @@ export default function UserPage({
     const res = await solanaProvider?.connect({}, false);
     const walletAddress = solanaProvider?.publicKey?.toString();
     setAddress({ address: walletAddress }); // 设置钱包地址
-    initializeGameAccount();
+    showInitializeModal();
   };
 
   return (
@@ -67,7 +69,7 @@ export default function UserPage({
                 <p className="title">Coins</p>
                 <div className="flex flex-col items-center">
                   <i className="nes-icon coin"></i>
-                  <p>{gameAccount?.balance}</p>
+                  <p>{gameAccount?.balance || 0}</p>
                 </div>
               </div>
               <div className="nes-container is-dark with-title w-[43%] h-[75%]">
@@ -78,7 +80,6 @@ export default function UserPage({
                 </div>
               </div>
             </div>
-            {/* <a className="nes-btn" href="#">Connect Wallet</a> */}
 
             <ConnectButton
               type="primary"
@@ -89,6 +90,7 @@ export default function UserPage({
                 solanaProvider?.disconnect();
               }}
             />
+            <InitializeGameAccount onConfirm={initializeGameAccount} />
           </div>
         </WindowContent>
       </WindowWrapper>
