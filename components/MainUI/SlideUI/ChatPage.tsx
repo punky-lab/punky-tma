@@ -146,32 +146,35 @@ export default function ChatPage({
               padding: "8px",
               borderTop: "2px solid #424242",
               marginTop: "auto",
+              position: "relative",
             }}
           >
             <input
               type="text"
-              className="nes-input grow text-black"
+              className="nes-input grow text-black bg-[#dcdcdc] pr-[100px] placeholder:bg-[#dcdcdc] "
               value={message}
               placeholder="Chat..."
               onChange={(e) => setMessage(e.target.value)}
             />
-            <button
-              type="button"
-              className="nes-btn bg-black text-white"
-              onClick={() => handleSend()} // 修改这里
-            >
-              Send
-            </button>
-            <VoiceInput
-              onTranscript={(text) => {
-                console.log("transcript text", text);
-                setMessage(text); // 更新输入框的文本
-              }}
-              onStop={(text) => {
-                console.log("transcript stop");
-                handleSend(text); // 传入当前的语音文本
-              }}
-            />
+            <div className="absolute right-0 flex justify-center item-center">
+              <VoiceInput
+                onTranscript={(text) => {
+                  console.log("transcript text", text);
+                  setMessage(text); // 更新输入框的文本
+                }}
+                onStop={(text) => {
+                  console.log("transcript stop");
+                  handleSend(text); // 传入当前的语音文本
+                }}
+              />
+              <button
+                type="button"
+                className="nes-btn bg-black text-white "
+                onClick={() => handleSend()} // 修改这里
+              >
+                Send
+              </button>
+            </div>
           </FlexBox>
         </WindowContent>
       </WindowWrapper>
