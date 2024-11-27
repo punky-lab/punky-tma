@@ -19,7 +19,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ value, Icon }) => {
         <div className="absolute top-0 left-0 w-full h-full border border-[#20818f] rounded-md pointer-events-none"></div>
         {/* 进度值文字 */}
         <div className="absolute top-0 left-2 h-full flex items-center text-[#5b3b6e] text-[10px]">
-          {Math.round(value)}%
+          {Math.round(value)}
         </div>
       </div>
     </div>

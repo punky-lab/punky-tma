@@ -6,17 +6,20 @@ import { useNavHeight } from "@/components/Root/navHeightContext";
 
 import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
+import { showInitializeModal } from "@/utils/solana";
 
 export default function UserPage({
   userInfo,
   gameAccount,
   solanaProvider,
-  initializeGameAccount,
+  onWalletConnect,
+  onWalletDisconnect,
 }: {
   userInfo: any;
   gameAccount: any;
   solanaProvider: any;
-  initializeGameAccount: () => void;
+  onWalletConnect: () => void;
+  onWalletDisconnect: () => void;
 }) {
   const { navHeight } = useNavHeight(); // 获取导航栏高度
 
@@ -27,7 +30,8 @@ export default function UserPage({
     const res = await solanaProvider?.connect({}, false);
     const walletAddress = solanaProvider?.publicKey?.toString();
     setAddress({ address: walletAddress }); // 设置钱包地址
-    initializeGameAccount();
+    onWalletConnect();
+    showInitializeModal();
   };
 
   return (
@@ -67,7 +71,7 @@ export default function UserPage({
                 <p className="title">Coins</p>
                 <div className="flex flex-col items-center">
                   <i className="nes-icon coin"></i>
-                  <p>{gameAccount?.coins}</p>
+                  <p>{gameAccount?.balance || 0}</p>
                 </div>
               </div>
               <div className="nes-container is-dark with-title w-[43%] h-[75%]">
@@ -78,7 +82,6 @@ export default function UserPage({
                 </div>
               </div>
             </div>
-            {/* <a className="nes-btn" href="#">Connect Wallet</a> */}
 
             <ConnectButton
               type="primary"
@@ -86,6 +89,7 @@ export default function UserPage({
               onConnectClick={handleConnect}
               onDisconnectClick={() => {
                 setAddress(undefined);
+                onWalletDisconnect();
                 solanaProvider?.disconnect();
               }}
             />

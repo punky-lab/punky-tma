@@ -9,17 +9,21 @@ import { useRouter } from "next/navigation";
 export default function Action({
   fetchUserData,
   setIsPetting,
+  petPet,
 }: {
   fetchUserData: () => void;
   setIsPetting: (isPetting: boolean) => void;
+  petPet: () => void;
 }) {
   const handlePetTouch = async () => {
     try {
       setIsPetting(true);
-      const response = await authApis.touchPet();
+      // const response = await authApis.touchPet();
+      const response = await petPet();
+      console.log("touch pet success", response);
       fetchUserData();
       setIsPetting(false);
-      console.log("touch pet success", response.data);
+      // console.log("touch pet success", response.data);
     } catch (error) {
       console.error("touch pet error", error);
     }
