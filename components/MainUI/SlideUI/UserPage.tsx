@@ -75,14 +75,14 @@ export default function UserPage({
             </div>
 
             <div className="flex justify-between items-center -mb-2">
-              <div className="nes-container is-dark with-title w-[43%] h-[75%]">
-                <p className="title">Coins</p>
+              <div className="nes-container bg-black m-1 border-[#33E3FF] with-title w-[43%] h-[75%]">
+                <p className="mt-[-20px]">Coins</p>
                 <div className="flex flex-col items-center">
                   <i className="nes-icon coin"></i>
                   <p>{gameAccount?.coins}</p>
                 </div>
               </div>
-              <div className="nes-container is-dark with-title w-[43%] h-[75%]">
+              <div className="nes-container bg-black m-1 border-[#33E3FF] with-title w-[43%] h-[75%]">
                 <p className="title">Level</p>
                 <div className="flex flex-col items-center">
                   <i className="nes-icon star"></i>
