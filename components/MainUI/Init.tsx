@@ -172,18 +172,8 @@ export default function Init({
             <form method="dialog">
               <p className="title">Tips</p>
               <p>This is an alpha test version of the app.</p>
-              <p>Notice :Your off-chain data may lose.</p>
-              <menu className="dialog-menu mt-4">
-                <button
-                  className="nes-btn"
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="nes-btn is-primary ml-10"
-                  onClick={handleConfirm}
-                >
+              <menu className="dialog-menu mt-4 flex justify-end">
+                <button className="nes-btn is-primary" onClick={handleConfirm}>
                   Confirm
                 </button>
               </menu>
