@@ -17,6 +17,8 @@ import { useSolanaProvider, usePublicKey } from "@/solana/provider";
 import { showTxErrorModal } from "@/utils/solana";
 import TxError from "../SolanaPopups/TxError";
 import InitializeGameAccount from "../SolanaPopups/Initialize";
+import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
+import { callOpenRouterAPI, separateEmojisAndText } from "@/utils/reply";
 
 export type PageState = "chat" | "shop" | "info" | "user";
 
@@ -44,6 +46,11 @@ export default function Init({
   const { program } = useGameProgram();
   const { publicKey } = usePublicKey();
   const { provider } = useSolanaProvider();
+
+  const [messages, setMessages] = useState([
+    { text: "🐶 🐶 🥰 Hi!", isMe: false },
+  ]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     console.log("publicKey changed", publicKey);
@@ -231,6 +238,47 @@ export default function Init({
     }
   };
 
+  const handleSend = async (voiceText?: string) => {
+    // 使用 voiceText 或 message
+    const textToSend = voiceText || message;
+
+    if (textToSend.trim()) {
+      const newMessages = [...messages, { text: textToSend, isMe: true }];
+      setMessages(newMessages);
+      localStorage.setItem("chatMessages", JSON.stringify(newMessages));
+      setMessage("");
+
+      try {
+        setLoading(true);
+        const raw_reply = await callOpenRouterAPI(textToSend);
+        const { reply_text, reply_emojis } = separateEmojisAndText(raw_reply);
+        setLoading(false);
+        setEmojisContent(reply_emojis.join(" "));
+
+        const updatedMessages = [
+          ...newMessages,
+          {
+            text: reply_text,
+            // text: "Sorry, I'm having trouble connecting to the server. Please try again later.",
+            isMe: false,
+          },
+        ];
+        setMessages(updatedMessages);
+        localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+
+        fetchUserData();
+      } catch (error) {
+        console.error("发送消息失败:", error);
+        const keywords = extractKeywords(textToSend);
+        const localEmojis = await findRelatedEmojis(keywords);
+        const replyEmojis = localEmojis.join(" ");
+
+        setLoading(false);
+        setEmojisContent(replyEmojis);
+      }
+    }
+  };
+
   const renderPage = () => {
     switch (currentPage) {
       case "chat":
@@ -240,6 +288,10 @@ export default function Init({
             setLoading={setLoading}
             fetchUserData={fetchUserData}
             setEmojisContent={setEmojisContent}
+            messages={messages}
+            setMessages={setMessages}
+            message={message}
+            setMessage={setMessage}
           />
         );
       case "shop":
@@ -289,6 +341,8 @@ export default function Init({
           fetchUserData={fetchUserData}
           setIsPetting={setIsPetting}
           petPet={petPet}
+          handleSend={handleSend}
+          setMessage={setMessage}
         />
       );
     }

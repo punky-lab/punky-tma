@@ -13,17 +13,21 @@ export default function ChatPage({
   setLoading,
   fetchUserData,
   setEmojisContent,
+  messages,
+  setMessages,
+  message,
+  setMessage,
 }: {
   loading: boolean;
   setLoading: (loading: boolean) => void;
   fetchUserData: () => void;
   setEmojisContent: (emojisContent: string) => void;
+  messages: any[];
+  setMessages: (messages: any[]) => void;
+  message: string;
+  setMessage: (message: string) => void;
 }) {
   const { navHeight } = useNavHeight();
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([
-    { text: "🐶 🐶 🥰 Hi!", isMe: false },
-  ]);
 
   useEffect(() => {
     const savedMessages = localStorage.getItem("chatMessages");
@@ -43,26 +47,6 @@ export default function ChatPage({
       setMessage("");
 
       try {
-        // setLoading(true);
-        // const response = await authApis.getReply(textToSend);
-        // let replyEmojis = response.data.data.emojis;
-        // let replyText = response.data.data.response;
-
-        // if (!replyEmojis) {
-        //   const keywords = extractKeywords(message);
-        //   const localEmojis = await findRelatedEmojis(keywords);
-        //   replyEmojis = localEmojis.join(" ");
-        // }
-
-        // setLoading(false);
-        // setEmojisContent(replyEmojis);
-        // const updatedMessages = [
-        //   ...newMessages,
-        //   { text: replyText, isMe: false },
-        // ];
-        // setMessages(updatedMessages);
-        // localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-
         setLoading(true);
         const raw_reply = await callOpenRouterAPI(textToSend);
         const { reply_text, reply_emojis } = separateEmojisAndText(raw_reply);
