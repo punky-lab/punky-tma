@@ -7,6 +7,12 @@ import { useNavHeight } from "@/components/Root/navHeightContext";
 import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
 import { showInitializeModal } from "@/utils/solana";
+import { Press_Start_2P } from "next/font/google";
+
+const pressStart2P = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export default function UserPage({
   userInfo,
@@ -85,6 +91,7 @@ export default function UserPage({
 
             <ConnectButton
               type="primary"
+              className={pressStart2P.className}
               account={address}
               onConnectClick={handleConnect}
               onDisconnectClick={() => {

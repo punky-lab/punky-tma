@@ -167,6 +167,12 @@ export default function Init({
   };
 
   const petPet = async () => {
+    // TODO：没有连接钱包的时候先把数值记录一下
+    if (!walletConnected) {
+      showTxErrorModal("Connect to wallet in user page first");
+      return;
+    }
+
     try {
       const { pda } = useGameAccountPDA();
 
