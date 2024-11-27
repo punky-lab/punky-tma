@@ -89,6 +89,12 @@ export default function UserPage({
 
             <ConnectButton
               type="primary"
+              style={{
+                border: "none",
+                borderRadius: 0,
+                boxShadow: "none",
+                fontFamily: "var(--font-family)",
+              }}
               account={address}
               onConnectClick={handleConnect}
               onDisconnectClick={() => {
