@@ -95,7 +95,11 @@ export default function ChatPage({
 
   return (
     <Page $navHeight={navHeight}>
-      <WindowWrapper>
+      <WindowWrapper
+        style={{
+          borderColor: "#33E3FF",
+        }}
+      >
         <WindowContent
           style={{
             height: 288,
@@ -116,20 +120,21 @@ export default function ChatPage({
           >
             {messages.map((msg, index) =>
               msg.isMe ? (
-                <div
-                  key={index}
-                  className="nes-container is-rounded with-title bg-white"
-                >
-                  <p className="title">Me</p>
-                  <p>{msg.text}</p>
+                <div key={index} className="flex justify-end  border-[#33E3FF]">
+                  <div className="nes-container w-[80%] p-4 border-[#33E3FF]  with-title bg-[#d9d9d9]/65 ">
+                    {/* <p className="title">Me</p> */}
+                    <p className="text-white">{msg.text}</p>
+                  </div>
                 </div>
               ) : (
                 <div
                   key={index}
-                  className="nes-container is-rounded with-title bg-white"
+                  className="flex justify-start  border-[#33E3FF]"
                 >
-                  <p className="title">Punky</p>
-                  <p>{msg.text}</p>
+                  <div className="nes-container w-[80%] p-4  border-[#33E3FF] with-title bg-[#d9d9d9]/65 ">
+                    {/* <p className="title">Punky</p> */}
+                    <p className="text-white">{msg.text}</p>
+                  </div>
                 </div>
               )
             )}
@@ -152,7 +157,7 @@ export default function ChatPage({
             />
             <button
               type="button"
-              className="nes-btn is-success"
+              className="nes-btn bg-black text-white"
               onClick={() => handleSend()} // 修改这里
             >
               Send
