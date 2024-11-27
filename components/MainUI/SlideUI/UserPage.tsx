@@ -4,42 +4,34 @@ import Image from "next/image";
 import { Page, WindowWrapper, Avatar } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
 
-import { authApis } from "@/app/normalApi";
-
-import { WalletTgSdk } from "@uxuycom/web3-tg-sdk";
-
 import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
-import { ConfigProvider } from "antd";
+import { showInitializeModal } from "@/utils/solana";
 
 export default function UserPage({
   userInfo,
   gameAccount,
+  solanaProvider,
+  onWalletConnect,
+  onWalletDisconnect,
 }: {
   userInfo: any;
   gameAccount: any;
+  solanaProvider: any;
+  onWalletConnect: () => void;
+  onWalletDisconnect: () => void;
 }) {
   const { navHeight } = useNavHeight(); // 获取导航栏高度
-  let SDk: WalletTgSdk | undefined;
-  if (typeof window !== "undefined") {
-    const { WalletTgSdk } = require("@uxuycom/web3-tg-sdk");
-    SDk = new WalletTgSdk();
-  }
-
-  const getSolana = () => {
-    return SDk?.solana;
-  };
 
   const [address, setAddress] = useState<Account | undefined>(undefined);
-
-  const solanaProvider = getSolana();
 
   // 处理钱包连接
   const handleConnect = async () => {
     const res = await solanaProvider?.connect({}, false);
-    console.log(res);
     const walletAddress = solanaProvider?.publicKey?.toString();
     setAddress({ address: walletAddress }); // 设置钱包地址
+    onWalletConnect();
+    showInitializeModal();
   };
 
   return (
@@ -83,7 +75,7 @@ export default function UserPage({
                 <p className="mt-[-24px] text-center">Coins</p>
                 <div className="flex flex-col items-center">
                   <i className="nes-icon coin"></i>
-                  <p>{gameAccount?.coins}</p>
+                  <p>{gameAccount?.balance || 0}</p>
                 </div>
               </div>
               <div className="nes-container bg-black m-1 border-[#33E3FF] with-title w-[43%] h-[75%]">
@@ -94,34 +86,17 @@ export default function UserPage({
                 </div>
               </div>
             </div>
-            {/* <a className="nes-btn" href="#">Connect Wallet</a> */}
 
-            <ConfigProvider
-              theme={{
-                components: {
-                  Button: {
-                    colorPrimary: "#212529",
-                    algorithm: true,
-                  },
-                },
-                token: {
-                  colorPrimary: "#ffffff",
-                  colorBgBase: "#212529",
-                  colorTextBase: "#ffffff",
-                  colorBorder: "#444444",
-                },
+            <ConnectButton
+              type="primary"
+              account={address}
+              onConnectClick={handleConnect}
+              onDisconnectClick={() => {
+                setAddress(undefined);
+                onWalletDisconnect();
+                solanaProvider?.disconnect();
               }}
-            >
-              <ConnectButton
-                type="primary"
-                account={address}
-                onConnectClick={handleConnect}
-                onDisconnectClick={() => {
-                  setAddress(undefined);
-                  solanaProvider?.disconnect();
-                }}
-              />
-            </ConfigProvider>
+            />
           </div>
         </WindowContent>
       </WindowWrapper>
