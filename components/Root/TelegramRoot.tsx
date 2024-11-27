@@ -29,7 +29,8 @@ function TelegramApp(props: PropsWithChildren) {
 
   // Also perform telegram app login in this component
   const { initDataRaw } = retrieveLaunchParams();
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  // Set to true to show loading page
+  const [isLoggingIn, setIsLoggingIn] = useState(true);
 
   var initData = initDataRaw;
   if (process.env.NODE_ENV === "development") {
