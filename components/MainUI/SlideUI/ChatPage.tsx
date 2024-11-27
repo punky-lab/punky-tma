@@ -82,7 +82,11 @@ export default function ChatPage({
 
   return (
     <Page $navHeight={navHeight}>
-      <WindowWrapper>
+      <WindowWrapper
+        style={{
+          borderColor: "#33E3FF",
+        }}
+      >
         <WindowContent
           style={{
             height: 288,
