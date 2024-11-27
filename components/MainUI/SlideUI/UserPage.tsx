@@ -42,7 +42,11 @@ export default function UserPage({
 
   return (
     <Page $navHeight={navHeight}>
-      <WindowWrapper>
+      <WindowWrapper
+        style={{
+          borderColor: "#33E3FF",
+        }}
+      >
         <WindowContent
           style={{
             height: 288,
@@ -92,6 +96,12 @@ export default function UserPage({
             <ConnectButton
               type="primary"
               className={pressStart2P.className}
+              style={{
+                border: "none",
+                borderRadius: 0,
+                boxShadow: "none",
+                fontFamily: "var(--font-family)",
+              }}
               account={address}
               onConnectClick={handleConnect}
               onDisconnectClick={() => {

@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Mic, Square, Loader } from "lucide-react"; // 添加 Loader 图标
+import Microphone from "@/assets/ui/Microphone_On.svg";
+import Image from "next/image";
 
 interface VoiceInputProps {
   onTranscript: (text: string) => void;
@@ -76,7 +78,7 @@ const VoiceInput: React.FC<VoiceInputProps> = ({ onTranscript, onStop }) => {
     <button
       type="button"
       onClick={handleToggleRecording}
-      className={`nes-btn ${isProcessing ? "is-warning" : "is-success"}`}
+      className={` px-0 ${isProcessing ? "is-warning" : "is-success"}`}
       aria-label={isRecording ? "Stop recording" : "Start recording"}
       disabled={isProcessing} // 处理时禁用按钮
     >
@@ -85,7 +87,7 @@ const VoiceInput: React.FC<VoiceInputProps> = ({ onTranscript, onStop }) => {
       ) : isRecording ? (
         <Square className="w-4 h-4 inline-block" />
       ) : (
-        <Mic className="w-4 h-4 inline-block" />
+        <Image src={Microphone} alt="Shop" height={20} width={20} />
       )}
     </button>
   );

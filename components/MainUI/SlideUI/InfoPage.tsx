@@ -45,9 +45,9 @@ export default function InfoPage() {
     return (
       <div className="w-full text-xs p-2 h-44 overflow-y-auto">
         {/* 顶部用户信息 */}
-        <div className="bg-[#E7F0E9] border border-[#2D4F44] text-[#2D4F44] rounded-lg p-3 mb-2 flex items-center justify-between">
+        <div className="bg-[#d9d9d9]/65 text-white p-3 mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src={RANKING_AVATAR.src} alt="avatar" className="w-8 h-8" />
+            {/* <img src={RANKING_AVATAR.src} alt="avatar" className="w-8 h-8" /> */}
             <span className="">username</span>
           </div>
           <span className="">DIAMOND #1</span>
@@ -55,15 +55,15 @@ export default function InfoPage() {
         </div>
 
         {/* 排行榜标题 */}
-        <div className="bg-[#E7F0E9] border border-[#2D4F44] rounded-lg p-3 mb-2 flex items-center justify-between">
+        <div className="bg-[#d9d9d9]/65 text-white p-3 mb-2 flex items-center justify-between">
           <div className="flex items-center">
-            <span className=" text-[#2D4F44]">TOP 100 MINERS</span>
+            <span className=" ">TOP 100 MINERS</span>
           </div>
-          <span className=" text-[#2D4F44]">DIAMOND</span>
+          <span className=" ">DIAMOND</span>
         </div>
 
         {/* 排行榜列表 */}
-        <div className=" border-[#2D4F44] border rounded-lg overflow-hidden">
+        <div className=" overflow-hidden">
           {[
             { rank: 1, name: "Hi", points: "41624425" },
             { rank: 2, name: "Hi", points: "39879334" },
@@ -74,17 +74,17 @@ export default function InfoPage() {
           ].map((item, index) => (
             <div
               key={item.rank}
-              className={`bg-[#E7F0E9]  border-[#2D4F44]  text-[#2D4F44] p-2 flex items-center justify-between ${
+              className={`bg-[#d9d9d9]/65  text-white p-2 flex items-center justify-between ${
                 index === 0 ? "border-t-0" : "border-t"
               }`}
             >
               <div className="flex items-center gap-3 ">
                 <span className=" w-6 ">{item.rank}</span>
-                <img
+                {/* <img
                   src={RANKING_AVATAR.src}
                   alt="avatar"
                   className="w-6 h-6"
-                />
+                /> */}
                 <span className="">{item.name}</span>
               </div>
               <span className="">{item.points}</span>
@@ -116,27 +116,25 @@ export default function InfoPage() {
       <div className="w-full text-xs p-2 h-44 overflow-y-auto">
         {/* 每日签到部分 */}
         <div>
-          <h2 className="text-center mb-3  text-[#1B1B1B] tracking-wide">
-            DAILY CHECK IN
-          </h2>
-          <p className="text-center text-[#1B1B1B] mb-6  opacity-60">
+          <h2 className="text-center mb-3 text-white">DAILY CHECK IN</h2>
+          <p className="text-center text-white mb-6  opacity-60">
             Get your daily points
           </p>
 
           <div className="space-y-4">
             {/* 每日签到卡片 */}
-            <div className="bg-[#D9E4DD] border border-[#2D4F44] rounded-2xl p-5 flex items-center justify-between cursor-pointer hover:opacity-90">
+            <div className="bg-[#d9d9d9]/65 text-white p-5 flex items-center justify-between cursor-pointer hover:opacity-90">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10">
+                {/* <div className="w-10 h-10">
                   <img
                     src={OWN_AVATAR.src}
                     alt="soul"
                     className="w-full h-full"
                   />
-                </div>
+                </div> */}
                 <div>
-                  <div className=" text-[#1B1B1B] ">Daily Check in</div>
-                  <div className=" text-[#1B1B1B] opacity-60">
+                  <div className="">Daily Check in</div>
+                  <div className="  opacity-60">
                     + 100P <span className="ml-2">✓ Claimed</span>
                   </div>
                 </div>
@@ -145,18 +143,18 @@ export default function InfoPage() {
             </div>
 
             {/* Chat with Soul卡片 */}
-            <div className="bg-[#D9E4DD] border border-[#2D4F44] rounded-2xl p-5 flex items-center justify-between cursor-pointer hover:opacity-90">
+            <div className="bg-[#d9d9d9]/65 text-white p-5 flex items-center justify-between cursor-pointer hover:opacity-90">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10">
+                {/* <div className="w-10 h-10">
                   <img
                     src={OWN_AVATAR.src}
                     alt="soul"
                     className="w-full h-full"
                   />
-                </div>
+                </div> */}
                 <div>
-                  <div className=" text-[#1B1B1B] ">Chat with Soul</div>
-                  <div className=" text-[#1B1B1B] opacity-60">
+                  <div className=" ">Chat with Soul</div>
+                  <div className="  opacity-60">
                     + 100P <span className="ml-2">Claimable</span>
                   </div>
                 </div>
@@ -165,18 +163,18 @@ export default function InfoPage() {
             </div>
 
             {/* Tap your Soul卡片 */}
-            <div className="bg-[#D9E4DD] border border-[#2D4F44] rounded-2xl p-5 flex items-center justify-between cursor-pointer hover:opacity-90">
+            <div className="bg-[#d9d9d9]/65 text-white p-5 flex items-center justify-between cursor-pointer hover:opacity-90">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10">
+                {/* <div className="w-10 h-10">
                   <img
                     src={OWN_AVATAR.src}
                     alt="soul"
                     className="w-full h-full"
                   />
-                </div>
+                </div> */}
                 <div>
-                  <div className=" text-[#1B1B1B] ">Tap your Soul</div>
-                  <div className=" text-[#1B1B1B] opacity-60">
+                  <div className=" ">Tap your Soul</div>
+                  <div className="  opacity-60">
                     + 100P <span className="ml-2">Claimable</span>
                   </div>
                 </div>
@@ -188,27 +186,25 @@ export default function InfoPage() {
 
         {/* 任务部分 */}
         <div>
-          <h2 className="text-center m-3 text-[#1B1B1B] text-xl tracking-wide">
+          <h2 className="text-center m-3 text-white text-xl tracking-wide">
             MISSION
           </h2>
-          <p className="text-center text-[#1B1B1B] mb-6  opacity-60">
+          <p className="text-center text-white mb-6  opacity-60">
             LEVEL-UP with your Soul
           </p>
 
-          <div className="bg-[#D9E4DD]  border border-[#2D4F44] rounded-2xl p-5 flex items-center justify-between cursor-pointer hover:opacity-90">
+          <div className="bg-[#d9d9d9]/65 text-white p-5 flex items-center justify-between cursor-pointer hover:opacity-90">
             <div className="flex items-center gap-4">
-              <div className="min-w-10 h-10 flex-grow ">
+              {/* <div className="min-w-10 h-10 flex-grow ">
                 <img
                   src={OWN_AVATAR.src}
                   alt="soul"
                   className="w-full h-full"
                 />
-              </div>
+              </div> */}
               <div>
-                <div className=" text-[#1B1B1B] ">
-                  Join Alterim AI Official Discord
-                </div>
-                <div className=" text-[#1B1B1B] opacity-60">+ 1000P</div>
+                <div className="  ">Join Alterim AI Official Discord</div>
+                <div className="  opacity-60">+ 1000P</div>
               </div>
             </div>
             <div className="text-2xl text-[#1B1B1B] opacity-60">›</div>
@@ -219,7 +215,11 @@ export default function InfoPage() {
   };
   return (
     <Page $navHeight={navHeight}>
-      <WindowWrapper>
+      <WindowWrapper
+        style={{
+          borderColor: "#33E3FF",
+        }}
+      >
         <WindowContent
           style={{
             height: 288,

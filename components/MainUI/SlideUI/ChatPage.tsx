@@ -6,7 +6,7 @@ import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
 import { authApis } from "@/app/normalApi";
 import ChatLoadingDots from "../chatLoadingDot";
 import VoiceInput from "../voicechat";
-import { callOpenRouterAPI, separateEmojisAndText } from '@/utils/reply';
+import { callOpenRouterAPI, separateEmojisAndText } from "@/utils/reply";
 
 export default function ChatPage({
   loading,
@@ -35,7 +35,7 @@ export default function ChatPage({
   const handleSend = async (voiceText?: string) => {
     // 使用 voiceText 或 message
     const textToSend = voiceText || message;
-    
+
     if (textToSend.trim()) {
       const newMessages = [...messages, { text: textToSend, isMe: true }];
       setMessages(newMessages);
@@ -44,7 +44,7 @@ export default function ChatPage({
 
       try {
         // setLoading(true);
-        // const response = await authApis.getReply(textToSend); 
+        // const response = await authApis.getReply(textToSend);
         // let replyEmojis = response.data.data.emojis;
         // let replyText = response.data.data.response;
 
@@ -81,9 +81,8 @@ export default function ChatPage({
         localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
 
         fetchUserData();
-
       } catch (error) {
-        console.error('发送消息失败:', error);
+        console.error("发送消息失败:", error);
         const keywords = extractKeywords(textToSend);
         const localEmojis = await findRelatedEmojis(keywords);
         const replyEmojis = localEmojis.join(" ");
@@ -96,7 +95,11 @@ export default function ChatPage({
 
   return (
     <Page $navHeight={navHeight}>
-      <WindowWrapper>
+      <WindowWrapper
+        style={{
+          borderColor: "#33E3FF",
+        }}
+      >
         <WindowContent
           style={{
             height: 288,
@@ -117,20 +120,21 @@ export default function ChatPage({
           >
             {messages.map((msg, index) =>
               msg.isMe ? (
-                <div
-                  key={index}
-                  className="nes-container is-rounded with-title bg-white"
-                >
-                  <p className="title">Me</p>
-                  <p>{msg.text}</p>
+                <div key={index} className="flex justify-end  border-[#33E3FF]">
+                  <div className="nes-container w-[80%] p-4 border-[#33E3FF]  with-title bg-[#d9d9d9]/65 ">
+                    {/* <p className="title">Me</p> */}
+                    <p className="text-white">{msg.text}</p>
+                  </div>
                 </div>
               ) : (
                 <div
                   key={index}
-                  className="nes-container is-rounded with-title bg-white"
+                  className="flex justify-start  border-[#33E3FF]"
                 >
-                  <p className="title">Punky</p>
-                  <p>{msg.text}</p>
+                  <div className="nes-container w-[80%] p-4  border-[#33E3FF] with-title bg-[#d9d9d9]/65 ">
+                    {/* <p className="title">Punky</p> */}
+                    <p className="text-white">{msg.text}</p>
+                  </div>
                 </div>
               )
             )}
@@ -142,32 +146,35 @@ export default function ChatPage({
               padding: "8px",
               borderTop: "2px solid #424242",
               marginTop: "auto",
+              position: "relative",
             }}
           >
             <input
               type="text"
-              className="nes-input grow text-black"
+              className="nes-input grow text-black bg-[#dcdcdc] pr-[100px] placeholder:bg-[#dcdcdc] "
               value={message}
               placeholder="Chat..."
               onChange={(e) => setMessage(e.target.value)}
             />
-            <button
-              type="button"
-              className="nes-btn is-success"
-              onClick={() => handleSend()} // 修改这里
-            >
-              Send
-            </button>
-            <VoiceInput 
-              onTranscript={(text) => {
-                console.log("transcript text", text);
-                setMessage(text);  // 更新输入框的文本
-              }}
-              onStop={(text) => {
-                console.log("transcript stop");
-                handleSend(text);  // 传入当前的语音文本
-              }}
-            />
+            <div className="absolute right-0 flex justify-center item-center">
+              <VoiceInput
+                onTranscript={(text) => {
+                  console.log("transcript text", text);
+                  setMessage(text); // 更新输入框的文本
+                }}
+                onStop={(text) => {
+                  console.log("transcript stop");
+                  handleSend(text); // 传入当前的语音文本
+                }}
+              />
+              <button
+                type="button"
+                className="nes-btn bg-black text-white "
+                onClick={() => handleSend()} // 修改这里
+              >
+                Send
+              </button>
+            </div>
           </FlexBox>
         </WindowContent>
       </WindowWrapper>

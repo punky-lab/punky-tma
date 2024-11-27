@@ -64,7 +64,11 @@ export default function ShopPageComponent() {
   const { navHeight } = useNavHeight();
   return (
     <Page $navHeight={navHeight}>
-      <WindowWrapper>
+      <WindowWrapper
+        style={{
+          borderColor: "#33E3FF",
+        }}
+      >
         <WindowContent
           style={{
             height: 288,
