@@ -11,8 +11,8 @@ export default function InitializeGameAccount({
           account.
         </p>
         <p>
-          This requires you to own a UXUY wallet account and have some Sonic
-          Testnet tokens in your wallet.
+          This requires you to own a UXUY wallet account and have some Soon
+          devnet tokens in your wallet.
         </p>
         <menu className="dialog-menu pt-2">
           <button className="nes-btn">Cancel</button>
