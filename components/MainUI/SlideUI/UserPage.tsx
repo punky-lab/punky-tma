@@ -3,7 +3,6 @@ import { WindowContent } from "react95";
 import Image from "next/image";
 import { Page, WindowWrapper, Avatar } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
-
 import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
 import { showInitializeModal } from "@/utils/solana";
@@ -16,12 +15,16 @@ const pressStart2P = Press_Start_2P({
 
 export default function UserPage({
   userInfo,
+  address,
+  setAddress,
   gameAccount,
   solanaProvider,
   onWalletConnect,
   onWalletDisconnect,
 }: {
   userInfo: any;
+  address: Account | undefined;
+  setAddress: (address: Account | undefined) => void;
   gameAccount: any;
   solanaProvider: any;
   onWalletConnect: () => void;
@@ -29,9 +32,6 @@ export default function UserPage({
 }) {
   const { navHeight } = useNavHeight(); // 获取导航栏高度
 
-  const [address, setAddress] = useState<Account | undefined>(undefined);
-
-  // 处理钱包连接
   const handleConnect = async () => {
     const res = await solanaProvider?.connect({}, false);
     const walletAddress = solanaProvider?.publicKey?.toString();

@@ -19,6 +19,7 @@ import TxError from "../SolanaPopups/TxError";
 import InitializeGameAccount from "../SolanaPopups/Initialize";
 import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
 import { callOpenRouterAPI, separateEmojisAndText } from "@/utils/reply";
+import type { Account } from "@ant-design/web3";
 
 export type PageState = "chat" | "shop" | "info" | "user";
 
@@ -42,6 +43,7 @@ export default function Init({
   const [isDialogOpen, setIsDialogOpen] = useState(true);
   const [emojisContent, setEmojisContent] = useState<string>(""); //气泡表情内容
   const [walletConnected, setWalletConnected] = useState(false);
+  const [address, setAddress] = useState<Account | undefined>(undefined);
 
   const { program } = useGameProgram();
   const { publicKey } = usePublicKey();
@@ -318,6 +320,8 @@ export default function Init({
           >
             <UserPage
               userInfo={userInfo}
+              address={address}
+              setAddress={setAddress}
               gameAccount={gameAccount}
               solanaProvider={provider}
               onWalletConnect={() => {
