@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { WindowContent, TextInput, Button } from "react95";
+import React, { useEffect } from "react";
+import { WindowContent } from "react95";
 import { Page, WindowWrapper, FlexBox } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
 import { extractKeywords, findRelatedEmojis } from "@/utils/emojiUtils";
-import { authApis } from "@/app/normalApi";
 import ChatLoadingDots from "../chatLoadingDot";
 import VoiceInput from "../voicechat";
 import { callOpenRouterAPI, separateEmojisAndText } from "@/utils/reply";
@@ -40,6 +39,8 @@ export default function ChatPage({
     // 使用 voiceText 或 message
     const textToSend = voiceText || message;
 
+    console.log("handleSend", textToSend);
+
     if (textToSend.trim()) {
       const newMessages = [...messages, { text: textToSend, isMe: true }];
       setMessages(newMessages);
@@ -52,6 +53,10 @@ export default function ChatPage({
         const { reply_text, reply_emojis } = separateEmojisAndText(raw_reply);
         setLoading(false);
         setEmojisContent(reply_emojis.join(" "));
+
+        setTimeout(() => {
+          setEmojisContent("");
+        }, 5000);
 
         const updatedMessages = [
           ...newMessages,
@@ -73,6 +78,10 @@ export default function ChatPage({
 
         setLoading(false);
         setEmojisContent(replyEmojis);
+
+        setTimeout(() => {
+          setEmojisContent("");
+        }, 5000);
       }
     }
   };

@@ -55,14 +55,6 @@ export default function Init({
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    console.log("publicKey changed", publicKey);
-  }, [publicKey]);
-
-  useEffect(() => {
-    console.log("program changed", program);
-  }, [program]);
-
-  useEffect(() => {
     const fetchData = async () => {
       await fetchUserData();
     };
