@@ -55,14 +55,6 @@ export default function Init({
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    console.log("publicKey changed", publicKey);
-  }, [publicKey]);
-
-  useEffect(() => {
-    console.log("program changed", program);
-  }, [program]);
-
-  useEffect(() => {
     const fetchData = async () => {
       await fetchUserData();
     };
@@ -257,6 +249,11 @@ export default function Init({
         setLoading(false);
         setEmojisContent(reply_emojis.join(" "));
 
+        // Clear emoji bubble after 8 seconds
+        setTimeout(() => {
+          setEmojisContent("");
+        }, 8000);
+
         const updatedMessages = [
           ...newMessages,
           {
@@ -277,6 +274,11 @@ export default function Init({
 
         setLoading(false);
         setEmojisContent(replyEmojis);
+        
+        // Also clear emoji bubble after 8 seconds in the error case
+        setTimeout(() => {
+          setEmojisContent("");
+        }, 8000);
       }
     }
   };
