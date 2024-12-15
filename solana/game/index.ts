@@ -24,7 +24,7 @@ export function useGameProgram(): { program: Program | undefined } {
 
   const anchorProvider = new AnchorProvider(
     connection,
-    wallet,
+    wallet as any,
     AnchorProvider.defaultOptions()
   );
 
