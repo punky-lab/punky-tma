@@ -1,4 +1,5 @@
 name: Test Build
+
 on:
   push:
     branches: ["main"]
@@ -7,27 +8,22 @@ on:
 
 jobs:
   build:
-    name: Test
+    name: Test build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set Node.js 16.x
+      - name: Set up Node.js 20.x
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 20.x
 
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # if needed
-      - name: Build production bundle
+
+      - name: Build the app
         uses: borales/actions-yarn@v4
         with:
-          cmd: build:prod # will run `yarn build:prod` command
-      - name: Test the app
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: build # will run `yarn test` command
+          cmd: build # will run `yarn build` command
