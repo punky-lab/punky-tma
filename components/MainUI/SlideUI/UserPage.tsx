@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { WindowContent } from "react95";
+
 import Image from "next/image";
 import { Page, WindowWrapper, Avatar } from "./styles";
 import { useNavHeight } from "@/components/Root/navHeightContext";
@@ -7,6 +8,7 @@ import { ConnectButton } from "@ant-design/web3";
 import type { Account } from "@ant-design/web3";
 import { showInitializeModal } from "@/utils/solana";
 import { Press_Start_2P } from "next/font/google";
+import { JupiterWalletConnect } from "@/components/wallet/jupiter/jupiter";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -93,7 +95,7 @@ export default function UserPage({
               </div>
             </div>
 
-            <ConnectButton
+            {/* <ConnectButton
               type="primary"
               className={pressStart2P.className}
               style={{
@@ -109,7 +111,8 @@ export default function UserPage({
                 onWalletDisconnect();
                 solanaProvider?.disconnect();
               }}
-            />
+            /> */}
+            <JupiterWalletConnect />
           </div>
         </WindowContent>
       </WindowWrapper>
