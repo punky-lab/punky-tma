@@ -23,11 +23,7 @@ import type { Account } from "@ant-design/web3";
 
 export type PageState = "chat" | "shop" | "info" | "user";
 
-export default function Init({
-  switchTo,
-}: {
-  switchTo: (target: UIState) => void;
-}) {
+export default function Init() {
   const [currentPage, setCurrentPage] = useState<PageState>("chat");
   const [isActionOpen, setIsActionOpen] = useState(false);
   const [isSlideOpen, setIsSlideOpen] = useState(false);
