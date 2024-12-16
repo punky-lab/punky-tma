@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   IdleAnimation,
+  LookDownAnimation,
   LookUpAnimation,
   LookUpReverseAnimation,
   PressedAnimation,
@@ -13,7 +14,12 @@ interface SpriteBallProps {
   isLoading?: boolean;
 }
 
-type AnimationState = "idle" | "look-up" | "look-up-reverse" | "pressed";
+type AnimationState =
+  | "idle"
+  | "look-up"
+  | "look-up-reverse"
+  | "pressed"
+  | "look-down";
 
 export default function SpriteBall({
   onPress,
@@ -38,6 +44,10 @@ export default function SpriteBall({
       case "look-up":
         return (
           <LookUpAnimation onEnd={() => setAnimationState("look-up-reverse")} />
+        );
+      case "look-down":
+        return (
+          <LookDownAnimation onEnd={() => setAnimationState("look-down")} />
         );
       case "look-up-reverse":
         return (

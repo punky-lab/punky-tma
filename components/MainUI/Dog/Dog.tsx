@@ -2,8 +2,13 @@ import punkyFrames from "@/assets/animations/punky/idle"; // Default frames
 import punkySitFrames from "@/assets/animations/punky/sit.gif"; // Sit frames
 import punkyRollFrames from "@/assets/animations/punky/roll.gif"; // Roll frames
 import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
+import punkyNodFrames from "@/assets/animations/punky/nod.gif";
+import punkySpinFrames from "@/assets/animations/punky/spin.gif";
+import punkyStandFrames from "@/assets/animations/punky/stand.gif";
 import FrameAnimation from "@/components/FrameAnimation";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
+
 import BubbleLoadingDots from "./bubbleLoadingDots";
 import BubbleMessage from "./bubbleMessage";
 
@@ -27,7 +32,18 @@ export default function Dog({
       setCurrentFrames(punkyFrames);
       setIsSitting(false);
     } else {
-      setCurrentFrames([punkySitFrames]);
+      // 创建一个动作帧数组
+      const animations = [
+        punkySitFrames,
+        punkyRollFrames,
+        punkyNodFrames,
+        punkySpinFrames,
+        punkyStandFrames,
+      ];
+
+      // 随机选择一个动作
+      const randomIndex = Math.floor(Math.random() * animations.length);
+      setCurrentFrames([animations[randomIndex]]);
       setIsSitting(true);
     }
   };
@@ -49,6 +65,12 @@ export default function Dog({
     }
   };
 
+  useEffect(() => {
+    if (isPetting) {
+      setCurrentFrames([punkyNodFrames]);
+    }
+  }, [isPetting]);
+
   return (
     <div className="grow flex flex-col items-center" onClick={onClick}>
       {loading && (
@@ -61,11 +83,11 @@ export default function Dog({
           <BubbleMessage message={emojisContent} />
         </div>
       )}
-      {isPetting && (
+      {/* {isPetting && (
         <div className="fixed top-[26vh] animate-[blink_1s_ease-in-out_infinite]">
           <i className="nes-icon is-medium heart"></i>
         </div>
-      )}
+      )} */}
       <div
         className="fixed top-[28vh] "
         onTouchStart={handleTouchStart}

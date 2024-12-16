@@ -30,6 +30,7 @@ export default function Action({
   const [dots, setDots] = useState(".");
   const recognition = useRef<any>(null);
   const lastTranscript = useRef<string>("");
+  const router = useRouter();
 
   const initializeRecognition = () => {
     const SpeechRecognition =
