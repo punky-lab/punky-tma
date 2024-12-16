@@ -1,8 +1,8 @@
-# Punky TG miniApp (Demo Version)
+# Punky TG MiniApp (Alpha Test Version)
 
 ![punky logo](assets/logo/punkyLogo.png)
 
-Try out the demo version of our product on TG bot **@PunkyAIBot**
+Try out the demo version of our product on TG bot **[@PunkyAIBot](https://t.me/punkyaibot)**
 
 ## Gameplay
 
@@ -22,6 +22,7 @@ Punky HOLDERs can trade Punky freely on the marketplace, in part or in whole. Us
 
 ## Where to find us
 
+- **Our Telegram Bot**: [@PunkyAIBot](https://t.me/punkyaibot)
 - **Our Website**: [https://punky.app/](https://punky.app/)
 - **Follow us on Twitter/X**: [@punkycompanion](https://x.com/punkycompanion)
-- **Join our community on Telegram**:[t.me/punkyaipunky](t.me/punkyaipunky)
+- **Join our community on Telegram**: [t.me/punkyaipunky](t.me/punkyaipunky)
