@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  BASE_URL: https://testing.punky.app/api/v1
+
 jobs:
   build:
     name: Test build
@@ -22,6 +25,13 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
+
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo NEXT_PUBLIC_OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY }} >> .env
+          echo NEXT_PUBLIC_APP_PLATFORM=telegram >> .env
+          echo NEXT_PUBLIC_API_BASE_URL=${{ env.BASE_URL }} >> .env
 
       - name: Build the app
         uses: borales/actions-yarn@v4
