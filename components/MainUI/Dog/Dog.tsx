@@ -5,6 +5,7 @@ import punkyRunFrames from "@/assets/animations/punky/run.gif"; // Run frames
 import punkyNodFrames from "@/assets/animations/punky/nod.gif";
 import punkySpinFrames from "@/assets/animations/punky/spin.gif";
 import punkyStandFrames from "@/assets/animations/punky/stand.gif";
+import punkyBarkFrames from "@/assets/animations/punky/bark.gif";
 import FrameAnimation from "@/components/FrameAnimation";
 
 import { useEffect, useState } from "react";
@@ -32,16 +33,14 @@ export default function Dog({
       setCurrentFrames(punkyFrames);
       setIsSitting(false);
     } else {
-      // 创建一个动作帧数组
       const animations = [
         punkySitFrames,
         punkyRollFrames,
-        punkyNodFrames,
         punkySpinFrames,
         punkyStandFrames,
+        punkyBarkFrames,
       ];
 
-      // 随机选择一个动作
       const randomIndex = Math.floor(Math.random() * animations.length);
       setCurrentFrames([animations[randomIndex]]);
       setIsSitting(true);
@@ -68,6 +67,10 @@ export default function Dog({
   useEffect(() => {
     if (isPetting) {
       setCurrentFrames([punkyNodFrames]);
+
+      setTimeout(() => {
+        setCurrentFrames(punkyFrames);
+      }, 3000);
     }
   }, [isPetting]);
 
