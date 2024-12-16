@@ -191,7 +191,7 @@ export default function Init({
 
       await fetchUserData();
     } catch (error) {
-      showTxErrorModal((error as any).transactionMessage);
+      // showTxErrorModal((error as any).transactionMessage);
       console.error("Pet pet failed:", error);
     }
   };
